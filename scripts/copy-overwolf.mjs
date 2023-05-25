@@ -22,3 +22,5 @@ await fs.cp(
   path.resolve(__dirname, "../out/icons/"),
   { recursive: true }
 );
+await fs.rm(path.resolve(__dirname, "../out/index.html"));
+await fs.rm(path.resolve(__dirname, "../out/index.txt"));
