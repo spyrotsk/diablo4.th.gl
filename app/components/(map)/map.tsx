@@ -6,8 +6,8 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 const MapContext = createContext<leaflet.Map | null>(null);
 
 export const MAX_BOUNDS: LatLngBoundsExpression = [
-  [-3104, -3104],
-  [3104, 3104],
+  [194, -194],
+  [-388, 388],
 ];
 
 export function useMap() {
@@ -24,8 +24,8 @@ export default function Map({ children }: { children?: React.ReactNode }) {
     const map = leaflet.map(mapRef.current!, {
       zoomControl: false,
       attributionControl: false,
-      minZoom: -4,
-      maxZoom: 4,
+      minZoom: 0,
+      maxZoom: 8,
       zoomSnap: 0.5,
       zoomDelta: 0.5,
       wheelPxPerZoomLevel: 120,
@@ -33,7 +33,7 @@ export default function Map({ children }: { children?: React.ReactNode }) {
       maxBounds: MAX_BOUNDS,
     });
 
-    map.setView([0, 0], 0);
+    map.setView([-100, 100], 3);
     setMap(map);
 
     return () => {

@@ -6,8 +6,8 @@ const OFFSETS = [0, 1, 2, 4, 8, 16, 32];
 const CanvasLayer = leaflet.TileLayer.extend({
   getTileUrl: function (coords: Coords) {
     const zoom = -this.options.minZoom + coords.z;
-    coords.x += OFFSETS[zoom];
-    coords.y += OFFSETS[zoom];
+    // coords.x += OFFSETS[zoom];
+    // coords.y += OFFSETS[zoom];
     return leaflet.TileLayer.prototype.getTileUrl.call(this, coords);
   },
   createCanvas: function (
@@ -17,11 +17,10 @@ const CanvasLayer = leaflet.TileLayer.extend({
   ) {
     let err: unknown;
     const ctx = tile.getContext("2d")!;
-    const { doubleSize } = this.options;
 
     const { x: width, y: height } = this.getTileSize();
-    tile.width = doubleSize ? width * 2 : width;
-    tile.height = doubleSize ? height * 2 : height;
+    tile.width = width;
+    tile.height = height;
 
     const img = new Image();
     img.onload = () => {
