@@ -12,7 +12,7 @@ export const metadata = {
 function WebLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} h-screen`}>{children}</body>
     </html>
   );
 }
@@ -20,7 +20,7 @@ function WebLayout({ children }: { children: React.ReactNode }) {
 function OverwolfLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} h-screen`}>{children}</body>
     </html>
   );
 }
