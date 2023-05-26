@@ -5,7 +5,7 @@ export default function Header() {
   return (
     <>
       <SVGIcons />
-      <header className="app-header">
+      <header className="flex h-[30px]">
         <h1 className="version">Diablo 4 Gaming Lair</h1>
         <div className="window-controls-group">
           <a

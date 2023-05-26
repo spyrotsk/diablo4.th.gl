@@ -1,10 +1,10 @@
 import Map from "../components/(map)/map";
-import TileLayer from "../components/(map)/tiles";
+import Tiles from "../components/(map)/tiles";
 
 export default function Home() {
   return (
     <Map>
-      <TileLayer />
+      <Tiles />
     </Map>
   );
 }

@@ -13,7 +13,7 @@ export const MAX_NATIVE_ZOOM = 1;
 export const TILE_SIZE = 194;
 export const ZOOM_OFFSET = 4;
 
-export default function TileLayer() {
+export default function Tiles() {
   const map = useMap();
 
   useEffect(() => {
