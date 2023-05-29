@@ -36,10 +36,8 @@ leaflet.Canvas.include({
       this._ctx.lineWidth = 1.5;
       this._ctx.stroke();
     } else {
-      this._ctx.beginPath();
-      this._ctx.arc(dx + radius, dy + radius, radius, 0, Math.PI * 2, true);
-      this._ctx.fillStyle = color;
-      this._ctx.fill();
+      this._ctx.shadowColor = color;
+      this._ctx.shadowBlur = 3;
     }
 
     // const scale = imageSize / 512;
