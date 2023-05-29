@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../globals.css";
-import { loadDictionary } from "../lib/i18n";
+import { isLocale, loadDictionary } from "../lib/i18n";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -45,14 +45,18 @@ export function generateMetadata({
 
 function Layout({
   children,
-  params: { locale },
+  params: { slug = [] },
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: { slug: string[] };
 }) {
+  const locale = isLocale(slug[0]) ? slug[0] : "en";
   return (
     <html lang={locale}>
-      <body className={`${inter.className} h-screen`}>{children}</body>
+      <body className={`${inter.className} h-screen`}>
+        <div>{locale}</div>
+        {children}
+      </body>
     </html>
   );
 }
