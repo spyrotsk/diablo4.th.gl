@@ -1,6 +1,7 @@
 "use client";
 import leaflet, { LatLngBoundsExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const MapContext = createContext<leaflet.Map | null>(null);
@@ -19,6 +20,7 @@ export function useMap() {
 export default function Map({ children }: { children?: React.ReactNode }) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<leaflet.Map | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const map = leaflet.map(mapRef.current!, {
@@ -36,6 +38,15 @@ export default function Map({ children }: { children?: React.ReactNode }) {
     map.setView([-100, 100], 3);
     setMap(map);
 
+    map.on("click", (event) => {
+      if (
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        !event.originalEvent.propagatedFromMarker
+      ) {
+        router.replace("/");
+      }
+    });
     return () => {
       map.remove();
     };

@@ -32,7 +32,7 @@ export const altars = [
   {
     x: -150.15308,
     y: 43.701797,
-    name: "Hakan&#39;s Oasis",
+    name: "Hakan's Oasis",
     description: "Strength +2",
   },
   {
@@ -80,7 +80,7 @@ export const altars = [
   {
     x: -147.10052,
     y: 46.756622,
-    name: "Omath&#39;s Redoubt",
+    name: "Omath's Redoubt",
     description: "Willpower +2",
   },
   {
@@ -134,19 +134,19 @@ export const altars = [
   {
     x: -43.487267,
     y: 84.28612,
-    name: "The Ancients&#39; Woods",
+    name: "The Ancients' Woods",
     description: "Dexterity +2",
   },
   {
     x: -55.409843,
     y: 85.38231,
-    name: "The Ancients&#39; Woods",
+    name: "The Ancients' Woods",
     description: "Intelligence +2",
   },
   {
     x: -57.192627,
     y: 73.639404,
-    name: "The Ancients&#39; Woods",
+    name: "The Ancients' Woods",
     description: "Dexterity +2",
   },
   {
@@ -304,7 +304,7 @@ export const altars = [
   {
     x: -111.60278,
     y: 141.11368,
-    name: "Trekker&#39;s Nook",
+    name: "Trekker's Nook",
     description: "Intelligence +2",
   },
   { x: -95.214714, y: 140.51546, name: "Malnok", description: "Strength +2" },
@@ -365,7 +365,7 @@ export const altars = [
   {
     x: -84.486984,
     y: 108.74722,
-    name: "Melnik&#39;s Hill",
+    name: "Melnik's Hill",
     description: "Willpower +2",
   },
   {
@@ -389,7 +389,7 @@ export const altars = [
   {
     x: -96.68907,
     y: 117.692024,
-    name: "Father&#39;s Cross",
+    name: "Father's Cross",
     description: "Intelligence +2",
   },
   {
@@ -437,7 +437,7 @@ export const altars = [
   {
     x: -83.33125,
     y: 69.34164,
-    name: "Bastard&#39;s Pass",
+    name: "Bastard's Pass",
     description: "Intelligence +2",
   },
   {
@@ -611,7 +611,7 @@ export const altars = [
   {
     x: -120.00116,
     y: 133.20352,
-    name: "Tszava&#39;s Slough",
+    name: "Tszava's Slough",
     description: "Strength +2",
   },
   {
@@ -659,7 +659,7 @@ export const altars = [
   {
     x: -142.80788,
     y: 98.57785,
-    name: "Faith&#39;s Edge",
+    name: "Faith's Edge",
     description: "Intelligence +2",
   },
   {
@@ -671,19 +671,19 @@ export const altars = [
   {
     x: -127.14128,
     y: 152.66827,
-    name: "Bosun&#39;s Woe",
+    name: "Bosun's Woe",
     description: "Dexterity +2",
   },
   {
     x: -134.49356,
     y: 141.12776,
-    name: "Revenants&#39; Roam",
+    name: "Revenants' Roam",
     description: "Max Obols +5",
   },
   {
     x: -140.5112,
     y: 153.06339,
-    name: "Bosun&#39;s Woe",
+    name: "Bosun's Woe",
     description: "Willpower +2",
   },
   {
@@ -695,13 +695,13 @@ export const altars = [
   {
     x: -154.26512,
     y: 125.55373,
-    name: "Ottvik&#39;s Travail",
+    name: "Ottvik's Travail",
     description: "Dexterity +2",
   },
   {
     x: -159.0781,
     y: 124.649635,
-    name: "Ottvik&#39;s Travail",
+    name: "Ottvik's Travail",
     description: "Intelligence +2",
   },
   {
@@ -713,7 +713,7 @@ export const altars = [
   {
     x: -112.24924,
     y: 128.72388,
-    name: "Eriman&#39;s Pyre",
+    name: "Eriman's Pyre",
     description: "Intelligence +2",
   },
   {
@@ -761,7 +761,7 @@ export const altars = [
   {
     x: -112.063156,
     y: 122.18185,
-    name: "Intruder&#39;s Claim",
+    name: "Intruder's Claim",
     description: "Intelligence +2",
   },
   {
@@ -852,7 +852,7 @@ export const altars = [
   {
     x: -138.45352,
     y: 67.45459,
-    name: "Rezam&#39;s Excavation",
+    name: "Rezam's Excavation",
     description: "Willpower +2",
   },
   {
@@ -900,7 +900,7 @@ export const altars = [
   {
     x: -79.372154,
     y: 145.04822,
-    name: "Sinner&#39;s Pass",
+    name: "Sinner's Pass",
     description: "Dexterity +2",
   },
   {

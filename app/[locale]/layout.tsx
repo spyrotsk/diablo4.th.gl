@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { notFound } from "next/navigation";
 import "../globals.css";
 import { isLocale, loadDictionary } from "../lib/i18n";
 
@@ -10,6 +11,9 @@ export function generateMetadata({
 }: {
   params: { locale: string };
 }): Metadata {
+  if (!isLocale(locale)) {
+    notFound();
+  }
   const { meta } = loadDictionary(locale);
   return {
     title: {
@@ -42,21 +46,19 @@ export function generateMetadata({
     },
   };
 }
-
 function Layout({
   children,
-  params: { slug = [] },
+  params: { locale },
 }: {
   children: React.ReactNode;
-  params: { slug: string[] };
+  params: { locale: string };
 }) {
-  const locale = isLocale(slug[0]) ? slug[0] : "en";
+  if (!isLocale(locale)) {
+    notFound();
+  }
   return (
     <html lang={locale}>
-      <body className={`${inter.className} h-screen`}>
-        <div>{locale}</div>
-        {children}
-      </body>
+      <body className={`${inter.className} h-screen`}>{children}</body>
     </html>
   );
 }

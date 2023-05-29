@@ -2,7 +2,7 @@ export const dungeons = [
   {
     x: -108.61986,
     y: 128.11957,
-    name: "Cutthroat&#39;s Escape",
+    name: "Cutthroat's Escape",
     description: "The bandit hideout has to have Perithan, hopefully alive.",
   },
   {
@@ -46,7 +46,7 @@ export const dungeons = [
   {
     x: -82.1768,
     y: 71.00564,
-    name: "Borza&#39;s Hideout",
+    name: "Borza's Hideout",
     description: "Borza, the thief who left Nizaar to die, hides in the caves.",
   },
   {
@@ -80,14 +80,14 @@ export const dungeons = [
     x: -76.621,
     y: 99.34798,
     name: "Temple of The Primes",
-    description: "The seat of the Triune&#39;s power, hidden for millennia.",
+    description: "The seat of the Triune's power, hidden for millennia.",
   },
   {
     x: -101.48082,
     y: 121.85576,
-    name: "Light&#39;s Watch",
+    name: "Light's Watch",
     description:
-      "A Knights&#39; keep, repurposed for bandits and other parasites.</br>Aspect of of Conflagration",
+      "A Knights' keep, repurposed for bandits and other parasites.</br>Aspect of of Conflagration",
   },
   {
     x: -106.2625,
@@ -119,7 +119,7 @@ export const dungeons = [
   {
     x: -71.29167,
     y: 110.132866,
-    name: "Mercy&#39;s Reach",
+    name: "Mercy's Reach",
     description:
       "This crumbling keep was once a way through the mountains. </br>Blood Seeker's Aspect",
   },
@@ -175,7 +175,7 @@ export const dungeons = [
   {
     x: -107.15283,
     y: 146.25624,
-    name: "Dead Man&#39;s Dredge",
+    name: "Dead Man's Dredge",
     description:
       "The predators that dwell in this cave hunt human game.</br>Aspect of of Piercing Cold",
   },
@@ -197,7 +197,7 @@ export const dungeons = [
     x: -76.620964,
     y: 99.347946,
     name: "Fallen Temple",
-    description: "One of the Triune&#39;s most formidable temples.",
+    description: "One of the Triune's most formidable temples.",
   },
   {
     x: -103.65149,
@@ -211,7 +211,7 @@ export const dungeons = [
     y: 109.77689,
     name: "Tormented Ruins",
     description:
-      "It&#39;s been centuries since this watchtower saw mortal use.</br>Aspect of of the Unsatiated",
+      "It's been centuries since this watchtower saw mortal use.</br>Aspect of of the Unsatiated",
   },
   {
     x: -109.24138,
@@ -230,7 +230,7 @@ export const dungeons = [
   {
     x: -29.0317,
     y: 97.24986,
-    name: "Calibel&#39;s Mine",
+    name: "Calibel's Mine",
     description:
       "The bandits that took this mine are ignorant of its secrets.</br>Aspect of of the Relentless Armsmaster",
   },
@@ -258,7 +258,7 @@ export const dungeons = [
   {
     x: -67.11455,
     y: 112.51247,
-    name: "Sarat&#39;s Lair",
+    name: "Sarat's Lair",
     description:
       "What once was a wildlife den has become a nest.</br>Snowveiled Aspect",
   },
@@ -288,15 +288,14 @@ export const dungeons = [
     x: -38.478996,
     y: 110.9547,
     name: "Weeping Cairns",
-    description:
-      "A silent resting place of Scosglen&#39;s deceased, now awoken.",
+    description: "A silent resting place of Scosglen's deceased, now awoken.",
   },
   {
     x: -42.462563,
     y: 137.66565,
-    name: "Ferals&#39; Den",
+    name: "Ferals' Den",
     description:
-      "A lodge corrupted by the druids&#39; hate.</br>Aspect of of Quicksand",
+      "A lodge corrupted by the druids' hate.</br>Aspect of of Quicksand",
   },
   {
     x: -44.040123,
@@ -308,7 +307,7 @@ export const dungeons = [
   {
     x: -61.534584,
     y: 99.812065,
-    name: "Donan&#39;s Study",
+    name: "Donan's Study",
     description: "A private office where Donan handles his many affairs.",
   },
   {
@@ -327,8 +326,7 @@ export const dungeons = [
     x: -66.66214,
     y: 101.099335,
     name: "Eldhaime Barracks",
-    description:
-      "Astaroth&#39;s soulstone rests in the depths of Eldhaime Keep.",
+    description: "Astaroth's soulstone rests in the depths of Eldhaime Keep.",
   },
   {
     x: -125.43904,
@@ -389,14 +387,14 @@ export const dungeons = [
   {
     x: -160.50099,
     y: 118.5255,
-    name: "Leviathan&#39;s Maw",
+    name: "Leviathan's Maw",
     description:
       "Cultists lurk in these flooded ruins.</br>Aspect of of Siphoned Victuals",
   },
   {
     x: -143.30032,
     y: 114.806984,
-    name: "Maugan&#39;s Works",
+    name: "Maugan's Works",
     description:
       "A rotting hall for criminals and deserters.</br>Earthstriker's Aspect",
   },
@@ -438,7 +436,7 @@ export const dungeons = [
   {
     x: -144.5394,
     y: 36.890717,
-    name: "Hakan&#39;s Refuge",
+    name: "Hakan's Refuge",
     description:
       "This one grand manor lies in ruins, festering with memories.</br>Relentless Berserker's Aspect",
   },
@@ -471,7 +469,7 @@ export const dungeons = [
   {
     x: -129.12209,
     y: 32.360275,
-    name: "Uldur&#39;s Cave",
+    name: "Uldur's Cave",
     description:
       "A den of murderers and carrion feeders.</br>Aspect of of the Damned",
   },
@@ -555,14 +553,14 @@ export const dungeons = [
   {
     x: -115.00896,
     y: 116.799965,
-    name: "Heathen&#39;s Keep",
+    name: "Heathen's Keep",
     description:
       "These Knights have sworn allegiance to a new leader.</br>Aspect of of Numbing Wrath",
   },
   {
     x: -114.906296,
     y: 109.43227,
-    name: "Light&#39;s Refuge",
+    name: "Light's Refuge",
     description:
       "In a forgotten home lies a nest made of teeth and armor.</br>Aspect of of Bul-Kathos",
   },
@@ -576,7 +574,7 @@ export const dungeons = [
   {
     x: -91.36396,
     y: 141.10158,
-    name: "Anica&#39;s Claim",
+    name: "Anica's Claim",
     description:
       "Inhuman hands carved out these dark tunnels. </br>Stormclaw's Aspect",
   },
@@ -584,13 +582,13 @@ export const dungeons = [
     x: -48.613243,
     y: 140.10608,
     name: "Untamed Thicket",
-    description: "Nafain&#39;s corrupted blood pools within.",
+    description: "Nafain's corrupted blood pools within.",
   },
   {
     x: -79.12758,
     y: 95.25927,
     name: "Temple of The Primes",
-    description: "The seat of the Triune&#39;s power, hidden for millennia.",
+    description: "The seat of the Triune's power, hidden for millennia.",
   },
   {
     x: -15.919327,
@@ -603,7 +601,7 @@ export const dungeons = [
     x: -110.1933,
     y: 93.054924,
     name: "The Exalted Terrace",
-    description: "A place of study where Elias shares Lilith&#39;s gifts.",
+    description: "A place of study where Elias shares Lilith's gifts.",
   },
   {
     x: -49.329857,
@@ -628,14 +626,14 @@ export const dungeons = [
   {
     x: -131.72884,
     y: 55.928925,
-    name: "Renegade&#39;s Retreat",
+    name: "Renegade's Retreat",
     description:
       "Renegade knights reap the spoils of Inarius’ crusade.</br>Aspect of of Corruption",
   },
   {
     x: -127.44521,
     y: 49.442154,
-    name: "Crusaders&#39; Cathedral",
+    name: "Crusaders' Cathedral",
     description:
       "Knights seized this temple and its undead warriors alike.</br>Stormshifter's Aspect",
   },
@@ -689,9 +687,9 @@ export const dungeons = [
   {
     x: -132.62453,
     y: 116.50771,
-    name: "Akkhan&#39;s Grasp",
+    name: "Akkhan's Grasp",
     description:
-      "Evil and blood seep through the tomb&#39;s ruptured seals.</br>Blighted Aspect",
+      "Evil and blood seep through the tomb's ruptured seals.</br>Blighted Aspect",
   },
   {
     x: -131.51149,
@@ -716,14 +714,14 @@ export const dungeons = [
     x: -139.50133,
     y: 125.841805,
     name: "Slithering Dark",
-    description: "The deep winding tunnels are home to Hawezar&#39;s serpents.",
+    description: "The deep winding tunnels are home to Hawezar's serpents.",
   },
   {
     x: -112.89805,
     y: 128.12665,
     name: "Oblivion",
     description:
-      "The demons of Eriman&#39;s Pyre fled to this crumbling prison.</br>Aspect of of Shared Misery",
+      "The demons of Eriman's Pyre fled to this crumbling prison.</br>Aspect of of Shared Misery",
   },
   {
     x: -49.156883,
@@ -735,7 +733,7 @@ export const dungeons = [
   {
     x: -51.164764,
     y: 120.246735,
-    name: "Luban&#39;s Rest",
+    name: "Luban's Rest",
     description:
       "A warrior and her followers have risen from their tombs.</br>Cheat's Aspect",
   },
@@ -749,7 +747,7 @@ export const dungeons = [
   {
     x: -40.71649,
     y: 131.52986,
-    name: "Mariner&#39;s Refuge",
+    name: "Mariner's Refuge",
     description:
       "The Drowned lure shipwrecked sailors to the depths.</br>Overcharged Aspect",
   },
@@ -776,16 +774,16 @@ export const dungeons = [
   {
     x: -46.19558,
     y: 146.08345,
-    name: "Jalal&#39;s Vigil",
+    name: "Jalal's Vigil",
     description:
       "A forest, soured by the agony of its own protector.</br>Bladedancer's Aspect",
   },
   {
     x: -139.50133,
     y: 125.841805,
-    name: "Serpent&#39;s Lair",
+    name: "Serpent's Lair",
     description:
-      "Once the seat of Mohlon&#39;s throne. They want another queen.</br>Aspect of of Three Curses",
+      "Once the seat of Mohlon's throne. They want another queen.</br>Aspect of of Three Curses",
   },
   {
     x: -103.635025,
@@ -814,7 +812,7 @@ export const dungeons = [
   {
     x: -66.66214,
     y: 101.099335,
-    name: "Demon&#39;s Wake",
+    name: "Demon's Wake",
     description:
       "The keep still burns in the wake of Lilith’s attack.</br>Aspect of of Uncanny Treachery",
   },
@@ -823,7 +821,7 @@ export const dungeons = [
     y: 98.89448,
     name: "Broken Bulwark",
     description:
-      "Once part of Donan&#39;s estate, and razed with the rest.</br>Ghostwalker Aspect",
+      "Once part of Donan's estate, and razed with the rest.</br>Ghostwalker Aspect",
   },
   {
     x: -114.951164,
@@ -856,7 +854,7 @@ export const dungeons = [
   {
     x: -102.2581,
     y: 99.12754,
-    name: "Betrayer&#39;s Row",
+    name: "Betrayer's Row",
     description:
       "The twisted remains of a town driven mad by envy. </br>Aspect of of Potent Blood",
   },
@@ -870,7 +868,7 @@ export const dungeons = [
   {
     x: -121.77695,
     y: 61.143143,
-    name: "Mahjoob&#39;s Safehouse",
+    name: "Mahjoob's Safehouse",
     description: "A place of reprieve for the Kehjistani guide.",
   },
   { x: -146.52737, y: 94.16009, name: "Forgotten Cave" },
@@ -891,14 +889,14 @@ export const dungeons = [
   {
     x: -96.238266,
     y: 81.34048,
-    name: "Ancient&#39;s Lament",
+    name: "Ancient's Lament",
     description:
       "A tomb and prison for the anguished souls trapped within. </br>Aspect of of Volatile Shadows",
   },
   {
     x: -107.335815,
     y: 76.08012,
-    name: "Champion&#39;s Demise",
+    name: "Champion's Demise",
     description:
       "Once beautiful homelands now overrun with demons.</br>Aspect of of the Umbral",
   },
@@ -1021,8 +1019,7 @@ export const dungeons = [
     x: -37.924698,
     y: 112.18016,
     name: "Weeping Cairns",
-    description:
-      "A silent resting place of Scosglen&#39;s deceased, now awoken.",
+    description: "A silent resting place of Scosglen's deceased, now awoken.",
   },
   {
     x: -84.51213,

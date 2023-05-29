@@ -1,5 +1,5 @@
 import { isOverwolf } from "@/app/lib/env";
-import Home from "./(web)/home";
+import Home from "../(web)/home";
 
 export default isOverwolf ? () => <></> : Home;
 
