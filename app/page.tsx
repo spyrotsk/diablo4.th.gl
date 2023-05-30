@@ -1,5 +1,3 @@
-export default () => <></>;
-
-export async function generateStaticParams() {
-  return [{ locale: "de" }];
+export default function Home() {
+  return null;
 }

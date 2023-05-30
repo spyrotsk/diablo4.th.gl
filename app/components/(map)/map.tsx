@@ -1,7 +1,7 @@
 "use client";
 import leaflet, { LatLngBoundsExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const MapContext = createContext<leaflet.Map | null>(null);
@@ -21,6 +21,7 @@ export default function Map({ children }: { children?: React.ReactNode }) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<leaflet.Map | null>(null);
   const router = useRouter();
+  const params = useParams();
 
   useEffect(() => {
     const map = leaflet.map(mapRef.current!, {
@@ -44,7 +45,7 @@ export default function Map({ children }: { children?: React.ReactNode }) {
         // @ts-ignore
         !event.originalEvent.propagatedFromMarker
       ) {
-        router.replace("/");
+        router.replace(`/${params.locale ?? ""}`);
       }
     });
     return () => {

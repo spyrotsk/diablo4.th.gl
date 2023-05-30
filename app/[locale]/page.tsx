@@ -1,7 +1,4 @@
-import { isOverwolf } from "@/app/lib/env";
-import Home from "../(web)/home";
-
-export default isOverwolf ? () => <></> : Home;
+export { default } from "@/app/page";
 
 export async function generateStaticParams() {
   return [{ locale: "de" }];

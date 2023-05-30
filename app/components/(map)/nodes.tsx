@@ -42,6 +42,7 @@ export default function Nodes() {
   useEffect(() => {
     const groups: leaflet.LayerGroup[] = [];
     const selectedName = params.node;
+
     Object.entries(nodes).forEach(([type, items]) => {
       const group = leaflet.layerGroup();
       items.forEach((item) => {
@@ -64,7 +65,7 @@ export default function Nodes() {
           marker.setRadius(marker.options.isHighlighted ? 40 : icon.radius);
           marker.redraw();
           marker.bringToFront();
-          router.push(`/nodes/${item.name}`);
+          router.push(`${params.locale ?? ""}/nodes/${item.name}`);
         });
 
         // marker.bindTooltip(`${item.name} - ${type}`);
