@@ -54,7 +54,7 @@ export default function Map({ children }: { children?: React.ReactNode }) {
 
   return (
     <>
-      <div ref={mapRef} className="h-full !bg-[#101010]" />
+      <div ref={mapRef} className="h-full !bg-map" />
       <MapContext.Provider value={map}>{map && children}</MapContext.Provider>
     </>
   );

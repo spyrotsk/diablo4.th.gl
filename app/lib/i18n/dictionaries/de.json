@@ -2,5 +2,8 @@
   "meta": {
     "subtitle": "Diablo 4 Karte",
     "description": "Maximiere dein Diablo 4-Gameplay in Sancturay mit dieser Open Source Diablo 4 Karte! Entdecke Orte, Altäre, Verließe, Dungeons, Wegpunkte und mehr."
+  },
+  "search": {
+    "placeholder": "Suche nach Name oder Typ"
   }
 }

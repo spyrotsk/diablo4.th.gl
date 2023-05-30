@@ -1,6 +1,7 @@
 import de from "./dictionaries/de.json";
 import en from "./dictionaries/en.json";
 
+export type DICT = typeof en | typeof de;
 const DICTIONARIES = {
   en,
   de,

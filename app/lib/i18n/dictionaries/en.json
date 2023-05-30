@@ -2,5 +2,8 @@
   "meta": {
     "subtitle": "Diablo 4 Map",
     "description": "Maximize your Diablo 4 gameplay in Sancturay with this Open Source Diablo 4 map! Discover locations, altars, cellars, dungeons, waypoints & more."
+  },
+  "search": {
+    "placeholder": "Search by name or type"
   }
 }
