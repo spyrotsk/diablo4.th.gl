@@ -1,8 +1,8 @@
 "use client";
 import nodes from "@/app/lib/nodes";
 import leaflet from "leaflet";
-import { useParams, useRouter } from "next/navigation";
-import { useLayoutEffect, useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useLayoutEffect, useMemo, useState } from "react";
 import CanvasMarker from "./canvas-marker";
 import { useMap } from "./map";
 
@@ -39,6 +39,11 @@ export default function Nodes() {
   const params = useParams();
   const router = useRouter();
   const [groups, setGroups] = useState<leaflet.LayerGroup[]>([]);
+  const searchParams = useSearchParams();
+  const search = useMemo(
+    () => (searchParams.get("search") ?? "").toLowerCase(),
+    [searchParams]
+  );
 
   useLayoutEffect(() => {
     const selectedName = params.name && decodeURIComponent(params.name);
@@ -48,13 +53,14 @@ export default function Nodes() {
       const group = leaflet.layerGroup();
       items.forEach((item) => {
         const icon = icons[type];
-        const isDiscovered = false;
+        const isTrivial = false;
         const isHighlighted = selectedName ? selectedName === item.name : false;
         const marker = new CanvasMarker([item.x, item.y], {
+          type,
           name: item.name,
           icon,
           radius: isHighlighted ? 40 : icon.radius,
-          isDiscovered,
+          isTrivial,
           isHighlighted,
         });
 
@@ -62,7 +68,9 @@ export default function Nodes() {
           // @ts-ignore
           event.originalEvent.propagatedFromMarker = true;
           router.push(
-            `${params.locale ?? ""}/nodes/${encodeURIComponent(item.name)}`
+            `${params.locale ?? ""}/nodes/${encodeURIComponent(item.name)}${
+              location.search
+            }`
           );
         });
 
@@ -95,18 +103,29 @@ export default function Nodes() {
     groups.forEach((group) => {
       group.eachLayer((layer) => {
         const marker = layer as CanvasMarker;
-        const isHighlighted = selectedName
-          ? marker.options.name === selectedName
-          : false;
+        let isHighlighted = false;
+        let isTrivial = false;
+        if (selectedName) {
+          isHighlighted = marker.options.name === selectedName;
+        } else if (search) {
+          isTrivial = !(
+            marker.options.name.toLowerCase().includes(search) ||
+            marker.options.type.toLowerCase().includes(search)
+          );
+        }
 
-        if (isHighlighted === marker.options.isHighlighted) {
+        if (
+          isHighlighted === marker.options.isHighlighted &&
+          isTrivial === marker.options.isTrivial
+        ) {
           return;
         }
         marker.options.isHighlighted = isHighlighted;
+        marker.options.isTrivial = isTrivial;
         marker.update();
       });
     });
-  }, [params.name, groups]);
+  }, [params.name, groups, search]);
 
   return <></>;
 }

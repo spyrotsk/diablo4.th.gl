@@ -5,7 +5,7 @@ leaflet.Canvas.include({
     const {
       icon,
       radius: layerRadius,
-      isDiscovered,
+      isTrivial,
       isHighlighted,
     } = layer.options;
     const radius = layerRadius || icon.radius;
@@ -14,7 +14,7 @@ leaflet.Canvas.include({
     const dx = p.x - radius;
     const dy = p.y - radius;
 
-    this._ctx.globalAlpha = isDiscovered && !isHighlighted ? 0.25 : 1;
+    this._ctx.globalAlpha = isTrivial && !isHighlighted ? 0.25 : 1;
 
     if (isHighlighted) {
       this._ctx.beginPath();
@@ -37,8 +37,9 @@ const renderer = leaflet.canvas() as leaflet.Canvas & {
 };
 
 export type CanvasMarkerOptions = {
+  type: string;
   name: string;
-  isDiscovered?: boolean;
+  isTrivial?: boolean;
   isHighlighted?: boolean;
   icon: {
     src: string;
