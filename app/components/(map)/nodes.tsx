@@ -1,4 +1,5 @@
 "use client";
+import { ICONS } from "@/app/lib/icons";
 import nodes from "@/app/lib/nodes";
 import leaflet from "leaflet";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -6,34 +7,6 @@ import { useLayoutEffect, useMemo, useState } from "react";
 import CanvasMarker from "./canvas-marker";
 import { useMap } from "./map";
 
-const icons: {
-  [key: string]: {
-    src: string;
-    radius: number;
-    color: string;
-  };
-} = {
-  altars: {
-    src: "/icons/altaroflilith.png",
-    radius: 16,
-    color: "rgba(30, 30, 30, 0.5)",
-  },
-  cellars: {
-    src: "/icons/dungeon.png",
-    radius: 24,
-    color: "rgba(255, 41, 41, 0.5)",
-  },
-  dungeons: {
-    src: "/icons/cellar.png",
-    radius: 24,
-    color: "rgba(141, 0, 255, 0.5)",
-  },
-  waypoints: {
-    src: "/icons/waypoint.png",
-    radius: 22,
-    color: "rgba(87, 243, 255, 0.5)",
-  },
-};
 export default function Nodes() {
   const map = useMap();
   const params = useParams();
@@ -52,14 +25,14 @@ export default function Nodes() {
     Object.entries(nodes).forEach(([type, items]) => {
       const group = leaflet.layerGroup();
       items.forEach((item) => {
-        const icon = icons[type];
+        const icon = ICONS[type as keyof typeof nodes];
         const isTrivial = false;
         const isHighlighted = selectedName ? selectedName === item.name : false;
         const marker = new CanvasMarker([item.x, item.y], {
           type,
           name: item.name,
           icon,
-          radius: isHighlighted ? 40 : icon.radius,
+          radius: icon.radius,
           isTrivial,
           isHighlighted,
         });
@@ -99,6 +72,7 @@ export default function Nodes() {
 
   useLayoutEffect(() => {
     const selectedName = params.name && decodeURIComponent(params.name);
+    const highlightedGroup = new leaflet.FeatureGroup();
 
     groups.forEach((group) => {
       group.eachLayer((layer) => {
@@ -114,6 +88,11 @@ export default function Nodes() {
           );
         }
 
+        if ((selectedName && isHighlighted) || (search && !isTrivial)) {
+          console.log(marker.options.name);
+          highlightedGroup.addLayer(marker);
+        }
+
         if (
           isHighlighted === marker.options.isHighlighted &&
           isTrivial === marker.options.isTrivial
@@ -125,6 +104,13 @@ export default function Nodes() {
         marker.update();
       });
     });
+    const bounds = highlightedGroup.getBounds();
+    if (bounds.isValid()) {
+      map.flyToBounds(highlightedGroup.getBounds(), {
+        duration: 1,
+        maxZoom: 5,
+      });
+    }
   }, [params.name, groups, search]);
 
   return <></>;

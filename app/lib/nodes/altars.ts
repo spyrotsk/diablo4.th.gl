@@ -939,4 +939,4 @@ export const altars = [
     name: "Icehowl Taiga",
     description: "Dexterity +2",
   },
-];
+] as const;

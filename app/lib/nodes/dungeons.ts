@@ -1033,4 +1033,4 @@ export const dungeons = [
     name: "Offal Pits",
     description: "These filthy caves hide a secret path into Guulrahn Palace.",
   },
-];
+] as const;

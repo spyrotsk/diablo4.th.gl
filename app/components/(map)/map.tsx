@@ -34,6 +34,7 @@ export default function Map({ children }: { children?: React.ReactNode }) {
       wheelPxPerZoomLevel: 120,
       crs: leaflet.CRS.Simple,
       maxBounds: MAX_BOUNDS,
+      renderer: leaflet.canvas(),
     });
 
     map.setView([-100, 100], 3);

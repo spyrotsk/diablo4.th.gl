@@ -11,6 +11,17 @@ const nextConfig =
           locales: ["en", "de"],
           defaultLocale: "en",
         },
+        headers: async () => [
+          {
+            source: "/map/:all*(webp)",
+            headers: [
+              {
+                key: "Cache-Control",
+                value: "public, max-age=31536000, stale-while-revalidate",
+              },
+            ],
+          },
+        ],
       };
 
 module.exports = nextConfig;

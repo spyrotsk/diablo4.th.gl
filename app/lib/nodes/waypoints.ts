@@ -34,4 +34,4 @@ export const waypoints = [
   { x: -106.82661, y: 109.112465, name: "Nevesk" },
   { x: -90.808395, y: 88.494255, name: "Hidden Overlook" },
   { x: -110.65118, y: 64.4713, name: "Jirandai" },
-];
+] as const;

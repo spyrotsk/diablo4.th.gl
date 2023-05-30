@@ -1,8 +1,11 @@
+import { ICON } from "@/app/lib/icons";
 import leaflet from "leaflet";
 
+const cachedImages: Record<string, HTMLImageElement> = {};
 leaflet.Canvas.include({
   updateCanvasImg(layer: CanvasMarker) {
     const {
+      type,
       icon,
       radius: layerRadius,
       isTrivial,
@@ -14,22 +17,51 @@ leaflet.Canvas.include({
     const dx = p.x - radius;
     const dy = p.y - radius;
 
-    this._ctx.globalAlpha = isTrivial && !isHighlighted ? 0.25 : 1;
+    const layerContext = this._ctx as CanvasRenderingContext2D;
 
-    if (isHighlighted) {
-      this._ctx.beginPath();
-      this._ctx.arc(dx + radius, dy + radius, radius, 0, Math.PI * 2, true);
-      this._ctx.fillStyle = icon.color;
-      this._ctx.fill();
-      this._ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
-      this._ctx.lineWidth = 1.5;
-      this._ctx.stroke();
-    } else {
-      this._ctx.shadowColor = icon.color;
-      this._ctx.shadowBlur = 3;
+    const key = `${type}-${isTrivial}-${isHighlighted}`;
+    if (cachedImages[key]) {
+      if (cachedImages[key].complete) {
+        layerContext.drawImage(cachedImages[key], dx, dy);
+      } else {
+        cachedImages[key].addEventListener("load", () => {
+          layerContext.drawImage(cachedImages[key], dx, dy);
+        });
+      }
+      return;
     }
 
-    this._ctx.drawImage(layer.imageElement, dx, dy, imageSize, imageSize);
+    const canvas = document.createElement("canvas");
+    canvas.width = imageSize;
+    canvas.height = imageSize;
+    const ctx = canvas.getContext("2d")!;
+
+    ctx.globalAlpha = isTrivial && !isHighlighted ? 0.25 : 1;
+
+    const scale = imageSize / 100;
+
+    ctx.scale(scale, scale);
+    const path2D = new Path2D(icon.path);
+
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    ctx.fillStyle = icon.color;
+
+    if (isHighlighted) {
+      // ctx.fillStyle = "#2fb88d";
+      ctx.shadowBlur = 5;
+      ctx.shadowColor = "#2fb88d";
+    }
+
+    ctx.fill(path2D);
+    ctx.stroke(path2D);
+
+    const img = new Image(imageSize, imageSize);
+    img.src = ctx.canvas.toDataURL("image/webp");
+    cachedImages[key] = img;
+    img.addEventListener("load", () => {
+      this._ctx.drawImage(img, dx, dy);
+    });
   },
 });
 const renderer = leaflet.canvas() as leaflet.Canvas & {
@@ -41,22 +73,13 @@ export type CanvasMarkerOptions = {
   name: string;
   isTrivial?: boolean;
   isHighlighted?: boolean;
-  icon: {
-    src: string;
-    radius: number;
-    color: string;
-  };
+  icon: ICON;
 };
 
-const cachedImageElements: {
-  [src: string]: HTMLImageElement;
-} = {};
 class CanvasMarker extends leaflet.CircleMarker {
   declare options: leaflet.CircleMarkerOptions & CanvasMarkerOptions;
   private _renderer: typeof renderer;
   declare _point: leaflet.Point;
-  declare imageElement: HTMLImageElement;
-  private _onImageLoad: (() => void) | undefined = undefined;
 
   constructor(
     latLng: leaflet.LatLngExpression,
@@ -65,16 +88,9 @@ class CanvasMarker extends leaflet.CircleMarker {
     options.renderer = renderer;
     super(latLng, options);
     this._renderer = renderer;
-
-    if (!cachedImageElements[options.icon.src]) {
-      cachedImageElements[options.icon.src] = document.createElement("img");
-      cachedImageElements[options.icon.src].src = options.icon.src;
-    }
-    this.imageElement = cachedImageElements[options.icon.src];
   }
 
   update() {
-    this.setRadius(this.options.isHighlighted ? 40 : this.options.icon.radius);
     this.redraw();
     if (this.options.isHighlighted) {
       this.bringToFront();
@@ -82,18 +98,6 @@ class CanvasMarker extends leaflet.CircleMarker {
   }
 
   _updatePath() {
-    // this.setRadius(this.options.isHighlighted ? 40 : this.options.radius);
-
-    if (this.imageElement.complete) {
-      this._renderer.updateCanvasImg(this);
-    } else if (!this._onImageLoad) {
-      this._onImageLoad = () => {
-        this.imageElement.removeEventListener("load", this._onImageLoad!);
-        this._renderer.updateCanvasImg(this);
-      };
-      this.imageElement.addEventListener("load", this._onImageLoad);
-    }
-
     this._renderer.updateCanvasImg(this);
   }
 }

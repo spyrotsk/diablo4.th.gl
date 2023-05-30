@@ -217,4 +217,4 @@ export const cellars = [
     y: 52.835144,
     name: " Family Cellar</br>A cellar owned by a local family, long since abandoned.",
   },
-];
+] as const;

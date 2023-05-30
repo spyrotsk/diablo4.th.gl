@@ -23,6 +23,8 @@ export default function Tiles() {
       maxZoom: map.getMaxZoom(),
       bounds: BOUNDS,
       tileSize: TILE_SIZE,
+      updateInterval: 100,
+      keepBuffer: 8,
     }).addTo(map);
 
     return () => {

@@ -8,6 +8,6 @@ const nodes = {
   cellars,
   dungeons,
   waypoints,
-};
+} as const;
 
 export default nodes;
