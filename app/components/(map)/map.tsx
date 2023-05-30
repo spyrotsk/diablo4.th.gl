@@ -41,7 +41,6 @@ export default function Map({ children }: { children?: React.ReactNode }) {
 
     map.on("click", (event) => {
       if (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         !event.originalEvent.propagatedFromMarker
       ) {

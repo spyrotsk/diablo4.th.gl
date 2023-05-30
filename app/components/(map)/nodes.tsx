@@ -2,7 +2,7 @@
 import nodes from "@/app/lib/nodes";
 import leaflet from "leaflet";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useLayoutEffect, useState } from "react";
 import CanvasMarker from "./canvas-marker";
 import { useMap } from "./map";
 
@@ -38,42 +38,49 @@ export default function Nodes() {
   const map = useMap();
   const params = useParams();
   const router = useRouter();
+  const [groups, setGroups] = useState<leaflet.LayerGroup[]>([]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    const selectedName = params.name && decodeURIComponent(params.name);
+
     const groups: leaflet.LayerGroup[] = [];
-    const selectedName = params.node;
-
     Object.entries(nodes).forEach(([type, items]) => {
       const group = leaflet.layerGroup();
       items.forEach((item) => {
         const icon = icons[type];
-        const isDiscovered = Math.random() > 0.8;
+        const isDiscovered = false;
         const isHighlighted = selectedName ? selectedName === item.name : false;
         const marker = new CanvasMarker([item.x, item.y], {
-          src: icon.src,
-          color: icon.color,
-          radius: isHighlighted ? 40 : isDiscovered ? 16 : icon.radius,
+          name: item.name,
+          icon,
+          radius: isHighlighted ? 40 : icon.radius,
           isDiscovered,
           isHighlighted,
         });
 
         marker.on("click", (event) => {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           event.originalEvent.propagatedFromMarker = true;
-          marker.options.isHighlighted = !marker.options.isHighlighted;
-          marker.setRadius(marker.options.isHighlighted ? 40 : icon.radius);
-          marker.redraw();
-          marker.bringToFront();
-          router.push(`${params.locale ?? ""}/nodes/${item.name}`);
+          router.push(
+            `${params.locale ?? ""}/nodes/${encodeURIComponent(item.name)}`
+          );
         });
 
-        // marker.bindTooltip(`${item.name} - ${type}`);
         marker.addTo(group);
       });
+
       groups.push(group);
       group.addTo(map);
     });
+    groups.forEach((group) => {
+      group.eachLayer((layer) => {
+        const marker = layer as CanvasMarker;
+        if (marker.options.isHighlighted) {
+          marker.bringToFront();
+        }
+      });
+    });
+    setGroups(groups);
 
     return () => {
       groups.forEach((group) => {
@@ -81,6 +88,25 @@ export default function Nodes() {
       });
     };
   }, []);
+
+  useLayoutEffect(() => {
+    const selectedName = params.name && decodeURIComponent(params.name);
+
+    groups.forEach((group) => {
+      group.eachLayer((layer) => {
+        const marker = layer as CanvasMarker;
+        const isHighlighted = selectedName
+          ? marker.options.name === selectedName
+          : false;
+
+        if (isHighlighted === marker.options.isHighlighted) {
+          return;
+        }
+        marker.options.isHighlighted = isHighlighted;
+        marker.update();
+      });
+    });
+  }, [params.name, groups]);
 
   return <></>;
 }
