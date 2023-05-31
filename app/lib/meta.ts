@@ -2,11 +2,11 @@ import { Metadata } from "next";
 import { loadDictionary } from "./i18n";
 
 export function generateMetadata({
-  params: { locale, name },
+  params: { lang, name },
 }: {
-  params: { locale: string; name: string };
+  params: { lang: string; name: string };
 }): Metadata {
-  const { meta } = loadDictionary(locale);
+  const { meta } = loadDictionary(lang);
   const title = name ? decodeURIComponent(name) : "Sanctuary";
 
   return {

@@ -15,13 +15,13 @@ export function generateMetadata(): Metadata {
 
 function OverwolfLayout({
   children,
-  params: { locale },
+  params: { lang },
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: { lang: string };
 }) {
   return (
-    <html lang={locale}>
+    <html lang={lang}>
       <body className={`${inter.className} h-screen`}>{children}</body>
     </html>
   );

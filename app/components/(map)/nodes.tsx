@@ -46,7 +46,7 @@ export default function Nodes() {
           // @ts-ignore
           event.originalEvent.propagatedFromMarker = true;
           router.push(
-            `${params.locale ?? ""}/nodes/${encodeURIComponent(item.name)}/@${
+            `${params.lang ?? ""}/nodes/${encodeURIComponent(item.name)}/@${
               item.x
             },${item.y}${location.search}`
           );

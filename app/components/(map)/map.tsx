@@ -45,7 +45,7 @@ export default function Map({ children }: { children?: React.ReactNode }) {
         // @ts-ignore
         !event.originalEvent.propagatedFromMarker
       ) {
-        router.replace(`/${params.locale ?? ""}${location.search}`);
+        router.replace(`/${params.lang ?? ""}${location.search}`);
       }
     });
     return () => {

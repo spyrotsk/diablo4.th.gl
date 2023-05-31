@@ -10,7 +10,7 @@ import Coordinates from "../components/(map)/coordinates";
 import Nodes from "../components/(map)/nodes";
 import Tiles from "../components/(map)/tiles";
 import Search from "../components/search";
-import { isLocale, loadDictionary } from "../lib/i18n";
+import { isLang, loadDictionary } from "../lib/i18n";
 
 export { generateMetadata } from "@/app/lib/meta";
 
@@ -20,19 +20,19 @@ const Map = dynamic(() => import("../components/(map)/map"), {
 
 function Layout({
   // children,
-  params: { locale = "en" },
+  params: { lang = "en" },
 }: {
   children: React.ReactNode;
-  params: { locale?: string };
+  params: { lang?: string };
 }) {
-  if (!isLocale(locale)) {
+  if (!isLang(lang)) {
     notFound();
   }
 
-  const dict = loadDictionary(locale);
+  const dict = loadDictionary(lang);
 
   return (
-    <html lang={locale}>
+    <html lang={lang}>
       <body className={`${inter.className} h-screen bg-map text-white`}>
         <I18NProvider value={dict}>
           <Map>

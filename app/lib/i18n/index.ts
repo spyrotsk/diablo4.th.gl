@@ -7,16 +7,16 @@ const DICTIONARIES = {
   de,
 } as const;
 
-export const isLocale = (locale?: string) => {
+export const isLang = (lang?: string) => {
   return (
-    typeof locale !== "undefined" && Object.keys(DICTIONARIES).includes(locale)
+    typeof lang !== "undefined" && Object.keys(DICTIONARIES).includes(lang)
   );
 };
 
-export const loadDictionary = (locale = "en") => {
-  if (!isLocale(locale)) {
+export const loadDictionary = (lang = "en") => {
+  if (!isLang(lang)) {
     return DICTIONARIES.en;
   }
 
-  return DICTIONARIES[locale as keyof typeof DICTIONARIES];
+  return DICTIONARIES[lang as keyof typeof DICTIONARIES];
 };
