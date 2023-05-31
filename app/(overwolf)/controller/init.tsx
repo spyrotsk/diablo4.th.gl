@@ -12,10 +12,15 @@ import {
   toggleWindow,
 } from "../lib/windows";
 
+let initialized = false;
 export default function Init() {
   useEffect(() => {
+    if (initialized) {
+      return;
+    }
     waitForOverwolf()
       .then(() => {
+        initialized = true;
         initController();
       })
       .catch((error) => console.warn(error));

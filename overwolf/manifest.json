@@ -103,11 +103,6 @@
     "protocol_override_domains": {
       "googlesyndication": "http"
     },
-    "force_browser": "user",
-    "developer": {
-      "enable_auto_refresh": true,
-      "reload_delay": 1000,
-      "filter": "*.*"
-    }
+    "force_browser": "user"
   }
 }

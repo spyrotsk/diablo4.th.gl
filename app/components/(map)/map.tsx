@@ -1,7 +1,8 @@
 "use client";
+import { useOverwolfRouter } from "@/app/(overwolf)/components/overwolf-router";
 import leaflet, { LatLngBoundsExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const MapContext = createContext<leaflet.Map | null>(null);
@@ -20,7 +21,7 @@ export function useMap() {
 export default function Map({ children }: { children?: React.ReactNode }) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<leaflet.Map | null>(null);
-  const router = useRouter();
+  const router = useOverwolfRouter();
   const params = useParams();
 
   useEffect(() => {
@@ -41,10 +42,12 @@ export default function Map({ children }: { children?: React.ReactNode }) {
     setMap(map);
 
     map.on("click", (event) => {
-      if (
-        // @ts-ignore
-        !event.originalEvent.propagatedFromMarker
-      ) {
+      // @ts-ignore
+      if (event.originalEvent.target.className !== "leaflet-zoom-animated")
+        return;
+      if ("update" in router) {
+        router.update({ name: "", coordinates: "" });
+      } else {
         router.replace(`/${params.lang ?? ""}${location.search}`);
       }
     });
@@ -55,8 +58,9 @@ export default function Map({ children }: { children?: React.ReactNode }) {
 
   return (
     <>
-      <div ref={mapRef} className="h-full !bg-map" />
-      <MapContext.Provider value={map}>{map && children}</MapContext.Provider>
+      <div ref={mapRef} className="h-full !bg-map relative outline-none">
+        <MapContext.Provider value={map}>{map && children}</MapContext.Provider>
+      </div>
     </>
   );
 }

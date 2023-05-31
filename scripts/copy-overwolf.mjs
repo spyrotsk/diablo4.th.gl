@@ -22,5 +22,17 @@ await fs.cp(
   path.resolve(__dirname, "../out/icons/"),
   { recursive: true }
 );
-await fs.rm(path.resolve(__dirname, "../out/index.html"));
-await fs.rm(path.resolve(__dirname, "../out/index.txt"));
+
+const removeableFiles = [
+  "404.html",
+  "index.html",
+  "index.txt",
+  "apple-icon.png",
+  "opengraph-image.jpg",
+  "robots.txt",
+  "sitemap.xml",
+  "twitter-image.jpg",
+];
+removeableFiles.forEach(async (file) => {
+  await fs.rm(path.resolve(__dirname, "../out/" + file));
+});

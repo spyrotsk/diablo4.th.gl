@@ -1,8 +1,9 @@
 "use client";
+import { useOverwolfRouter } from "@/app/(overwolf)/components/overwolf-router";
 import { ICONS } from "@/app/lib/icons";
 import nodes from "@/app/lib/nodes";
 import leaflet from "leaflet";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { useDict } from "../(i18n)/i18n-provider";
 import CanvasMarker from "./canvas-marker";
@@ -10,18 +11,25 @@ import { useMap } from "./map";
 
 export default function Nodes() {
   const map = useMap();
+  const router = useOverwolfRouter();
   const params = useParams();
-  const router = useRouter();
   const [groups, setGroups] = useState<leaflet.LayerGroup[]>([]);
   const searchParams = useSearchParams();
-  const search = useMemo(
-    () => (searchParams.get("search") ?? "").toLowerCase(),
-    [searchParams]
-  );
+
+  const search = useMemo(() => {
+    if ("value" in router) {
+      return router.value.search.toLowerCase();
+    }
+    return (searchParams.get("search") ?? "").toLowerCase();
+  }, [searchParams, "value" in router && router.value.search]);
   const dict = useDict();
 
+  const paramsName = "value" in router ? router.value.name : params.name;
+  const paramsCoordinates =
+    "value" in router ? router.value.coordinates : params.coordinates;
+
   useLayoutEffect(() => {
-    const selectedName = params.name && decodeURIComponent(params.name);
+    const selectedName = paramsName && decodeURIComponent(paramsName);
 
     const groups: leaflet.LayerGroup[] = [];
     Object.entries(nodes).forEach(([_type, items]) => {
@@ -42,14 +50,19 @@ export default function Nodes() {
           isHighlighted,
         });
 
-        marker.on("click", (event) => {
-          // @ts-ignore
-          event.originalEvent.propagatedFromMarker = true;
-          router.push(
-            `${params.lang ?? ""}/nodes/${encodeURIComponent(item.name)}/@${
-              item.x
-            },${item.y}${location.search}`
-          );
+        marker.on("click", () => {
+          if ("update" in router) {
+            router.update({
+              name: encodeURIComponent(item.name),
+              coordinates: `@${item.x},${item.y}`,
+            });
+          } else {
+            router.push(
+              `${params.lang ?? ""}/nodes/${encodeURIComponent(item.name)}/@${
+                item.x
+              },${item.y}${location.search}`
+            );
+          }
         });
         const tooltipContent = () => {
           const attributeColor =
@@ -94,9 +107,9 @@ export default function Nodes() {
   }, []);
 
   useLayoutEffect(() => {
-    const selectedName = params.name && decodeURIComponent(params.name);
+    const selectedName = paramsName && decodeURIComponent(paramsName);
     const coordinates =
-      (params.coordinates && decodeURIComponent(params.coordinates))
+      (paramsCoordinates && decodeURIComponent(paramsCoordinates))
         ?.replace("@", "")
         .split(",")
         .map(Number) ?? [];
@@ -170,7 +183,7 @@ export default function Nodes() {
         maxZoom: 5,
       });
     }
-  }, [params.name, groups, search]);
+  }, [paramsName, paramsCoordinates, groups, search]);
 
   return <></>;
 }

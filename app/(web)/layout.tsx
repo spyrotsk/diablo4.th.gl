@@ -39,8 +39,8 @@ function Layout({
             <Tiles />
             <Nodes />
             <Coordinates />
+            <Search />
           </Map>
-          <Search />
           {/* <Drawer>{children}</Drawer> */}
         </I18NProvider>
       </body>

@@ -2,25 +2,30 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useOverwolfRouter } from "../(overwolf)/components/overwolf-router";
 import { useUpdateSearchParams } from "../lib/search-params";
 import { useDict } from "./(i18n)/i18n-provider";
 
 export default function Search() {
   const searchParams = useSearchParams();
-
+  const overwolfRouter = useOverwolfRouter();
   const [search, setSearch] = useState(() => searchParams.get("search") ?? "");
   const dict = useDict();
   const updateSearchParams = useUpdateSearchParams();
 
   useEffect(() => {
     const handle = setTimeout(() => {
-      updateSearchParams("search", search);
+      if ("update" in overwolfRouter) {
+        overwolfRouter.update({ search });
+      } else {
+        updateSearchParams("search", search);
+      }
     }, 200);
     return () => clearTimeout(handle);
   }, [search]);
 
   return (
-    <div className="fixed left-0 top-0 z-[400] flex w-full md:left-3 md:top-3 md:w-auto">
+    <div className="absolute left-0 top-0 z-[400] flex w-full md:left-3 md:top-3 md:w-auto">
       <button className="flex absolute inset-y-0 left-0 items-center pl-2 text-gray-400 hover:text-gray-200">
         <svg
           xmlns="http://www.w3.org/2000/svg"

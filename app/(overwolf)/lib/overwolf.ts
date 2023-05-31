@@ -1,8 +1,19 @@
 // Sometimes `overwolf` is not loaded if debug_url is set. A simple reload of the page will fix this.
 export function waitForOverwolf(): Promise<void> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if (!navigator.userAgent.includes("OverwolfClient")) {
-      return reject("Not running in Overwolf");
+      // @ts-ignore
+      globalThis.overwolf = new Proxy(
+        () => {
+          return;
+        },
+        {
+          get() {
+            return overwolf;
+          },
+        }
+      );
+      return resolve();
     }
     function isOverwolfLoading() {
       return typeof overwolf === "undefined";
