@@ -25,3 +25,11 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.leaflet-tooltip {
+  @apply !text-center !rounded !bg-neutral-800 border !border-gray-600 !text-white !p-2;
+}
+
+.leaflet-tooltip-top:before {
+  @apply !border-t-neutral-900;
+}

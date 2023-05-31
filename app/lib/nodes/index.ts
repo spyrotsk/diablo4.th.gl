@@ -11,3 +11,6 @@ const nodes = {
 } as const;
 
 export default nodes;
+
+export type NODE_TYPE = keyof typeof nodes;
+export type NODE = (typeof nodes)[NODE_TYPE][number];

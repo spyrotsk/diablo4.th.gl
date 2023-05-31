@@ -41,7 +41,7 @@ export default function Search() {
         <div className="h-3/6 w-px bg-gray-600 mx-1.5" />
       </button>
       <input
-        className=" bg-gray-900 text-gray-200 text-sm pl-11 pr-16 py-2.5 w-full md:border md:border-gray-600 md:rounded-lg outline-none"
+        className=" bg-neutral-900 text-gray-200 text-sm pl-11 pr-16 py-2.5 w-full md:border md:border-gray-600 md:rounded-lg outline-none"
         type="text"
         placeholder={dict.search.placeholder}
         value={search}

@@ -4,6 +4,7 @@ import nodes from "@/app/lib/nodes";
 import leaflet from "leaflet";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useLayoutEffect, useMemo, useState } from "react";
+import { useDict } from "../(i18n)/i18n-provider";
 import CanvasMarker from "./canvas-marker";
 import { useMap } from "./map";
 
@@ -17,19 +18,23 @@ export default function Nodes() {
     () => (searchParams.get("search") ?? "").toLowerCase(),
     [searchParams]
   );
+  const dict = useDict();
 
   useLayoutEffect(() => {
     const selectedName = params.name && decodeURIComponent(params.name);
 
     const groups: leaflet.LayerGroup[] = [];
-    Object.entries(nodes).forEach(([type, items]) => {
+    Object.entries(nodes).forEach(([_type, items]) => {
+      const type = _type as keyof typeof nodes;
       const group = leaflet.layerGroup();
       items.forEach((item) => {
-        const icon = ICONS[type as keyof typeof nodes];
+        const icon = ICONS[type];
         const isTrivial = false;
         const isHighlighted = selectedName ? selectedName === item.name : false;
+        const attribute = "attribute" in item ? item.attribute : undefined;
         const marker = new CanvasMarker([item.x, item.y], {
           type,
+          attribute,
           name: item.name,
           icon,
           radius: icon.radius,
@@ -47,6 +52,25 @@ export default function Nodes() {
           );
         });
 
+        marker.bindTooltip(
+          () => {
+            const attributeColor =
+              "attribute" in icon && attribute && icon.attribute(attribute);
+            let tooltipContent = `<p class="font-bold text-base">${item.name}</p><p class="text-gray-300 text-sm">${dict.nodes[type]}</p>`;
+            if ("description" in item) {
+              tooltipContent += `<p class="border-t border-t-gray-700 mt-2 pt-2">${
+                attributeColor
+                  ? `<div class="inline-block w-2 h-2 rounded-full mr-1" style="background: ${attributeColor}"></div>`
+                  : ""
+              }${item.description}</p>`;
+            }
+            return tooltipContent;
+          },
+          {
+            direction: "top",
+            offset: [0, -icon.radius],
+          }
+        );
         marker.addTo(group);
       });
 

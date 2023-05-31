@@ -7,6 +7,7 @@ leaflet.Canvas.include({
     const {
       type,
       icon,
+      attribute = "",
       radius: layerRadius,
       isTrivial,
       isHighlighted,
@@ -19,7 +20,7 @@ leaflet.Canvas.include({
 
     const layerContext = this._ctx as CanvasRenderingContext2D;
 
-    const key = `${type}-${isTrivial}-${isHighlighted}`;
+    const key = `${type}-${attribute}-${isTrivial}-${isHighlighted}`;
     if (cachedImages[key]) {
       if (cachedImages[key].complete) {
         layerContext.drawImage(cachedImages[key], dx, dy);
@@ -44,7 +45,7 @@ leaflet.Canvas.include({
     const path2D = new Path2D(icon.path);
 
     ctx.strokeStyle = "black";
-    ctx.lineWidth = 2;
+    ctx.lineWidth = icon.lineWidth;
     ctx.fillStyle = icon.color;
 
     if (isHighlighted) {
@@ -52,10 +53,19 @@ leaflet.Canvas.include({
       ctx.shadowBlur = 5;
       ctx.shadowColor = "#2fb88d";
     }
-
     ctx.fill(path2D);
     ctx.stroke(path2D);
 
+    if ("attribute" in icon && attribute) {
+      const attributeColor = icon.attribute(attribute);
+      if (attributeColor) {
+        ctx.arc(imageSize * 2, radius, radius / 2, 0, Math.PI * 2, true);
+        ctx.fillStyle = attributeColor;
+        ctx.fill();
+        ctx.strokeStyle = "#333";
+        ctx.stroke();
+      }
+    }
     const img = new Image(imageSize, imageSize);
     img.src = ctx.canvas.toDataURL("image/webp");
     cachedImages[key] = img;
@@ -71,6 +81,7 @@ const renderer = leaflet.canvas() as leaflet.Canvas & {
 export type CanvasMarkerOptions = {
   type: string;
   name: string;
+  attribute?: string;
   isTrivial?: boolean;
   isHighlighted?: boolean;
   icon: ICON;
