@@ -2,14 +2,7 @@ import leaflet, { Coords, TileLayer, TileLayerOptions } from "leaflet";
 
 type Tile = HTMLCanvasElement & { complete: boolean };
 
-const OFFSETS = [0, 1, 2, 4, 8, 16, 32];
 const CanvasLayer = leaflet.TileLayer.extend({
-  getTileUrl: function (coords: Coords) {
-    const zoom = -this.options.minZoom + coords.z;
-    // coords.x += OFFSETS[zoom];
-    // coords.y += OFFSETS[zoom];
-    return leaflet.TileLayer.prototype.getTileUrl.call(this, coords);
-  },
   createCanvas: function (
     tile: Tile,
     coords: Coords,
