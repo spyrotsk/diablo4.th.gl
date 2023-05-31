@@ -7,10 +7,6 @@ const nextConfig =
         output: "export",
       }
     : {
-        i18n: {
-          locales: ["en", "de"],
-          defaultLocale: "en",
-        },
         headers: async () => [
           {
             source: "/map/:all*(webp)",
