@@ -2,12 +2,12 @@
   "manifest_version": 1,
   "type": "WebApp",
   "meta": {
-    "name": "Diablo 4 Companion-DEV",
+    "name": "Diablo 4 Map-DEV",
     "author": "Leon Machens",
     "version": "0.0.0",
     "minimum-overwolf-version": "0.218.0",
-    "description": "Diablo 4 Companion",
-    "dock_button_title": "Diablo 4 Companion",
+    "description": "Diablo 4 Map",
+    "dock_button_title": "Diablo 4 Map",
     "icon": "icons/iconMouseOver.png",
     "icon_gray": "icons/iconMouseNormal.png",
     "launcher_icon": "icons/launcherIcon.ico"
@@ -98,11 +98,6 @@
         "title": "Zoom out",
         "action-type": "custom",
         "default": "F8"
-      },
-      "toggle_zones_grid": {
-        "title": "Show/Hide Zones Grid",
-        "action-type": "custom",
-        "default": "F9"
       }
     },
     "protocol_override_domains": {
