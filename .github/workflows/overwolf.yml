@@ -1,0 +1,28 @@
+name: Build Overwolf App CI
+
+on:
+  push:
+    paths:
+      - "overwolf/manifest.json"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "pnpm"
+      - run: pnpm install
+      - name: Build Overwolf app
+        run: pnpm export
+      - name: Release Overwolf app
+        env:
+          OW_CLI_EMAIL: ${{ secrets.OW_CLI_EMAIL }}
+          OW_CLI_API_KEY: ${{ secrets.OW_CLI_API_KEY }}
+        run: pnpm release
