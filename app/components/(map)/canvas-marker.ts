@@ -1,4 +1,5 @@
 import { ICON } from "@/app/lib/icons";
+import nodes from "@/app/lib/nodes";
 import leaflet from "leaflet";
 
 const cachedImages: Record<string, HTMLImageElement> = {};
@@ -12,6 +13,10 @@ leaflet.Canvas.include({
       isTrivial,
       isHighlighted,
     } = layer.options;
+
+    if (isTrivial && !isHighlighted) {
+      return;
+    }
     const radius = layerRadius || icon.radius;
     const imageSize = radius * 2;
     const p = layer._point.round();
@@ -20,7 +25,7 @@ leaflet.Canvas.include({
 
     const layerContext = this._ctx as CanvasRenderingContext2D;
 
-    const key = `${type}-${attribute}-${isTrivial}-${isHighlighted}`;
+    const key = `${type}-${attribute}-${isHighlighted}`;
     if (cachedImages[key]) {
       if (cachedImages[key].complete) {
         layerContext.drawImage(cachedImages[key], dx, dy);
@@ -48,11 +53,11 @@ leaflet.Canvas.include({
     ctx.lineWidth = icon.lineWidth;
     ctx.fillStyle = icon.color;
 
-    if (isHighlighted) {
-      // ctx.fillStyle = "#2fb88d";
-      ctx.shadowBlur = 5;
-      ctx.shadowColor = "#2fb88d";
-    }
+    // if (isHighlighted) {
+    //   // ctx.fillStyle = "#2fb88d";
+    //   ctx.shadowBlur = 5;
+    //   ctx.shadowColor = "#2fb88d";
+    // }
     ctx.fill(path2D);
     ctx.stroke(path2D);
 
@@ -79,7 +84,7 @@ const renderer = leaflet.canvas() as leaflet.Canvas & {
 };
 
 export type CanvasMarkerOptions = {
-  type: string;
+  type: keyof typeof nodes;
   name: string;
   attribute?: string;
   isTrivial?: boolean;

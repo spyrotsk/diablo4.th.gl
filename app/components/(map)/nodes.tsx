@@ -46,31 +46,30 @@ export default function Nodes() {
           // @ts-ignore
           event.originalEvent.propagatedFromMarker = true;
           router.push(
-            `${params.locale ?? ""}/nodes/${encodeURIComponent(item.name)}${
-              location.search
-            }`
+            `${params.locale ?? ""}/nodes/${encodeURIComponent(item.name)}/@${
+              item.x
+            },${item.y}${location.search}`
           );
         });
-
-        marker.bindTooltip(
-          () => {
-            const attributeColor =
-              "attribute" in icon && attribute && icon.attribute(attribute);
-            let tooltipContent = `<p class="font-bold text-base">${item.name}</p><p class="text-gray-300 text-sm">${dict.nodes[type]}</p>`;
-            if ("description" in item) {
-              tooltipContent += `<p class="border-t border-t-gray-700 mt-2 pt-2">${
-                attributeColor
-                  ? `<div class="inline-block w-2 h-2 rounded-full mr-1" style="background: ${attributeColor}"></div>`
-                  : ""
-              }${item.description}</p>`;
-            }
-            return tooltipContent;
-          },
-          {
-            direction: "top",
-            offset: [0, -icon.radius],
+        const tooltipContent = () => {
+          const attributeColor =
+            "attribute" in icon && attribute && icon.attribute(attribute);
+          let tooltipContent = `<p class="font-bold text-base">${item.name}</p><p class="text-gray-300 text-sm">${dict.nodes[type]}</p>`;
+          if ("description" in item) {
+            tooltipContent += `<p class="border-t border-t-gray-700 mt-2 pt-2">${
+              attributeColor
+                ? `<div class="inline-block w-2 h-2 rounded-full mr-1" style="background: ${attributeColor}"></div>`
+                : ""
+            }${item.description}</p>`;
           }
-        );
+          return tooltipContent;
+        };
+        marker.bindTooltip(tooltipContent, {
+          permanent: isHighlighted,
+          direction: "top",
+          offset: [0, -icon.radius],
+        });
+
         marker.addTo(group);
       });
 
@@ -96,6 +95,11 @@ export default function Nodes() {
 
   useLayoutEffect(() => {
     const selectedName = params.name && decodeURIComponent(params.name);
+    const coordinates =
+      (params.coordinates && decodeURIComponent(params.coordinates))
+        ?.replace("@", "")
+        .split(",")
+        .map(Number) ?? [];
     const highlightedGroup = new leaflet.FeatureGroup();
 
     groups.forEach((group) => {
@@ -103,20 +107,51 @@ export default function Nodes() {
         const marker = layer as CanvasMarker;
         let isHighlighted = false;
         let isTrivial = false;
-        if (selectedName) {
-          isHighlighted = marker.options.name === selectedName;
-        } else if (search) {
+        if (selectedName && coordinates) {
+          const latLng = marker.getLatLng();
+          isHighlighted =
+            marker.options.name === selectedName &&
+            latLng.lat === coordinates[0] &&
+            latLng.lng === coordinates[1];
+        }
+        if (search && !isHighlighted) {
           isTrivial = !(
             marker.options.name.toLowerCase().includes(search) ||
-            marker.options.type.toLowerCase().includes(search)
+            dict.nodes[marker.options.type].toLowerCase().includes(search)
           );
         }
 
         if ((selectedName && isHighlighted) || (search && !isTrivial)) {
-          console.log(marker.options.name);
           highlightedGroup.addLayer(marker);
         }
 
+        if (isHighlighted !== marker.options.isHighlighted) {
+          if (isHighlighted) {
+            marker.bringToFront();
+            const tooltipContent = marker.getTooltip()!.getContent()!;
+            marker.unbindTooltip();
+            marker.bindTooltip(tooltipContent, {
+              permanent: true,
+              direction: "top",
+              offset: [0, -marker.options.icon.radius],
+            });
+            marker.openTooltip();
+          } else {
+            const tooltipContent = marker.getTooltip()!.getContent()!;
+            marker.unbindTooltip();
+            marker.bindTooltip(tooltipContent, {
+              permanent: false,
+              direction: "top",
+              offset: [0, -marker.options.icon.radius],
+            });
+          }
+        }
+        if (isTrivial !== marker.options.isTrivial) {
+          if (isTrivial && marker.isTooltipOpen()) {
+            marker.closeTooltip();
+          }
+          marker.setStyle({ interactive: !isTrivial });
+        }
         if (
           isHighlighted === marker.options.isHighlighted &&
           isTrivial === marker.options.isTrivial

@@ -9,7 +9,6 @@ import { I18NProvider } from "../components/(i18n)/i18n-provider";
 import Coordinates from "../components/(map)/coordinates";
 import Nodes from "../components/(map)/nodes";
 import Tiles from "../components/(map)/tiles";
-import Drawer from "../components/drawer";
 import Search from "../components/search";
 import { isLocale, loadDictionary } from "../lib/i18n";
 
@@ -20,7 +19,7 @@ const Map = dynamic(() => import("../components/(map)/map"), {
 });
 
 function Layout({
-  children,
+  // children,
   params: { locale = "en" },
 }: {
   children: React.ReactNode;
@@ -42,7 +41,7 @@ function Layout({
             <Coordinates />
           </Map>
           <Search />
-          <Drawer>{children}</Drawer>
+          {/* <Drawer>{children}</Drawer> */}
         </I18NProvider>
       </body>
     </html>
