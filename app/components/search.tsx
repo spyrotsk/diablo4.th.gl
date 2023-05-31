@@ -47,23 +47,43 @@ export default function Search() {
         value={search}
         onChange={(event) => setSearch(event.target.value)}
       />
-      <div className="flex absolute inset-y-0 right-6 items-center pr-2 text-gray-400">
-        <svg
-          className="block w-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
+      {search ? (
+        <button
+          className="flex absolute inset-y-0 right-6 items-center pr-2 text-gray-400"
+          onClick={() => setSearch("")}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-        <div className="h-3/6 w-px bg-gray-600 mx-1.5" />
-      </div>
+          <svg
+            className="block w-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M18 6l-12 12"></path>
+            <path d="M6 6l12 12"></path>
+          </svg>
+          <div className="h-3/6 w-px bg-gray-600 mx-1.5" />
+        </button>
+      ) : (
+        <div className="flex absolute inset-y-0 right-6 items-center pr-2 text-gray-400">
+          <svg
+            className="block w-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          <div className="h-3/6 w-px bg-gray-600 mx-1.5" />
+        </div>
+      )}
       <button className="flex absolute inset-y-0 right-0 items-center pr-2 text-gray-400 hover:text-gray-200">
         <svg
           className="block w-5"
