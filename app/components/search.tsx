@@ -3,23 +3,25 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useOverwolfRouter } from "../(overwolf)/components/overwolf-router";
+import { ICONS } from "../lib/icons";
 import { useUpdateSearchParams } from "../lib/search-params";
 import { useDict } from "./(i18n)/i18n-provider";
-import Filter from "./filter";
+import Filters from "./filters";
+import useFilters from "./use-filters";
 
 export default function Search() {
   const searchParams = useSearchParams();
-  const overwolfRouter = useOverwolfRouter();
+  const router = useOverwolfRouter();
   const [search, setSearch] = useState(() => searchParams.get("search") ?? "");
   const dict = useDict();
   const updateSearchParams = useUpdateSearchParams();
   const [showFilters, setShowFilters] = useState(false);
-  const hasFilters = searchParams.get("filters") !== null;
+  const filters = useFilters();
 
   useEffect(() => {
     const handle = setTimeout(() => {
-      if ("update" in overwolfRouter) {
-        overwolfRouter.update({ search });
+      if ("update" in router) {
+        router.update({ search });
       } else {
         updateSearchParams("search", search);
       }
@@ -103,7 +105,11 @@ export default function Search() {
           viewBox="0 0 24 24"
           strokeWidth="2"
           stroke="currentColor"
-          fill={hasFilters ? "currentColor" : "none"}
+          fill={
+            filters.length !== Object.keys(ICONS).length
+              ? "currentColor"
+              : "none"
+          }
           strokeLinecap="round"
           strokeLinejoin="round"
         >
@@ -111,7 +117,7 @@ export default function Search() {
           <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" />
         </svg>
       </button>
-      {showFilters && <Filter />}
+      {showFilters && <Filters />}
     </div>
   );
 }

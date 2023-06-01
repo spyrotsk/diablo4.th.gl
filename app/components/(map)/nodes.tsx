@@ -6,6 +6,7 @@ import leaflet from "leaflet";
 import { useParams, useSearchParams } from "next/navigation";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { useDict } from "../(i18n)/i18n-provider";
+import useFilters from "../use-filters";
 import CanvasMarker from "./canvas-marker";
 import { useMap } from "./map";
 
@@ -16,18 +17,19 @@ export default function Nodes() {
   const [groups, setGroups] = useState<leaflet.LayerGroup[]>([]);
   const searchParams = useSearchParams();
 
+  const isOverwolf = "value" in router;
   const search = useMemo(() => {
-    if ("value" in router) {
-      return router.value.search.toLowerCase();
-    }
-    return (searchParams.get("search") ?? "").toLowerCase();
-  }, [searchParams, "value" in router && router.value.search]);
-  const filters = searchParams.get("filters")?.split(",") ?? Object.keys(ICONS);
+    return (
+      (isOverwolf ? router.value.search : searchParams.get("search")) ?? ""
+    ).toLowerCase();
+  }, [searchParams, isOverwolf && router.value.search]);
   const dict = useDict();
 
-  const paramsName = "value" in router ? router.value.name : params.name;
-  const paramsCoordinates =
-    "value" in router ? router.value.coordinates : params.coordinates;
+  const paramsName = isOverwolf ? router.value.name : params.name;
+  const paramsCoordinates = isOverwolf
+    ? router.value.coordinates
+    : params.coordinates;
+  const filters = useFilters();
 
   useLayoutEffect(() => {
     const selectedName = paramsName && decodeURIComponent(paramsName);

@@ -1,14 +1,16 @@
 "use client";
-import { useSearchParams } from "next/navigation";
+import { useOverwolfRouter } from "../(overwolf)/components/overwolf-router";
 import { ICONS } from "../lib/icons";
 import { useUpdateSearchParams } from "../lib/search-params";
 import { useDict } from "./(i18n)/i18n-provider";
+import useFilters from "./use-filters";
 
-export default function Filter() {
-  const searchParams = useSearchParams();
+export default function Filters() {
+  const router = useOverwolfRouter();
+
   const updateSearchParams = useUpdateSearchParams();
   const dict = useDict();
-  const filters = searchParams.get("filters")?.split(",") ?? Object.keys(ICONS);
+  const filters = useFilters();
 
   return (
     <div className="absolute top-full divide-y divide-neutral-700 border-t border-t-neutral-600 bg-neutral-900 text-gray-200 text-sm w-full md:border md:border-gray-600 md:rounded-lg md:mt-1">
@@ -25,7 +27,12 @@ export default function Filter() {
             if (newFilters.length === Object.keys(ICONS).length) {
               newFilters = [];
             }
-            updateSearchParams("filters", newFilters.join(","));
+            const newFiltersString = newFilters.join(",");
+            if ("update" in router) {
+              router.update({ filters: newFiltersString });
+            } else {
+              updateSearchParams("filters", newFiltersString);
+            }
           }}
         >
           <svg viewBox="0 0 100 100" fill={icon.color} className="h-5">

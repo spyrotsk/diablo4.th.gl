@@ -26,8 +26,10 @@ export default function App() {
         <Tiles />
         <Nodes />
         <Coordinates />
-        <Search />
       </Map>
+      <div className="absolute top-[30px] left-0 right-0">
+        <Search />
+      </div>
     </>
   );
 }
