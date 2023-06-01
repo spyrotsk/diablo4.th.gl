@@ -6,7 +6,7 @@
     "dev": "next dev --port 3666",
     "build": "next build",
     "export": "TARGET=overwolf next build && node scripts/copy-overwolf.mjs",
-    "release": "ow opk pack out -o diablo4thgl.opk && ow opk sign diablo4thgl.opk && ow opk upload diablo4thgl.signed.opk",
+    "release": "ow opk pack out -o diablo4thgl.opk && ow opk sign diablo4thgl.opk && ow opk upload diablo4thgl.signed.opk -c 487 && ow opk upload diablo4thgl.signed.opk",
     "start": "next start",
     "lint": "next lint"
   },
