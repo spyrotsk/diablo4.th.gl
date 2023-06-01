@@ -6,7 +6,6 @@ const inter = Inter({ subsets: ["latin"] });
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { I18NProvider } from "../components/(i18n)/i18n-provider";
-import Coordinates from "../components/(map)/coordinates";
 import Nodes from "../components/(map)/nodes";
 import Tiles from "../components/(map)/tiles";
 import PlausibleTracker from "../components/plausible-tracker";
@@ -39,7 +38,6 @@ function Layout({
           <Map>
             <Tiles />
             <Nodes />
-            <Coordinates />
           </Map>
           <Search />
           {/* <Drawer>{children}</Drawer> */}

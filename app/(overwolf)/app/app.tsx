@@ -1,5 +1,4 @@
 "use client";
-import Coordinates from "@/app/components/(map)/coordinates";
 import Map from "@/app/components/(map)/map";
 import Nodes from "@/app/components/(map)/nodes";
 import Tiles from "@/app/components/(map)/tiles";
@@ -25,7 +24,6 @@ export default function App() {
       <Map>
         <Tiles />
         <Nodes />
-        <Coordinates />
       </Map>
       <div className="absolute top-[30px] left-0 right-0">
         <Search />
