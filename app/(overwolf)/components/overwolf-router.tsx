@@ -12,10 +12,7 @@ type Value = {
 const Context = createContext<{
   value: Value;
   update: (newValue: Partial<Value>) => void;
-}>({
-  value: { lang: "en", search: "", name: "", coordinates: "" },
-  update: () => undefined,
-});
+} | null>(null);
 
 export const OverwolfRouterProvider = ({
   children,

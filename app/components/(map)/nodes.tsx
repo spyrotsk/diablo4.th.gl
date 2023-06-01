@@ -178,7 +178,7 @@ export default function Nodes() {
     });
     const bounds = highlightedGroup.getBounds();
     if (bounds.isValid()) {
-      map.flyToBounds(highlightedGroup.getBounds(), {
+      map.fitBounds(highlightedGroup.getBounds(), {
         duration: 1,
         maxZoom: 5,
       });

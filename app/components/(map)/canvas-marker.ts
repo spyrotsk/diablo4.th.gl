@@ -9,7 +9,6 @@ leaflet.Canvas.include({
       type,
       icon,
       attribute = "",
-      radius: layerRadius,
       isTrivial,
       isHighlighted,
     } = layer.options;
@@ -17,7 +16,7 @@ leaflet.Canvas.include({
     if (isTrivial && !isHighlighted) {
       return;
     }
-    const radius = layerRadius || icon.radius;
+    const radius = layer.getRadius();
     const imageSize = radius * 2;
     const p = layer._point.round();
     const dx = p.x - radius;
@@ -42,8 +41,6 @@ leaflet.Canvas.include({
     canvas.height = imageSize;
     const ctx = canvas.getContext("2d")!;
 
-    ctx.globalAlpha = isTrivial && !isHighlighted ? 0.25 : 1;
-
     const scale = imageSize / 100;
 
     ctx.scale(scale, scale);
@@ -53,18 +50,18 @@ leaflet.Canvas.include({
     ctx.lineWidth = icon.lineWidth;
     ctx.fillStyle = icon.color;
 
-    // if (isHighlighted) {
-    //   // ctx.fillStyle = "#2fb88d";
-    //   ctx.shadowBlur = 5;
-    //   ctx.shadowColor = "#2fb88d";
-    // }
+    if (isHighlighted) {
+      ctx.fillStyle = icon.heighlightColor;
+      ctx.shadowBlur = 5;
+      ctx.shadowColor = "#999999";
+    }
     ctx.fill(path2D);
     ctx.stroke(path2D);
 
     if ("attribute" in icon && attribute) {
       const attributeColor = icon.attribute(attribute);
       if (attributeColor) {
-        ctx.arc(imageSize * 2, radius, radius / 2, 0, Math.PI * 2, true);
+        ctx.arc(75, 20, radius / 2, 0, Math.PI * 2, true);
         ctx.fillStyle = attributeColor;
         ctx.fill();
         ctx.strokeStyle = "#333";
@@ -107,6 +104,13 @@ class CanvasMarker extends leaflet.CircleMarker {
   }
 
   update() {
+    const highlightedRadius = this.options.icon.radius * 1.25;
+    if (this.options.isHighlighted && this.getRadius() !== highlightedRadius) {
+      this.setRadius(highlightedRadius);
+    } else if (this.getRadius() !== this.options.icon.radius) {
+      this.setRadius(this.options.icon.radius);
+    }
+
     this.redraw();
     if (this.options.isHighlighted) {
       this.bringToFront();
