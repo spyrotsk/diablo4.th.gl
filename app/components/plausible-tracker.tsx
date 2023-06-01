@@ -4,19 +4,12 @@ import Plausible from "plausible-tracker";
 import { useEffect } from "react";
 
 let plausible: ReturnType<typeof Plausible> | null = null;
-export const initPlausible = () => {
-  console.log("initPlausible", process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN);
-  if (
-    typeof process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN === "string" &&
-    typeof process.env.NEXT_PUBLIC_PLAUSIBLE_API_HOST === "string" &&
-    !plausible
-  ) {
-    plausible = Plausible({
-      domain: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN,
-      apiHost: process.env.NEXT_PUBLIC_PLAUSIBLE_API_HOST,
-    });
-    plausible.enableAutoPageviews();
-  }
+export const initPlausible = (domain: string, apiHost: string) => {
+  plausible = Plausible({
+    domain,
+    apiHost,
+  });
+  plausible.enableAutoPageviews();
 };
 
 export const trackEvent = (
@@ -33,9 +26,17 @@ export const trackOutboundLinkClick = (url: string) => {
   trackEvent("Outbound Link: Click", { props: { url: url } });
 };
 
-export default function PlausibleTracker() {
+export default function PlausibleTracker({
+  domain,
+  apiHost,
+}: {
+  domain?: string;
+  apiHost?: string;
+}) {
   useEffect(() => {
-    initPlausible();
+    if (domain && apiHost) {
+      initPlausible(domain, apiHost);
+    }
   }, []);
 
   return <></>;

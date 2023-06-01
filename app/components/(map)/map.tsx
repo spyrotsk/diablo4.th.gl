@@ -42,8 +42,11 @@ export default function Map({ children }: { children?: React.ReactNode }) {
     setMap(map);
 
     map.on("click", (event) => {
-      // @ts-ignore
-      if (event.originalEvent.target.className !== "leaflet-zoom-animated") {
+      if (
+        // @ts-ignore
+        event.originalEvent.target.className !== "leaflet-zoom-animated" ||
+        location.pathname.startsWith("/embed")
+      ) {
         return;
       }
       if ("update" in router) {

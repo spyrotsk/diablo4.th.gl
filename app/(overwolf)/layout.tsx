@@ -29,7 +29,10 @@ function OverwolfLayout({ children }: { children: React.ReactNode }) {
         <OverwolfRouterProvider>
           <I18NProvider value={dict}>{children}</I18NProvider>
         </OverwolfRouterProvider>
-        <PlausibleTracker />
+        <PlausibleTracker
+          domain={process.env.NEXT_PUBLIC_PLAUSIBLE_OVERWOLF_DOMAIN}
+          apiHost={process.env.NEXT_PUBLIC_PLAUSIBLE_API_HOST}
+        />
         <Ads />
       </body>
     </html>

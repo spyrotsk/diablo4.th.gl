@@ -20,9 +20,6 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
       - name: Build Overwolf app
-        env:
-          NEXT_PUBLIC_PLAUSIBLE_DOMAIN: diablo4.th.gl-app
-          NEXT_PUBLIC_PLAUSIBLE_API_HOST: https://apps.machens.dev
         run: pnpm export
       - name: Release Overwolf app
         env:

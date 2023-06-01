@@ -4,7 +4,7 @@ import { ICONS } from "@/app/lib/icons";
 import nodes from "@/app/lib/nodes";
 import leaflet from "leaflet";
 import { useParams, useSearchParams } from "next/navigation";
-import { useLayoutEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDict } from "../(i18n)/i18n-provider";
 import useFilters from "../use-filters";
 import CanvasMarker from "./canvas-marker";
@@ -31,17 +31,39 @@ export default function Nodes() {
     : params.coordinates;
   const filters = useFilters();
 
-  useLayoutEffect(() => {
-    const selectedName = paramsName && decodeURIComponent(paramsName);
+  const selectedName = paramsName && decodeURIComponent(paramsName);
+  const coordinates =
+    (paramsCoordinates && decodeURIComponent(paramsCoordinates))
+      ?.replace("@", "")
+      .split(",")
+      .map(Number) ?? [];
 
+  useEffect(() => {
     const groups: leaflet.LayerGroup[] = [];
     Object.entries(nodes).forEach(([_type, items]) => {
       const type = _type as keyof typeof nodes;
       const group = leaflet.layerGroup();
       items.forEach((item) => {
         const icon = ICONS[type];
-        const isTrivial = false;
-        const isHighlighted = selectedName ? selectedName === item.name : false;
+        let isHighlighted = false;
+        let isTrivial = false;
+
+        if (selectedName && coordinates) {
+          isHighlighted =
+            item.name === selectedName &&
+            item.x === coordinates[0] &&
+            item.y === coordinates[1];
+        }
+
+        if (!filters.includes(type) && !isHighlighted) {
+          isTrivial = true;
+        } else if (search && !isHighlighted) {
+          isTrivial = !(
+            item.name.toLowerCase().includes(search) ||
+            dict.nodes[type].toLowerCase().includes(search)
+          );
+        }
+
         const attribute = "attribute" in item ? item.attribute : undefined;
         const marker = new CanvasMarker([item.x, item.y], {
           type,
@@ -54,6 +76,9 @@ export default function Nodes() {
         });
 
         marker.on("click", () => {
+          if (location.pathname.startsWith("/embed")) {
+            return;
+          }
           if ("update" in router) {
             router.update({
               name: encodeURIComponent(item.name),
@@ -109,13 +134,7 @@ export default function Nodes() {
     };
   }, []);
 
-  useLayoutEffect(() => {
-    const selectedName = paramsName && decodeURIComponent(paramsName);
-    const coordinates =
-      (paramsCoordinates && decodeURIComponent(paramsCoordinates))
-        ?.replace("@", "")
-        .split(",")
-        .map(Number) ?? [];
+  useEffect(() => {
     const highlightedGroup = new leaflet.FeatureGroup();
 
     groups.forEach((group) => {
