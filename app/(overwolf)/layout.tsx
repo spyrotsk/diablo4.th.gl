@@ -4,6 +4,7 @@ import { I18NProvider } from "../components/(i18n)/i18n-provider";
 import PlausibleTracker from "../components/plausible-tracker";
 import "../globals.css";
 import { loadDictionary } from "../lib/i18n";
+import Ads from "./components/ads";
 import { OverwolfRouterProvider } from "./components/overwolf-router";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -29,6 +30,7 @@ function OverwolfLayout({ children }: { children: React.ReactNode }) {
           <I18NProvider value={dict}>{children}</I18NProvider>
         </OverwolfRouterProvider>
         <PlausibleTracker />
+        <Ads />
       </body>
     </html>
   );
