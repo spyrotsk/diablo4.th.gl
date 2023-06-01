@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { I18NProvider } from "../components/(i18n)/i18n-provider";
+import PlausibleTracker from "../components/plausible-tracker";
 import "../globals.css";
 import { loadDictionary } from "../lib/i18n";
 import { OverwolfRouterProvider } from "./components/overwolf-router";
@@ -27,6 +28,7 @@ function OverwolfLayout({ children }: { children: React.ReactNode }) {
         <OverwolfRouterProvider>
           <I18NProvider value={dict}>{children}</I18NProvider>
         </OverwolfRouterProvider>
+        <PlausibleTracker />
       </body>
     </html>
   );

@@ -9,6 +9,7 @@ import { I18NProvider } from "../components/(i18n)/i18n-provider";
 import Coordinates from "../components/(map)/coordinates";
 import Nodes from "../components/(map)/nodes";
 import Tiles from "../components/(map)/tiles";
+import PlausibleTracker from "../components/plausible-tracker";
 import Search from "../components/search";
 import { isLang, loadDictionary } from "../lib/i18n";
 
@@ -43,6 +44,7 @@ function Layout({
           <Search />
           {/* <Drawer>{children}</Drawer> */}
         </I18NProvider>
+        <PlausibleTracker />
       </body>
     </html>
   );
