@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useOverwolfRouter } from "../(overwolf)/components/overwolf-router";
 import { useUpdateSearchParams } from "../lib/search-params";
 import { useDict } from "./(i18n)/i18n-provider";
+import Filter from "./filter";
 
 export default function Search() {
   const searchParams = useSearchParams();
@@ -12,6 +13,8 @@ export default function Search() {
   const [search, setSearch] = useState(() => searchParams.get("search") ?? "");
   const dict = useDict();
   const updateSearchParams = useUpdateSearchParams();
+  const [showFilters, setShowFilters] = useState(false);
+  const hasFilters = searchParams.get("filters") !== null;
 
   useEffect(() => {
     const handle = setTimeout(() => {
@@ -25,7 +28,7 @@ export default function Search() {
   }, [search]);
 
   return (
-    <div className="absolute left-0 top-0 z-[400] flex w-full md:left-3 md:top-3 md:w-auto">
+    <div className="absolute top-0 z-[400] flex w-full md:top-3 md:left-3 md:w-auto">
       <button className="flex absolute inset-y-0 left-0 items-center pl-2 text-gray-400 hover:text-gray-200">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +49,7 @@ export default function Search() {
         <div className="h-3/6 w-px bg-gray-600 mx-1.5" />
       </button>
       <input
-        className=" bg-neutral-900 text-gray-200 text-sm pl-11 pr-16 py-2.5 w-full md:border md:border-gray-600 md:rounded-lg outline-none"
+        className="bg-neutral-900 text-gray-200 text-sm pl-11 pr-16 py-2.5 w-full md:border md:border-gray-600 md:rounded-lg outline-none"
         type="text"
         placeholder={dict.search.placeholder}
         value={search}
@@ -54,7 +57,7 @@ export default function Search() {
       />
       {search ? (
         <button
-          className="flex absolute inset-y-0 right-6 items-center pr-2 text-gray-400"
+          className="flex absolute inset-y-0 right-6 items-center pr-2 text-gray-400 hover:text-gray-200"
           onClick={() => setSearch("")}
         >
           <svg
@@ -89,13 +92,18 @@ export default function Search() {
           <div className="h-3/6 w-px bg-gray-600 mx-1.5" />
         </div>
       )}
-      <button className="flex absolute inset-y-0 right-0 items-center pr-2 text-gray-400 hover:text-gray-200">
+      <button
+        className={`flex absolute inset-y-0 right-0 items-center pr-2 text-gray-400 hover:text-gray-200 ${
+          showFilters ? "text-white" : ""
+        }`}
+        onClick={() => setShowFilters(!showFilters)}
+      >
         <svg
           className="block w-5"
           viewBox="0 0 24 24"
           strokeWidth="2"
           stroke="currentColor"
-          fill="none"
+          fill={hasFilters ? "currentColor" : "none"}
           strokeLinecap="round"
           strokeLinejoin="round"
         >
@@ -103,6 +111,7 @@ export default function Search() {
           <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" />
         </svg>
       </button>
+      {showFilters && <Filter />}
     </div>
   );
 }

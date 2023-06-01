@@ -43,14 +43,16 @@ export default function Map({ children }: { children?: React.ReactNode }) {
 
     map.on("click", (event) => {
       // @ts-ignore
-      if (event.originalEvent.target.className !== "leaflet-zoom-animated")
+      if (event.originalEvent.target.className !== "leaflet-zoom-animated") {
         return;
+      }
       if ("update" in router) {
         router.update({ name: "", coordinates: "" });
       } else {
         router.replace(`/${params.lang ?? ""}${location.search}`);
       }
     });
+
     return () => {
       map.remove();
     };

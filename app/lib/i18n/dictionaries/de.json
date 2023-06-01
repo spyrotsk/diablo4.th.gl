@@ -7,9 +7,9 @@
     "placeholder": "Suche nach Name oder Typ"
   },
   "nodes": {
-    "altars": "Altar von Lilith",
+    "altars": "Altare von Lilith",
     "cellars": "Keller",
-    "dungeons": "Verlies",
-    "waypoints": "Durchgang"
+    "dungeons": "Verliese",
+    "waypoints": "Durchgänge"
   }
 }

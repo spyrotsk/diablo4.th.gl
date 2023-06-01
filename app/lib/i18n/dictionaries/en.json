@@ -7,9 +7,9 @@
     "placeholder": "Search by name or type"
   },
   "nodes": {
-    "altars": "Altar of Lilith",
-    "cellars": "Cellar",
-    "dungeons": "Dungeon",
-    "waypoints": "Waygate"
+    "altars": "Altars of Lilith",
+    "cellars": "Cellars",
+    "dungeons": "Dungeons",
+    "waypoints": "Waypoints"
   }
 }

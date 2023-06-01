@@ -22,6 +22,7 @@ export default function Nodes() {
     }
     return (searchParams.get("search") ?? "").toLowerCase();
   }, [searchParams, "value" in router && router.value.search]);
+  const filters = searchParams.get("filters")?.split(",") ?? Object.keys(ICONS);
   const dict = useDict();
 
   const paramsName = "value" in router ? router.value.name : params.name;
@@ -120,6 +121,7 @@ export default function Nodes() {
         const marker = layer as CanvasMarker;
         let isHighlighted = false;
         let isTrivial = false;
+
         if (selectedName && coordinates) {
           const latLng = marker.getLatLng();
           isHighlighted =
@@ -127,7 +129,9 @@ export default function Nodes() {
             latLng.lat === coordinates[0] &&
             latLng.lng === coordinates[1];
         }
-        if (search && !isHighlighted) {
+        if (!filters.includes(marker.options.type) && !isHighlighted) {
+          isTrivial = true;
+        } else if (search && !isHighlighted) {
           isTrivial = !(
             marker.options.name.toLowerCase().includes(search) ||
             dict.nodes[marker.options.type].toLowerCase().includes(search)
@@ -183,7 +187,7 @@ export default function Nodes() {
         maxZoom: 5,
       });
     }
-  }, [paramsName, paramsCoordinates, groups, search]);
+  }, [paramsName, paramsCoordinates, groups, search, filters]);
 
   return <></>;
 }
