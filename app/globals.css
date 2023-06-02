@@ -27,7 +27,7 @@ body {
 }
 
 .leaflet-tooltip {
-  @apply !text-center !rounded !bg-neutral-800 border !border-gray-600 !text-white !p-2;
+  @apply !text-center !rounded !bg-neutral-800 border !border-gray-600 !text-white !p-2 min-w-[200px];
 }
 
 .leaflet-tooltip-top:before {
