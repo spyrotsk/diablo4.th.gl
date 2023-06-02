@@ -1,7 +1,8 @@
 "use client";
 import { useOverwolfRouter } from "@/app/(overwolf)/components/overwolf-router";
 import { ICONS } from "@/app/lib/icons";
-import nodes from "@/app/lib/nodes";
+import nodes, { getID } from "@/app/lib/nodes";
+import { useDiscoveredNodesStore } from "@/app/lib/storage";
 import leaflet from "leaflet";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -16,6 +17,8 @@ export default function Nodes() {
   const params = useParams();
   const [groups, setGroups] = useState<leaflet.LayerGroup[]>([]);
   const searchParams = useSearchParams();
+  const { discoveredNodes, markDiscoveredNode, unmarkDiscoveredNode } =
+    useDiscoveredNodesStore();
 
   const isOverwolf = "value" in router;
   const search = useMemo(() => {
@@ -63,9 +66,12 @@ export default function Nodes() {
             dict.nodes[type].toLowerCase().includes(search)
           );
         }
+        const id = getID(item, type);
+        let isDiscovered = discoveredNodes.includes(id);
 
         const attribute = "attribute" in item ? item.attribute : undefined;
         const marker = new CanvasMarker([item.x, item.y], {
+          id,
           type,
           attribute,
           name: item.name,
@@ -73,6 +79,7 @@ export default function Nodes() {
           radius: icon.radius,
           isTrivial,
           isHighlighted,
+          isDiscovered,
         });
 
         marker.on("click", () => {
@@ -103,10 +110,29 @@ export default function Nodes() {
                 : ""
             }${item.description}</p>`;
           }
-          return tooltipContent;
+          const div = document.createElement("div");
+          div.innerHTML = tooltipContent;
+          const button = document.createElement("button");
+          button.className = "mt-2 py-1 px-2 bg-neutral-900 rounded uppercase ";
+          button.innerText = isDiscovered
+            ? "Unmark as discovered"
+            : "Mark as discovered";
+          button.onclick = () => {
+            if (isDiscovered) {
+              unmarkDiscoveredNode(id);
+              button.innerText = "Mark as discovered";
+            } else {
+              markDiscoveredNode(id);
+              button.innerText = "Unmark as discovered";
+            }
+            isDiscovered = !isDiscovered;
+          };
+          div.append(button);
+          return div;
         };
         marker.bindTooltip(tooltipContent, {
           permanent: isHighlighted,
+          interactive: isHighlighted,
           direction: "top",
           offset: [0, -icon.radius],
         });
@@ -170,6 +196,7 @@ export default function Nodes() {
             marker.unbindTooltip();
             marker.bindTooltip(tooltipContent, {
               permanent: true,
+              interactive: true,
               direction: "top",
               offset: [0, -marker.options.icon.radius],
             });
@@ -179,6 +206,7 @@ export default function Nodes() {
             marker.unbindTooltip();
             marker.bindTooltip(tooltipContent, {
               permanent: false,
+              interactive: false,
               direction: "top",
               offset: [0, -marker.options.icon.radius],
             });
@@ -190,14 +218,17 @@ export default function Nodes() {
           }
           marker.setStyle({ interactive: !isTrivial });
         }
+        const isDiscovered = discoveredNodes.includes(marker.options.id);
         if (
           isHighlighted === marker.options.isHighlighted &&
-          isTrivial === marker.options.isTrivial
+          isTrivial === marker.options.isTrivial &&
+          isDiscovered === marker.options.isDiscovered
         ) {
           return;
         }
         marker.options.isHighlighted = isHighlighted;
         marker.options.isTrivial = isTrivial;
+        marker.options.isDiscovered = isDiscovered;
         marker.update();
       });
     });
@@ -208,7 +239,7 @@ export default function Nodes() {
         maxZoom: 5,
       });
     }
-  }, [paramsName, paramsCoordinates, groups, search, filters]);
+  }, [paramsName, paramsCoordinates, groups, search, filters, discoveredNodes]);
 
   return <></>;
 }

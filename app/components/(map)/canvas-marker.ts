@@ -11,6 +11,7 @@ leaflet.Canvas.include({
       attribute = "",
       isTrivial,
       isHighlighted,
+      isDiscovered,
     } = layer.options;
 
     if (isTrivial && !isHighlighted) {
@@ -23,6 +24,7 @@ leaflet.Canvas.include({
     const dy = p.y - radius;
 
     const layerContext = this._ctx as CanvasRenderingContext2D;
+    layerContext.globalAlpha = isDiscovered ? 0.3 : 1;
 
     const key = `${type}-${attribute}-${isHighlighted}`;
     if (cachedImages[key]) {
@@ -81,11 +83,13 @@ const renderer = leaflet.canvas() as leaflet.Canvas & {
 };
 
 export type CanvasMarkerOptions = {
+  id: string;
   type: keyof typeof nodes;
   name: string;
   attribute?: string;
   isTrivial?: boolean;
   isHighlighted?: boolean;
+  isDiscovered?: boolean;
   icon: ICON;
 };
 
@@ -104,12 +108,12 @@ class CanvasMarker extends leaflet.CircleMarker {
   }
 
   update() {
-    const highlightedRadius = this.options.icon.radius * 1.25;
-    if (this.options.isHighlighted && this.getRadius() !== highlightedRadius) {
-      this.setRadius(highlightedRadius);
-    } else if (this.getRadius() !== this.options.icon.radius) {
-      this.setRadius(this.options.icon.radius);
-    }
+    // const highlightedRadius = this.options.icon.radius * 1.25;
+    // if (this.options.isHighlighted && this.getRadius() !== highlightedRadius) {
+    //   this.setRadius(highlightedRadius);
+    // } else if (this.getRadius() !== this.options.icon.radius) {
+    //   this.setRadius(this.options.icon.radius);
+    // }
 
     this.redraw();
     if (this.options.isHighlighted) {

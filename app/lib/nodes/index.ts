@@ -14,3 +14,7 @@ export default nodes;
 
 export type NODE_TYPE = keyof typeof nodes;
 export type NODE = (typeof nodes)[NODE_TYPE][number];
+
+export function getID(node: NODE, type: string) {
+  return `${type}:${node.name}${node.x},${node.y}`;
+}

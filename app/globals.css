@@ -33,3 +33,7 @@ body {
 .leaflet-tooltip-top:before {
   @apply !border-t-neutral-900;
 }
+
+.leaflet-tooltip.leaflet-interactive {
+  cursor: initial !important;
+}

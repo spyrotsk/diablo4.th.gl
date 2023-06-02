@@ -6,6 +6,9 @@ import ExternalLink from "./external-link";
 const NitroPay = dynamic(() => import("./nitro-pay"), {
   ssr: false,
 });
+const DiscoveredNodes = dynamic(() => import("./discovered-nodes"), {
+  ssr: false,
+});
 
 const DISCOVER_LINKS = [
   {
@@ -49,6 +52,8 @@ export default function Menu({
           </button>
         </header>
         {!("value" in router) && <NitroPay />}
+        <h2 className="text-sm text-gray-400">Discovered Nodes</h2>
+        <DiscoveredNodes />
         <h2 className="text-sm text-gray-400">Community</h2>
         <ExternalLink
           href="https://discord.com/invite/NTZu8Px"
