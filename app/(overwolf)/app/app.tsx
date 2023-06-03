@@ -5,6 +5,7 @@ import Tiles from "@/app/components/(map)/tiles";
 import Search from "@/app/components/search";
 import { useEffect, useState } from "react";
 import Header from "../components/header";
+import Sidebar from "../components/sidebar";
 import { waitForOverwolf } from "../lib/overwolf";
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
         <Tiles />
         <Nodes />
       </Map>
+      <Sidebar />
       <div className="absolute top-[30px] left-0 right-0">
         <Search />
       </div>

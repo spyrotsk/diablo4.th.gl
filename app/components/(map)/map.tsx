@@ -56,6 +56,16 @@ export default function Map({ children }: { children?: React.ReactNode }) {
       }
     });
 
+    if (typeof overwolf !== "undefined") {
+      overwolf.settings.hotkeys.onPressed.addListener((event) => {
+        if (event.name === "zoom_in_app") {
+          map.zoomIn();
+        } else if (event.name === "zoom_out_app") {
+          map.zoomOut();
+        }
+      });
+    }
+
     return () => {
       map.remove();
     };
@@ -63,7 +73,7 @@ export default function Map({ children }: { children?: React.ReactNode }) {
 
   return (
     <>
-      <div ref={mapRef} className="h-full !bg-map relative outline-none">
+      <div ref={mapRef} className="map h-full !bg-map relative outline-none">
         <MapContext.Provider value={map}>{map && children}</MapContext.Provider>
       </div>
     </>

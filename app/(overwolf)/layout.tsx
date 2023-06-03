@@ -4,7 +4,6 @@ import { I18NProvider } from "../components/(i18n)/i18n-provider";
 import PlausibleTracker from "../components/plausible-tracker";
 import "../globals.css";
 import { loadDictionary } from "../lib/i18n";
-import Ads from "./components/ads";
 import { OverwolfRouterProvider } from "./components/overwolf-router";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,7 +23,7 @@ function OverwolfLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body
-        className={`${inter.className} h-screen flex flex-col bg-map text-white`}
+        className={`${inter.className} h-screen flex flex-col bg-map text-white app`}
       >
         <OverwolfRouterProvider>
           <I18NProvider value={dict}>{children}</I18NProvider>
@@ -33,7 +32,6 @@ function OverwolfLayout({ children }: { children: React.ReactNode }) {
           domain={process.env.NEXT_PUBLIC_PLAUSIBLE_OVERWOLF_DOMAIN}
           apiHost={process.env.NEXT_PUBLIC_PLAUSIBLE_API_HOST}
         />
-        <Ads />
       </body>
     </html>
   );

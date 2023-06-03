@@ -35,7 +35,7 @@ export default function Search() {
     <>
       <div className="absolute top-0 z-[400] flex w-full md:top-3 md:left-3 md:w-auto">
         <button
-          className="flex absolute inset-y-0 left-0 items-center pl-2 text-gray-400 hover:text-gray-200"
+          className="menu flex absolute inset-y-0 left-0 items-center pl-2 text-gray-400 hover:text-gray-200"
           onClick={() => setShowMenu(true)}
         >
           <svg
@@ -57,7 +57,7 @@ export default function Search() {
           <div className="h-3/6 w-px bg-gray-600 mx-1.5" />
         </button>
         <input
-          className="bg-neutral-900 text-gray-200 text-sm pl-11 pr-16 py-2.5 w-full md:border md:border-gray-600 md:rounded-lg outline-none"
+          className="bg-neutral-900 text-gray-200 text-sm pl-11 pr-16 py-2.5 w-full md:border md:border-gray-600 md:rounded-lg outline-none search"
           type="text"
           placeholder={dict.search.placeholder}
           value={search}

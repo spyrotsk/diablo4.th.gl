@@ -23,3 +23,21 @@ export const useDiscoveredNodesStore = create(
     }
   )
 );
+
+export const useSettingsStore = create(
+  persist<{
+    overlayMode: boolean | null;
+    setOverlayMode: (overlayMode: boolean) => void;
+  }>(
+    (set) => ({
+      overlayMode: null,
+      setOverlayMode: (overlayMode) =>
+        set({
+          overlayMode,
+        }),
+    }),
+    {
+      name: "settings-storage",
+    }
+  )
+);

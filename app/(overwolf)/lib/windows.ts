@@ -1,3 +1,4 @@
+import { useSettingsStore } from "@/app/lib/storage";
 import { GAME_CLASS_ID, WINDOWS } from "./config";
 import { getRunningGameInfo } from "./games";
 
@@ -62,9 +63,9 @@ export async function toggleWindow(windowName: string): Promise<void> {
 }
 
 export async function getPreferedWindowName(): Promise<string> {
-  const preferedWindowName = localStorage.getItem("prefered-window-name");
-  if (preferedWindowName) {
-    return preferedWindowName;
+  const overlayMode = useSettingsStore.getState().overlayMode;
+  if (overlayMode !== null) {
+    return overlayMode ? WINDOWS.OVERLAY : WINDOWS.DESKTOP;
   }
 
   const monitors = await getMonitorsList();
@@ -82,10 +83,9 @@ export function getMonitorsList(): Promise<overwolf.utils.Display[]> {
 
 export async function togglePreferedWindow(): Promise<void> {
   const preferedWindowName = await getPreferedWindowName();
-  const newPreferedWindowName =
-    preferedWindowName === WINDOWS.DESKTOP ? WINDOWS.OVERLAY : WINDOWS.DESKTOP;
-  localStorage.setItem("prefered-window-name", newPreferedWindowName);
-  if (newPreferedWindowName === WINDOWS.OVERLAY) {
+  const overlayMode = preferedWindowName === WINDOWS.OVERLAY;
+  useSettingsStore.getState().setOverlayMode(overlayMode);
+  if (overlayMode) {
     const runningGameInfo = await getRunningGameInfo(GAME_CLASS_ID);
     if (runningGameInfo) {
       await restoreWindow(WINDOWS.OVERLAY);
