@@ -56,6 +56,10 @@ export default function Map({ children }: { children?: React.ReactNode }) {
       }
     });
 
+    map.on("contextmenu", () => {
+      // Do nothing
+    });
+
     if (typeof overwolf !== "undefined") {
       overwolf.settings.hotkeys.onPressed.addListener((event) => {
         if (event.name === "zoom_in_app") {
