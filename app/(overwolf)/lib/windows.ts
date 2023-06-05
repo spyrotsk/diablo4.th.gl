@@ -1,4 +1,5 @@
 import { useSettingsStore } from "@/app/lib/storage";
+import { useEffect, useState } from "react";
 import { GAME_CLASS_ID, WINDOWS } from "./config";
 import { getRunningGameInfo } from "./games";
 
@@ -134,4 +135,17 @@ export async function moveToOtherScreen(
   return new Promise((resolve) =>
     overwolf.windows.changePosition(windowId, x, y, resolve)
   );
+}
+
+export function useCurrentWindow() {
+  const [currentWindow, setCurrentWindow] =
+    useState<overwolf.windows.WindowInfo | null>(null);
+
+  useEffect(() => {
+    getCurrentWindow().then((currentWindow) => {
+      setCurrentWindow(currentWindow);
+    });
+  }, []);
+
+  return currentWindow;
 }

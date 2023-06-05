@@ -6,6 +6,7 @@ import Tiles from "@/app/components/(map)/tiles";
 import Search from "@/app/components/search";
 import { useEffect, useState } from "react";
 import Header from "../components/header";
+import ResizeBorders from "../components/resize-borders";
 import Sidebar from "../components/sidebar";
 import { waitForOverwolf } from "../lib/overwolf";
 
@@ -23,6 +24,7 @@ export default function App() {
   return (
     <>
       <Header />
+      <ResizeBorders />
       <Map>
         <Tiles />
         <Regions />

@@ -1,20 +1,12 @@
 "use client";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { getCurrentWindow } from "../lib/windows";
+import { useLayoutEffect, useState } from "react";
+import { useCurrentWindow } from "../lib/windows";
 import SVGIcons from "./svg-icons";
 
 export default function Header() {
+  const currentWindow = useCurrentWindow();
   const [version, setVersion] = useState("");
-  const [currentWindow, setCurrentWindow] =
-    useState<overwolf.windows.WindowInfo | null>(null);
-  const [isMaximized, setIsMaximized] = useState(false);
-
-  useEffect(() => {
-    getCurrentWindow().then((currentWindow) => {
-      setIsMaximized(currentWindow.stateEx === "maximized");
-      setCurrentWindow(currentWindow);
-    });
-  }, []);
+  const isMaximized = currentWindow?.stateEx === "maximized";
 
   useLayoutEffect(() => {
     overwolf.extensions.current.getManifest((manifest) => {

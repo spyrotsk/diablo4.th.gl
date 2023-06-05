@@ -12,7 +12,7 @@ export default function Sidebar() {
 
   return (
     <aside className="w-[400px] z-[500] absolute right-0 top-[30px] bottom-0 flex flex-col justify-between text-gray-300">
-      <div className="p-2 flex flex-col gap-2 overflow-auto">
+      <div className="p-2 flex flex-col gap-2 overflow-auto mr-0.5">
         <h2 className="category-title">Discovered Nodes</h2>
         <DiscoveredNodes />
         <h2 className="category-title">Settings</h2>
