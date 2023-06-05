@@ -99,6 +99,22 @@ export default function Nodes() {
             );
           }
         });
+
+        let lastDiscoveredButton: HTMLButtonElement | undefined;
+        marker.on("contextmenu", () => {
+          if (isDiscovered) {
+            unmarkDiscoveredNode(id);
+            if (lastDiscoveredButton) {
+              lastDiscoveredButton.innerText = "Mark as discovered";
+            }
+          } else {
+            markDiscoveredNode(id);
+            if (lastDiscoveredButton) {
+              lastDiscoveredButton.innerText = "Unmark as discovered";
+            }
+          }
+          isDiscovered = !isDiscovered;
+        });
         const tooltipContent = () => {
           const attributeColor =
             "attribute" in icon && attribute && icon.attribute(attribute);
@@ -112,22 +128,27 @@ export default function Nodes() {
           }
           const div = document.createElement("div");
           div.innerHTML = tooltipContent;
-          const button = document.createElement("button");
-          button.className = "mt-2 py-1 px-2 bg-neutral-900 rounded uppercase ";
-          button.innerText = isDiscovered
+          lastDiscoveredButton = document.createElement("button");
+          lastDiscoveredButton.className =
+            "mt-2 py-1 px-2 bg-neutral-900 rounded uppercase ";
+          lastDiscoveredButton.innerText = isDiscovered
             ? "Unmark as discovered"
             : "Mark as discovered";
-          button.onclick = () => {
+          lastDiscoveredButton.onclick = () => {
             if (isDiscovered) {
               unmarkDiscoveredNode(id);
-              button.innerText = "Mark as discovered";
+              if (lastDiscoveredButton) {
+                lastDiscoveredButton.innerText = "Mark as discovered";
+              }
             } else {
               markDiscoveredNode(id);
-              button.innerText = "Unmark as discovered";
+              if (lastDiscoveredButton) {
+                lastDiscoveredButton.innerText = "Unmark as discovered";
+              }
             }
             isDiscovered = !isDiscovered;
           };
-          div.append(button);
+          div.append(lastDiscoveredButton);
           return div;
         };
         marker.bindTooltip(tooltipContent, {
