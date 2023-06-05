@@ -25,6 +25,10 @@ export default function Map({ children }: { children?: React.ReactNode }) {
   const params = useParams();
 
   useEffect(() => {
+    const worldCRS = leaflet.extend({}, leaflet.CRS.Simple, {
+      transformation: new leaflet.Transformation(1.65, 0, -1.65, 0),
+    });
+
     const map = leaflet.map(mapRef.current!, {
       zoomControl: false,
       attributionControl: false,
@@ -33,7 +37,7 @@ export default function Map({ children }: { children?: React.ReactNode }) {
       zoomSnap: 0.5,
       zoomDelta: 0.5,
       wheelPxPerZoomLevel: 120,
-      crs: leaflet.CRS.Simple,
+      crs: worldCRS,
       maxBounds: MAX_BOUNDS,
       renderer: leaflet.canvas(),
     });
@@ -77,7 +81,7 @@ export default function Map({ children }: { children?: React.ReactNode }) {
 
   return (
     <>
-      <div ref={mapRef} className="map h-full !bg-map relative outline-none">
+      <div ref={mapRef} className="map h-full !bg-black relative outline-none">
         <MapContext.Provider value={map}>{map && children}</MapContext.Provider>
       </div>
     </>

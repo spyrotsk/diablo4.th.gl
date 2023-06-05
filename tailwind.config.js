@@ -11,7 +11,6 @@ module.exports = {
     colors: {
       brand: "#1AC2D9",
       dark: "#2c2e33",
-      map: "#101010",
       ...colors,
     },
   },

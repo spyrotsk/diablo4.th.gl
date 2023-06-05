@@ -33,7 +33,7 @@ function Layout({
 
   return (
     <html lang={lang}>
-      <body className={`${inter.className} h-screen bg-map text-white`}>
+      <body className={`${inter.className} h-screen bg-black text-white`}>
         <I18NProvider value={dict}>
           <Map>
             <Tiles />
