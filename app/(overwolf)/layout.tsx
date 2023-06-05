@@ -23,7 +23,7 @@ function OverwolfLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body
-        className={`${inter.className} h-screen flex flex-col bg-black text-white app`}
+        className={`${inter.className} h-screen flex flex-col bg-black text-white app antialiased`}
       >
         <OverwolfRouterProvider>
           <I18NProvider value={dict}>{children}</I18NProvider>

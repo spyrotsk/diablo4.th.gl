@@ -2,6 +2,7 @@
 import { useOverwolfRouter } from "@/app/(overwolf)/components/overwolf-router";
 import { ICONS } from "@/app/lib/icons";
 import nodes, { getID } from "@/app/lib/nodes";
+import { getRegionByPoint } from "@/app/lib/regions";
 import { useDiscoveredNodesStore } from "@/app/lib/storage";
 import leaflet from "leaflet";
 import { useParams, useSearchParams } from "next/navigation";
@@ -116,9 +117,14 @@ export default function Nodes() {
           isDiscovered = !isDiscovered;
         });
         const tooltipContent = () => {
+          const region = getRegionByPoint([item.x, item.y]);
+
           const attributeColor =
             "attribute" in icon && attribute && icon.attribute(attribute);
           let tooltipContent = `<p class="font-bold text-base">${item.name}</p><p class="text-gray-300 text-sm">${dict.nodes[type]}</p>`;
+          if (region) {
+            tooltipContent += `<p class="text-amber-50 text-sm">${region.name}</p>`;
+          }
           if ("description" in item) {
             tooltipContent += `<p class="border-t border-t-gray-700 mt-2 pt-2">${
               attributeColor

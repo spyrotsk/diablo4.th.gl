@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { I18NProvider } from "../components/(i18n)/i18n-provider";
 import Nodes from "../components/(map)/nodes";
+import Regions from "../components/(map)/regions";
 import Tiles from "../components/(map)/tiles";
 import PlausibleTracker from "../components/plausible-tracker";
 import Search from "../components/search";
@@ -33,10 +34,13 @@ function Layout({
 
   return (
     <html lang={lang}>
-      <body className={`${inter.className} h-screen bg-black text-white`}>
+      <body
+        className={`${inter.className} h-screen bg-black text-white antialiased`}
+      >
         <I18NProvider value={dict}>
           <Map>
             <Tiles />
+            <Regions />
             <Nodes />
           </Map>
           <Search />
