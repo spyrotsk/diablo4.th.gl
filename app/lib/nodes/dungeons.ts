@@ -18,12 +18,12 @@ export const dungeons = [
     name: "Infected Delve",
     description: "An abandoned mine now festers with maggots and disease. ",
   },
-  {
-    x: -102.6808,
-    y: 109.778694,
-    name: "Icehowl Ruins ",
-    description: "An unknown evil stirs within these abandoned halls.",
-  },
+  // {
+  //   x: -102.6808,
+  //   y: 109.778694,
+  //   name: "Icehowl Ruins ",
+  //   description: "An unknown evil stirs within these abandoned halls.",
+  // },
   {
     x: -102.76201,
     y: 133.5061,
