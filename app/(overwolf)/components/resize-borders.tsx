@@ -3,14 +3,15 @@ import { useCurrentWindow } from "../lib/windows";
 
 export default function ResizeBorders() {
   const currentWindow = useCurrentWindow();
-  //     const isMaximized = currentWindow?.stateEx === "maximized";
-  //   if (isMaximized) {
-  //     return <></>;
-  //   }
+  const isMaximized = currentWindow?.stateEx === "maximized";
+  if (isMaximized) {
+    return <></>;
+  }
 
-  function onDragResize(edge: overwolf.windows.enums.WindowDragEdge) {
+  function onDragResize(edge: string) {
     return (event: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
       event.stopPropagation();
+      // @ts-ignore
       overwolf.windows.dragResize(currentWindow!.id, edge);
     };
   }
@@ -19,43 +20,35 @@ export default function ResizeBorders() {
     <>
       <div
         className="fixed z-[10000] top-0 left-0 right-0 h-1.5 cursor-n-resize"
-        onMouseDown={onDragResize(overwolf.windows.enums.WindowDragEdge.Top)}
+        onMouseDown={onDragResize("Top")}
       />
       <div
         className="fixed z-[10000] top-0 bottom-0 right-0 w-1.5 cursor-e-resize"
-        onMouseDown={onDragResize(overwolf.windows.enums.WindowDragEdge.Right)}
+        onMouseDown={onDragResize("Right")}
       />
       <div
         className="fixed z-[10000] bottom-0 left-0 right-0 h-1.5 cursor-s-resize"
-        onMouseDown={onDragResize(overwolf.windows.enums.WindowDragEdge.Bottom)}
+        onMouseDown={onDragResize("Bottom")}
       />
       <div
         className="fixed z-[10000] top-0 left-0 bottom-0 w-1.5 cursor-w-resize"
-        onMouseDown={onDragResize(overwolf.windows.enums.WindowDragEdge.Left)}
+        onMouseDown={onDragResize("Left")}
       />
       <div
         className="fixed z-[10000] top-0 left-0 h-1.5 w-1.5 cursor-nw-resize"
-        onMouseDown={onDragResize(
-          overwolf.windows.enums.WindowDragEdge.TopLeft
-        )}
+        onMouseDown={onDragResize("TopLeft")}
       />
       <div
         className="fixed z-[10000] top-0 right-0 h-1.5 w-1.5 cursor-ne-resize"
-        onMouseDown={onDragResize(
-          overwolf.windows.enums.WindowDragEdge.TopRight
-        )}
+        onMouseDown={onDragResize("TopRight")}
       />
       <div
         className="fixed z-[10000] bottom-0 left-0 h-1.5 w-1.5 cursor-sw-resize"
-        onMouseDown={onDragResize(
-          overwolf.windows.enums.WindowDragEdge.BottomLeft
-        )}
+        onMouseDown={onDragResize("BottomLeft")}
       />
       <div
         className="fixed z-[10000] bottom-0 right-0 h-1.5 w-1.5 cursor-se-resize"
-        onMouseDown={onDragResize(
-          overwolf.windows.enums.WindowDragEdge.BottomRight
-        )}
+        onMouseDown={onDragResize("BottomRight")}
       />
     </>
   );

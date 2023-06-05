@@ -6,6 +6,7 @@ import SVGIcons from "./svg-icons";
 export default function Header() {
   const currentWindow = useCurrentWindow();
   const [version, setVersion] = useState("");
+
   const isMaximized = currentWindow?.stateEx === "maximized";
 
   useLayoutEffect(() => {
@@ -19,8 +20,14 @@ export default function Header() {
       <SVGIcons />
       <header
         className="flex items-center h-[30px]"
-        onMouseDown={() => overwolf.windows.dragMove(currentWindow!.id)}
-        onDoubleClick={() => overwolf.windows.maximize(currentWindow!.id)}
+        onMouseDown={() =>
+          isMaximized ? null : overwolf.windows.dragMove(currentWindow!.id)
+        }
+        onDoubleClick={() =>
+          isMaximized
+            ? overwolf.windows.restore(currentWindow!.id)
+            : overwolf.windows.maximize(currentWindow!.id)
+        }
       >
         <h1 className="font-mono ml-2">Diablo 4 Map v{version}</h1>
 

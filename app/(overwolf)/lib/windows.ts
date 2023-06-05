@@ -145,6 +145,14 @@ export function useCurrentWindow() {
     getCurrentWindow().then((currentWindow) => {
       setCurrentWindow(currentWindow);
     });
+
+    overwolf.windows.onStateChanged.addListener((event) => {
+      if (event.window_name === currentWindow?.name) {
+        getCurrentWindow().then((currentWindow) => {
+          setCurrentWindow(currentWindow);
+        });
+      }
+    });
   }, []);
 
   return currentWindow;
