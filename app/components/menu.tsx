@@ -3,11 +3,13 @@ import dynamic from "next/dynamic";
 import { useOverwolfRouter } from "../(overwolf)/components/overwolf-router";
 import Drawer from "./drawer";
 import ExternalLink from "./external-link";
-import Territories from "./territories";
 const NitroPay = dynamic(() => import("./nitro-pay"), {
   ssr: false,
 });
 const DiscoveredNodes = dynamic(() => import("./discovered-nodes"), {
+  ssr: false,
+});
+const Territories = dynamic(() => import("./territories"), {
   ssr: false,
 });
 
