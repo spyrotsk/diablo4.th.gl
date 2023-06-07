@@ -26,7 +26,7 @@ leaflet.Canvas.include({
     const layerContext = this._ctx as CanvasRenderingContext2D;
     layerContext.globalAlpha = isDiscovered ? 0.3 : 1;
 
-    const key = `${type}-${attribute}-${isHighlighted}`;
+    const key = `${type}-${attribute}-${isHighlighted}-${radius}`;
     if (cachedImages[key]) {
       if (cachedImages[key].complete) {
         layerContext.drawImage(cachedImages[key], dx, dy);

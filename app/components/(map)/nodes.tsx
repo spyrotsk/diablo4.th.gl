@@ -2,7 +2,7 @@
 import { useOverwolfRouter } from "@/app/(overwolf)/components/overwolf-router";
 import { ICONS } from "@/app/lib/icons";
 import nodes, { getID } from "@/app/lib/nodes";
-import { useDiscoveredNodesStore } from "@/app/lib/storage";
+import { useDiscoveredNodesStore, useSettingsStore } from "@/app/lib/storage";
 import { getTerritoryByPoint } from "@/app/lib/territories";
 import leaflet from "leaflet";
 import { useParams, useSearchParams } from "next/navigation";
@@ -27,6 +27,7 @@ export default function Nodes() {
     ).toLowerCase();
   }, [searchParams, isOverwolf && router.value.search]);
   const dict = useDict();
+  const iconSize = useSettingsStore((state) => state.iconSize);
 
   const paramsName = isOverwolf ? router.value.name : params.name;
   const paramsCoordinates = isOverwolf
@@ -76,7 +77,7 @@ export default function Nodes() {
           attribute,
           name: item.name,
           icon,
-          radius: icon.radius,
+          radius: icon.radius * iconSize,
           isTrivial,
           isHighlighted,
           isDiscovered,
@@ -161,7 +162,7 @@ export default function Nodes() {
           permanent: isHighlighted,
           interactive: isHighlighted,
           direction: "top",
-          offset: [0, -icon.radius],
+          offset: [0, -icon.radius * iconSize],
         });
 
         marker.addTo(group);
@@ -218,8 +219,12 @@ export default function Nodes() {
             highlightedGroup.addLayer(marker);
           }
         }
-
-        if (isHighlighted !== marker.options.isHighlighted) {
+        const radius = marker.getRadius();
+        const newRadius = marker.options.icon.radius * iconSize;
+        if (
+          isHighlighted !== marker.options.isHighlighted ||
+          radius !== newRadius
+        ) {
           if (isHighlighted) {
             marker.bringToFront();
             const tooltipContent = marker.getTooltip()!.getContent()!;
@@ -228,7 +233,7 @@ export default function Nodes() {
               permanent: true,
               interactive: true,
               direction: "top",
-              offset: [0, -marker.options.icon.radius],
+              offset: [0, -marker.options.icon.radius * iconSize],
             });
             marker.openTooltip();
           } else {
@@ -238,7 +243,7 @@ export default function Nodes() {
               permanent: false,
               interactive: false,
               direction: "top",
-              offset: [0, -marker.options.icon.radius],
+              offset: [0, -marker.options.icon.radius * iconSize],
             });
           }
         }
@@ -249,19 +254,25 @@ export default function Nodes() {
           marker.setStyle({ interactive: !isTrivial });
         }
         const isDiscovered = discoveredNodes.includes(marker.options.id);
+
         if (
           isHighlighted === marker.options.isHighlighted &&
           isTrivial === marker.options.isTrivial &&
-          isDiscovered === marker.options.isDiscovered
+          isDiscovered === marker.options.isDiscovered &&
+          radius === newRadius
         ) {
           return;
         }
         marker.options.isHighlighted = isHighlighted;
         marker.options.isTrivial = isTrivial;
         marker.options.isDiscovered = isDiscovered;
+        if (radius !== newRadius) {
+          marker.setRadius(marker.options.icon.radius * iconSize);
+        }
         marker.update();
       });
     });
+
     const bounds = highlightedGroup.getBounds();
     if (bounds.isValid()) {
       map.fitBounds(highlightedGroup.getBounds(), {
@@ -269,7 +280,7 @@ export default function Nodes() {
         maxZoom: 5,
       });
     }
-  }, [groups, search, filters, discoveredNodes]);
+  }, [groups, search, filters, discoveredNodes, iconSize]);
 
   return <></>;
 }

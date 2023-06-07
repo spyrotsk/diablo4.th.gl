@@ -29,12 +29,16 @@ export const useSettingsStore = create(
     // App and Website
     showTerritoryNames: boolean;
     toggleShowTerritoryNames: () => void;
+    iconSize: number;
+    setIconSize: (iconSize: number) => void;
     // App only
     overlayMode: boolean | null;
     setOverlayMode: (overlayMode: boolean) => void;
   }>(
     (set) => ({
       showTerritoryNames: true,
+      iconSize: 1,
+      setIconSize: (iconSize) => set({ iconSize }),
       toggleShowTerritoryNames: () =>
         set((state) => ({
           showTerritoryNames: !state.showTerritoryNames,
