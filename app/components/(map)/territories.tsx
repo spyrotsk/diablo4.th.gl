@@ -1,4 +1,5 @@
 "use client";
+import { useSettingsStore } from "@/app/lib/storage";
 import { territories } from "@/app/lib/territories";
 import leaflet from "leaflet";
 import { useEffect } from "react";
@@ -8,6 +9,9 @@ import { useMap } from "./map";
 export default function Territories() {
   const map = useMap();
   const dict = useDict();
+  const showTerritoryNames = useSettingsStore(
+    (state) => state.showTerritoryNames
+  );
 
   useEffect(() => {
     const featureGroup = leaflet.featureGroup(undefined);
@@ -24,6 +28,9 @@ export default function Territories() {
 
       polygons.addTo(featureGroup);
 
+      if (!showTerritoryNames) {
+        return;
+      }
       const textLabel = leaflet.marker(polygons.getCenter(), {
         icon: leaflet.divIcon({
           className: "text-white text-shadow !w-auto text-sm",
@@ -40,7 +47,7 @@ export default function Territories() {
       featureGroup.removeFrom(map);
       featureGroup.clearLayers();
     };
-  }, []);
+  }, [showTerritoryNames]);
 
   return <></>;
 }

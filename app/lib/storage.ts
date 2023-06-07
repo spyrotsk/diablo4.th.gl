@@ -26,10 +26,19 @@ export const useDiscoveredNodesStore = create(
 
 export const useSettingsStore = create(
   persist<{
+    // App and Website
+    showTerritoryNames: boolean;
+    toggleShowTerritoryNames: () => void;
+    // App only
     overlayMode: boolean | null;
     setOverlayMode: (overlayMode: boolean) => void;
   }>(
     (set) => ({
+      showTerritoryNames: true,
+      toggleShowTerritoryNames: () =>
+        set((state) => ({
+          showTerritoryNames: !state.showTerritoryNames,
+        })),
       overlayMode: null,
       setOverlayMode: (overlayMode) =>
         set({

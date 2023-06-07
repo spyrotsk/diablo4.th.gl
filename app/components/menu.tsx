@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { useOverwolfRouter } from "../(overwolf)/components/overwolf-router";
 import Drawer from "./drawer";
 import ExternalLink from "./external-link";
+import Settings from "./settings";
 const NitroPay = dynamic(() => import("./nitro-pay"), {
   ssr: false,
 });
@@ -57,6 +58,8 @@ export default function Menu({
         {!("value" in router) && <NitroPay />}
         <h2 className="category-title">Discovered Nodes</h2>
         <DiscoveredNodes />
+        <h2 className="category-title">Settings</h2>
+        <Settings />
         <h2 className="category-title">Territories</h2>
         <Territories />
         <h2 className="category-title">Apps</h2>

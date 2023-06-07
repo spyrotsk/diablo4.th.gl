@@ -1,6 +1,7 @@
 import DiscoveredNodes from "@/app/components/discovered-nodes";
 import ExternalLink from "@/app/components/external-link";
 import { DISCOVER_LINKS } from "@/app/components/menu";
+import Settings from "@/app/components/settings";
 import Territories from "@/app/components/territories";
 import Toggle from "@/app/components/toggle";
 import { useSettingsStore } from "@/app/lib/storage";
@@ -39,6 +40,7 @@ export default function Sidebar() {
             }}
           />
         </div>
+        <Settings />
         <p className="text-sm italic">
           This window is only visible as overlay in-game. Deactive it, if you
           like to move this window to second screen or to ALT+TAB it.
