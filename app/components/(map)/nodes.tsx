@@ -165,6 +165,10 @@ export default function Nodes() {
         });
 
         marker.addTo(group);
+
+        if (isHighlighted && !search) {
+          map.setView([item.x, item.y], 5);
+        }
       });
 
       groups.push(group);
@@ -210,10 +214,9 @@ export default function Nodes() {
             marker.options.name.toLowerCase().includes(search) ||
             dict.nodes[marker.options.type].toLowerCase().includes(search)
           );
-        }
-
-        if ((selectedName && isHighlighted) || (search && !isTrivial)) {
-          highlightedGroup.addLayer(marker);
+          if (!isTrivial) {
+            highlightedGroup.addLayer(marker);
+          }
         }
 
         if (isHighlighted !== marker.options.isHighlighted) {
@@ -266,7 +269,7 @@ export default function Nodes() {
         maxZoom: 5,
       });
     }
-  }, [paramsName, paramsCoordinates, groups, search, filters, discoveredNodes]);
+  }, [groups, search, filters, discoveredNodes]);
 
   return <></>;
 }
