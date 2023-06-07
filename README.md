@@ -1,34 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Diablo 4 Map
 
-## Getting Started
+Maximize your Diablo 4 gameplay in Sancturay with this Open Source Diablo 4 map! Discover locations, altars, cellars, dungeons, waypoints & more.
 
-First, run the development server:
+## Installation
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Head over to the [Diablo 4 Map](https://www.overwolf.com/app/Leon_Machens-Diablo_4_Map) page on Overwolf and click the "Download" button.
 
-Open [http://localhost:3666](http://localhost:3666) with your browser to see the result.
+You can also use the web-version of the app [here](https://diablo4.th.gl/).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Join the [Discord](https://discord.com/invite/NTZu8Px) to get the latest news and updates.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Features
 
-## Learn More
+- High-resolution map
+- Ability to mark nodes as discovered
+- Display of region borders
+- Filtering of node types
+- Node tooltips providing information about the region, type, and requirements
+- Search functionality for any nodes
+- Overlay mode with hotkey support (no need to use ALT+TAB to access the map)
 
-To learn more about Next.js, take a look at the following resources:
+## Currently in development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Real-time player position tracking
+- Discovery of nodes for multiple characters
+- Customizable appearance, including icon sizes
+- Addition of more nodes such as World Bosses and Strongholds
+- And much more
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Contributing
 
-## Deploy on Vercel
+If you want to contribute to this project, please join the [Discord](https://discord.com/invite/NTZu8Px) and contact me (DevLeon#4001). I will be happy to help you get started.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
