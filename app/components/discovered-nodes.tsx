@@ -11,7 +11,7 @@ export default function DiscoveredNodes() {
   const [filters, toggleFilter] = useFilters();
 
   return (
-    <>
+    <div>
       {Object.entries(ICONS).map(([key, icon]) => (
         <button
           key={key}
@@ -34,6 +34,6 @@ export default function DiscoveredNodes() {
           </span>
         </button>
       ))}
-    </>
+    </div>
   );
 }

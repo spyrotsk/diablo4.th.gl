@@ -27,7 +27,7 @@ export default function Territories() {
               maxZoom: 5,
             });
           }}
-          className="text-left"
+          className="text-left hover:bg-neutral-700 px-2 py-1"
         >
           {territory.name}
         </button>

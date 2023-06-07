@@ -35,7 +35,7 @@ export default function Menu({
 
   return (
     <Drawer show={show}>
-      <div className="p-2 flex flex-col gap-2 text-gray-300">
+      <div className="p-2 flex flex-col gap-2 text-gray-300 h-full">
         <header className="my-2 flex justify-between">
           <h1 className="text-xl font-bold">Diablo 4 Map</h1>
           <button onClick={onClose}>
@@ -56,31 +56,33 @@ export default function Menu({
           </button>
         </header>
         {!("value" in router) && <NitroPay />}
-        <h2 className="category-title">Discovered Nodes</h2>
-        <DiscoveredNodes />
-        <h2 className="category-title">Settings</h2>
-        <Settings />
-        <h2 className="category-title">Territories</h2>
-        <Territories />
-        <h2 className="category-title">Apps</h2>
-        <ExternalLink
-          href="https://www.overwolf.com/app/Leon_Machens-Diablo_4_Map"
-          text="Desktop App on Overwolf"
-        />
-        <h2 className="category-title">Community</h2>
-        <ExternalLink
-          href="https://discord.com/invite/NTZu8Px"
-          text="Discord"
-        />
-        <h2 className="category-title">Discover</h2>
-        {DISCOVER_LINKS.map(({ href, text }) => (
-          <ExternalLink key={href} href={href} text={text} />
-        ))}
-        <h2 className="category-title">Contribute</h2>
-        <ExternalLink
-          href="https://github.com/lmachens/diablo4.th.gl"
-          text="GitHub"
-        />
+        <div className="overflow-auto grow flex flex-col gap-2">
+          <h2 className="category-title">Discovered Nodes</h2>
+          <DiscoveredNodes />
+          <h2 className="category-title">Settings</h2>
+          <Settings />
+          <h2 className="category-title">Territories</h2>
+          <Territories />
+          <h2 className="category-title">Apps</h2>
+          <ExternalLink
+            href="https://www.overwolf.com/app/Leon_Machens-Diablo_4_Map"
+            text="Desktop App on Overwolf"
+          />
+          <h2 className="category-title">Community</h2>
+          <ExternalLink
+            href="https://discord.com/invite/NTZu8Px"
+            text="Discord"
+          />
+          <h2 className="category-title">Discover</h2>
+          {DISCOVER_LINKS.map(({ href, text }) => (
+            <ExternalLink key={href} href={href} text={text} />
+          ))}
+          <h2 className="category-title">Contribute</h2>
+          <ExternalLink
+            href="https://github.com/lmachens/diablo4.th.gl"
+            text="GitHub"
+          />
+        </div>
       </div>
     </Drawer>
   );
