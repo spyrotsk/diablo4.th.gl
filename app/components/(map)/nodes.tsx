@@ -33,7 +33,7 @@ export default function Nodes() {
   const paramsCoordinates = isOverwolf
     ? router.value.coordinates
     : params.coordinates;
-  const filters = useFilters();
+  const [filters] = useFilters();
 
   const selectedName = paramsName && decodeURIComponent(paramsName);
   const coordinates =
