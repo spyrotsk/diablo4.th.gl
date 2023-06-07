@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { useOverwolfRouter } from "../(overwolf)/components/overwolf-router";
 import Drawer from "./drawer";
 import ExternalLink from "./external-link";
+import Territories from "./territories";
 const NitroPay = dynamic(() => import("./nitro-pay"), {
   ssr: false,
 });
@@ -31,7 +32,7 @@ export default function Menu({
 
   return (
     <Drawer show={show}>
-      <div className="p-2 flex flex-col gap-2">
+      <div className="p-2 flex flex-col gap-2 text-gray-300">
         <header className="my-2 flex justify-between">
           <h1 className="text-xl font-bold">Diablo 4 Map</h1>
           <button onClick={onClose}>
@@ -54,6 +55,8 @@ export default function Menu({
         {!("value" in router) && <NitroPay />}
         <h2 className="category-title">Discovered Nodes</h2>
         <DiscoveredNodes />
+        <h2 className="category-title">Territories</h2>
+        <Territories />
         <h2 className="category-title">Apps</h2>
         <ExternalLink
           href="https://www.overwolf.com/app/Leon_Machens-Diablo_4_Map"

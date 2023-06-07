@@ -1,6 +1,7 @@
 import DiscoveredNodes from "@/app/components/discovered-nodes";
 import ExternalLink from "@/app/components/external-link";
 import { DISCOVER_LINKS } from "@/app/components/menu";
+import Territories from "@/app/components/territories";
 import Toggle from "@/app/components/toggle";
 import { useSettingsStore } from "@/app/lib/storage";
 import { togglePreferedWindow } from "../lib/windows";
@@ -42,6 +43,8 @@ export default function Sidebar() {
           This window is only visible as overlay in-game. Deactive it, if you
           like to move this window to second screen or to ALT+TAB it.
         </p>
+        <h2 className="category-title">Territories</h2>
+        <Territories />
         <h2 className="category-title">Community</h2>
         <ExternalLink
           href="https://discord.com/invite/NTZu8Px"

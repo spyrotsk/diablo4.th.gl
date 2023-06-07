@@ -1,7 +1,7 @@
 "use client";
 import Map from "@/app/components/(map)/map";
 import Nodes from "@/app/components/(map)/nodes";
-import Regions from "@/app/components/(map)/regions";
+import Territories from "@/app/components/(map)/territories";
 import Tiles from "@/app/components/(map)/tiles";
 import Search from "@/app/components/search";
 import { useEffect, useState } from "react";
@@ -27,7 +27,7 @@ export default function App() {
       <ResizeBorders />
       <Map>
         <Tiles />
-        <Regions />
+        <Territories />
         <Nodes />
       </Map>
       <Sidebar />

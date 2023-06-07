@@ -3,9 +3,16 @@ import { useOverwolfRouter } from "@/app/(overwolf)/components/overwolf-router";
 import leaflet, { LatLngBoundsExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useParams } from "next/navigation";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { create } from "zustand";
 
-const MapContext = createContext<leaflet.Map | null>(null);
+export const useMapStore = create<{
+  map: leaflet.Map | null;
+  setMap: (map: leaflet.Map | null) => void;
+}>((set) => ({
+  map: null,
+  setMap: (map) => set({ map }),
+}));
 
 export const MAX_BOUNDS: LatLngBoundsExpression = [
   [194, -194],
@@ -13,14 +20,14 @@ export const MAX_BOUNDS: LatLngBoundsExpression = [
 ];
 
 export function useMap() {
-  const map = useContext(MapContext)!;
+  const map = useMapStore((store) => store.map);
   if (!map) throw new Error("MapContext not found");
   return map;
 }
 
 export default function Map({ children }: { children?: React.ReactNode }) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [map, setMap] = useState<leaflet.Map | null>(null);
+  const { map, setMap } = useMapStore();
   const router = useOverwolfRouter();
   const params = useParams();
 
@@ -82,7 +89,7 @@ export default function Map({ children }: { children?: React.ReactNode }) {
   return (
     <>
       <div ref={mapRef} className="map h-full !bg-black relative outline-none">
-        <MapContext.Provider value={map}>{map && children}</MapContext.Provider>
+        {map && children}
       </div>
     </>
   );

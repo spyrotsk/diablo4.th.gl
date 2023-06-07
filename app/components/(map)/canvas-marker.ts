@@ -78,7 +78,7 @@ leaflet.Canvas.include({
     });
   },
 });
-const renderer = leaflet.canvas() as leaflet.Canvas & {
+const renderer = leaflet.canvas({ pane: "markerPane" }) as leaflet.Canvas & {
   updateCanvasImg: (layer: CanvasMarker) => void;
 };
 

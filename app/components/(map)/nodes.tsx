@@ -2,8 +2,8 @@
 import { useOverwolfRouter } from "@/app/(overwolf)/components/overwolf-router";
 import { ICONS } from "@/app/lib/icons";
 import nodes, { getID } from "@/app/lib/nodes";
-import { getRegionByPoint } from "@/app/lib/regions";
 import { useDiscoveredNodesStore } from "@/app/lib/storage";
+import { getTerritoryByPoint } from "@/app/lib/territories";
 import leaflet from "leaflet";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -20,7 +20,6 @@ export default function Nodes() {
   const searchParams = useSearchParams();
   const { discoveredNodes, markDiscoveredNode, unmarkDiscoveredNode } =
     useDiscoveredNodesStore();
-
   const isOverwolf = "value" in router;
   const search = useMemo(() => {
     return (
@@ -117,13 +116,14 @@ export default function Nodes() {
           isDiscovered = !isDiscovered;
         });
         const tooltipContent = () => {
-          const region = getRegionByPoint([item.x, item.y]);
-
+          const territory = getTerritoryByPoint([item.x, item.y]);
           const attributeColor =
             "attribute" in icon && attribute && icon.attribute(attribute);
           let tooltipContent = `<p class="font-bold text-base">${item.name}</p><p class="text-gray-300 text-sm">${dict.nodes[type]}</p>`;
-          if (region) {
-            tooltipContent += `<p class="text-amber-50 text-sm">${region.name}</p>`;
+          if (territory) {
+            tooltipContent += `<p class="text-amber-50 text-sm">${
+              dict.territories[territory.id]
+            }</p>`;
           }
           if ("description" in item) {
             tooltipContent += `<p class="border-t border-t-gray-700 mt-2 pt-2">${

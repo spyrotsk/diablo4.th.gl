@@ -15,7 +15,7 @@ export default function DiscoveredNodes() {
       {Object.entries(ICONS).map(([key, icon]) => (
         <button
           key={key}
-          className={`text-gray-300 flex items-center hover:bg-neutral-700 p-2 w-full ${
+          className={`flex items-center hover:bg-neutral-700 p-2 w-full ${
             !filters.includes(key) ? "text-gray-500" : ""
           }`}
           onClick={() => {
