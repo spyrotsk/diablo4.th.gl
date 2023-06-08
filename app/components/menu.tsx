@@ -1,6 +1,8 @@
 "use client";
 import dynamic from "next/dynamic";
+import AppSettings from "../(overwolf)/components/app-settings";
 import { useOverwolfRouter } from "../(overwolf)/components/overwolf-router";
+import { useSettingsStore } from "../lib/storage";
 import Drawer from "./drawer";
 import ExternalLink from "./external-link";
 import Settings from "./settings";
@@ -24,21 +26,17 @@ export const DISCOVER_LINKS = [
     text: "Gaming Apps & Tools",
   },
 ];
-export default function Menu({
-  show,
-  onClose,
-}: {
-  show: boolean;
-  onClose: () => void;
-}) {
+export default function Menu() {
   const router = useOverwolfRouter();
+  const isOverwolf = "value" in router;
+  const settingsStore = useSettingsStore();
 
   return (
-    <Drawer show={show}>
-      <div className="p-2 flex flex-col gap-2 text-gray-300 h-full">
-        <header className="my-2 flex justify-between">
+    <Drawer show={settingsStore.showSidebar}>
+      <div className="flex flex-col text-gray-300 h-full">
+        <header className="p-2 my-2 flex justify-between">
           <h1 className="text-xl font-bold">Diablo 4 Map</h1>
-          <button onClick={onClose}>
+          <button onClick={settingsStore.toggleShowSidebar}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-5 h-5 text-gray-400"
@@ -55,11 +53,16 @@ export default function Menu({
             </svg>
           </button>
         </header>
-        {!("value" in router) && <NitroPay />}
-        <div className="overflow-auto grow flex flex-col gap-2">
+        {!isOverwolf && <NitroPay />}
+        <div
+          className={`p-2 overflow-auto grow flex flex-col gap-2 ${
+            isOverwolf ? "mb-[330px]" : ""
+          }`}
+        >
           <h2 className="category-title">Discovered Nodes</h2>
           <DiscoveredNodes />
           <h2 className="category-title">Settings</h2>
+          {isOverwolf && <AppSettings />}
           <Settings />
           <h2 className="category-title">Territories</h2>
           <Territories />

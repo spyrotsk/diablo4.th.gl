@@ -21,18 +21,6 @@
   @apply top-[30px];
 }
 
-.app .map {
-  @apply mr-[400px];
-}
-
-.app .menu {
-  @apply hidden;
-}
-
-.app .search {
-  @apply pl-2;
-}
-
 .leaflet-tooltip {
   @apply !text-center !rounded !bg-neutral-800 border !border-gray-600 !text-white !p-2 min-w-[200px];
 }
