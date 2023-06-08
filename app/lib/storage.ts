@@ -7,6 +7,9 @@ type StoreWithPersist<State = any> = Mutate<
 >;
 
 export const withStorageDOMEvents = (store: StoreWithPersist) => {
+  if (typeof window === "undefined") {
+    return;
+  }
   const storageEventCallback = (e: StorageEvent) => {
     try {
       if (e.key && e.key === store.persist.getOptions().name && e.newValue) {
