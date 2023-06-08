@@ -161,3 +161,26 @@ export function useCurrentWindow() {
 
   return currentWindow;
 }
+
+export async function setInputPassThrough(inputPassThrough: boolean) {
+  const currentWindow = await getCurrentWindow();
+  return new Promise<void>((resolve) => {
+    if (inputPassThrough) {
+      overwolf.windows.setWindowStyle(
+        currentWindow.id,
+        "InputPassThrough" as overwolf.windows.enums.WindowStyle.InputPassThrough,
+        () => {
+          resolve();
+        }
+      );
+    } else {
+      overwolf.windows.removeWindowStyle(
+        currentWindow.id,
+        "InputPassThrough" as overwolf.windows.enums.WindowStyle.InputPassThrough,
+        () => {
+          resolve();
+        }
+      );
+    }
+  });
+}

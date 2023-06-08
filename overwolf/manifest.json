@@ -46,7 +46,8 @@
         "allow_local_file_access": true,
         "popup_blocker": true,
         "mute": true,
-        "keep_window_location": true
+        "keep_window_location": true,
+        "disable_restore_animation": true
       },
       "overlay": {
         "file": "app.html",
@@ -67,7 +68,8 @@
         },
         "allow_local_file_access": true,
         "popup_blocker": true,
-        "mute": true
+        "mute": true,
+        "disable_restore_animation": true
       }
     },
     "game_targeting": {
