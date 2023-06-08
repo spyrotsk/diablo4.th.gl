@@ -7,6 +7,9 @@ type StoreWithPersist<State = any> = Mutate<
 >;
 
 export const withStorageDOMEvents = (store: StoreWithPersist) => {
+  if (typeof window === "undefined") {
+    return;
+  }
   const storageEventCallback = (e: StorageEvent) => {
     try {
       if (e.key && e.key === store.persist.getOptions().name && e.newValue) {
@@ -59,6 +62,10 @@ export const useSettingsStore = create(
     // App only
     overlayMode: boolean | null;
     setOverlayMode: (overlayMode: boolean) => void;
+    windowOpacity: number;
+    setWindowOpacity: (windowOpacity: number) => void;
+    lockedWindow: boolean;
+    setLockedWindow: (lockedWindow: boolean) => void;
   }>(
     (set) => ({
       showTerritoryNames: true,
@@ -73,6 +80,10 @@ export const useSettingsStore = create(
         set({
           overlayMode,
         }),
+      windowOpacity: 1,
+      setWindowOpacity: (windowOpacity) => set({ windowOpacity }),
+      lockedWindow: false,
+      setLockedWindow: (lockedWindow) => set({ lockedWindow }),
     }),
     {
       name: "settings-storage",

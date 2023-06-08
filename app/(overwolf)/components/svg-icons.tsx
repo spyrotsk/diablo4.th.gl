@@ -95,6 +95,34 @@ export default function SVGIcons() {
         <circle cx="10" cy="10" r="7"></circle>
         <line x1="21" y1="21" x2="15" y2="15"></line>
       </symbol>
+      <symbol
+        id="icon-lock-open"
+        viewBox="0 0 24 24"
+        strokeWidth="2"
+        stroke="currentColor"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M5 11m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"></path>
+        <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M8 11v-5a4 4 0 0 1 8 0"></path>
+      </symbol>
+      <symbol
+        id="icon-lock"
+        viewBox="0 0 24 24"
+        strokeWidth="2"
+        stroke="currentColor"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"></path>
+        <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
+        <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
+      </symbol>
     </svg>
   );
 }

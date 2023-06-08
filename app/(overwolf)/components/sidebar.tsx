@@ -10,10 +10,10 @@ import Ads from "./ads";
 import Hotkey from "./hotkey";
 
 export default function Sidebar() {
-  const settings = useSettingsStore();
+  const settingsStore = useSettingsStore();
 
   return (
-    <aside className="w-[400px] z-[500] absolute right-0 top-[30px] bottom-0 flex flex-col justify-between text-gray-300">
+    <aside className="w-[400px] z-[500] absolute right-0 top-[30px] bottom-0 flex flex-col justify-between text-gray-300 bg-black">
       <div className="p-2 flex flex-col gap-2 overflow-auto mr-0.5">
         <h2 className="category-title">Discovered Nodes</h2>
         <DiscoveredNodes />
@@ -33,18 +33,19 @@ export default function Sidebar() {
         <div className="flex">
           <span className="w-1/2">Overlay Mode</span>
           <Toggle
-            checked={!!settings.overlayMode}
+            checked={!!settingsStore.overlayMode}
             onChange={(checked) => {
-              settings.setOverlayMode(checked);
+              settingsStore.setOverlayMode(checked);
               togglePreferedWindow();
             }}
           />
         </div>
-        <Settings />
         <p className="text-sm italic">
-          This window is only visible as overlay in-game. Deactive it, if you
-          like to move this window to second screen or to ALT+TAB it.
+          This window is only visible as overlay in-game and have a transparent
+          background. Deactive it, if you like to move this window to second
+          screen or to ALT+TAB it.
         </p>
+        <Settings />
         <h2 className="category-title">Territories</h2>
         <Territories />
         <h2 className="category-title">Community</h2>

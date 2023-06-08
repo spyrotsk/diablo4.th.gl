@@ -1,11 +1,13 @@
 "use client";
-import { useLayoutEffect, useState } from "react";
-import { useCurrentWindow } from "../lib/windows";
+import { useSettingsStore } from "@/app/lib/storage";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { setInputPassThrough, useCurrentWindow } from "../lib/windows";
 import SVGIcons from "./svg-icons";
 
 export default function Header() {
   const currentWindow = useCurrentWindow();
   const [version, setVersion] = useState("");
+  const settingsStore = useSettingsStore();
 
   const isMaximized = currentWindow?.stateEx === "maximized";
 
@@ -15,11 +17,51 @@ export default function Header() {
     });
   }, []);
 
+  useEffect(() => {
+    if (!settingsStore.overlayMode) {
+      return;
+    }
+    document.body.style.opacity = settingsStore.windowOpacity.toFixed(2);
+  }, [settingsStore.windowOpacity]);
+
+  useEffect(() => {
+    if (!settingsStore.overlayMode) {
+      return;
+    }
+    setInputPassThrough(settingsStore.lockedWindow);
+    if (settingsStore.lockedWindow) {
+      document.body.classList.add("locked");
+    } else {
+      document.body.classList.remove("locked");
+    }
+  }, [settingsStore.lockedWindow]);
+
+  if (settingsStore.overlayMode && settingsStore.lockedWindow) {
+    return (
+      <>
+        <SVGIcons />
+        <button
+          className="lock h-[30px] w-[30px] p-1 flex items-center hover:bg-neutral-700 fixed z-10 left-1/2 -translate-x-1/2 text-red-500 rounded-t-lg bg-black"
+          onClick={() =>
+            settingsStore.setLockedWindow(!settingsStore.lockedWindow)
+          }
+        >
+          <svg>
+            <use xlinkHref="#icon-lock-open" />
+          </svg>
+        </button>
+        <header className="h-[30px]">
+          <div className="h-[30px]" />
+        </header>
+      </>
+    );
+  }
+
   return (
     <>
       <SVGIcons />
       <header
-        className="flex items-center h-[30px]"
+        className="flex items-center h-[30px] relative bg-black"
         onMouseDown={() =>
           isMaximized ? null : overwolf.windows.dragMove(currentWindow!.id)
         }
@@ -31,7 +73,38 @@ export default function Header() {
       >
         <h1 className="font-mono ml-2">Diablo 4 Map v{version}</h1>
 
-        <div className="flex ml-auto ">
+        {settingsStore.overlayMode && (
+          <button
+            className="h-[30px] w-[30px] p-1 flex items-center hover:bg-neutral-700 absolute left-1/2 -translate-x-1/2"
+            title="Lock window control"
+            onClick={() =>
+              settingsStore.setLockedWindow(!settingsStore.lockedWindow)
+            }
+          >
+            <svg>
+              <use xlinkHref="#icon-lock" />
+            </svg>
+          </button>
+        )}
+
+        <div className="flex ml-auto">
+          {settingsStore.overlayMode && (
+            <label className="flex items-center">
+              <span className="text-xs font-mono">Opacity</span>
+              <input
+                className="ml-2 w-20"
+                onMouseDown={(event) => event.stopPropagation()}
+                type="range"
+                step={0.05}
+                min={0.45}
+                max={1}
+                value={settingsStore.windowOpacity}
+                onChange={(event) =>
+                  settingsStore.setWindowOpacity(+event.target.value)
+                }
+              />
+            </label>
+          )}
           <a
             href="https://discord.com/invite/NTZu8Px"
             target="_blank"
