@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useOverwolfRouter } from "../(overwolf)/components/overwolf-router";
 import { ICONS } from "../lib/icons";
 import { useUpdateSearchParams } from "../lib/search-params";
+import { useSettingsStore } from "../lib/storage";
 import { useDict } from "./(i18n)/i18n-provider";
 import Filters from "./filters";
 import Menu from "./menu";
@@ -18,7 +19,7 @@ export default function Search() {
   const updateSearchParams = useUpdateSearchParams();
   const [showFilters, setShowFilters] = useState(false);
   const filters = useFilters();
-  const [showMenu, setShowMenu] = useState(false);
+  const settingsStore = useSettingsStore();
 
   useEffect(() => {
     const handle = setTimeout(() => {
@@ -33,10 +34,14 @@ export default function Search() {
 
   return (
     <>
-      <div className="absolute top-0 z-[400] flex w-full md:top-3 md:left-3 md:w-auto">
+      <div
+        className={`absolute top-0 z-[400] flex w-full md:w-auto transition-all duration-500 ${
+          settingsStore.showSidebar ? "md:left-[412px]" : "md:left-3"
+        } ${"value" in router ? "md:top-[42px]" : "md:top-3"}`}
+      >
         <button
           className="menu flex absolute inset-y-0 left-0 items-center pl-2 text-gray-400 hover:text-gray-200"
-          onClick={() => setShowMenu(true)}
+          onClick={settingsStore.toggleShowSidebar}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -125,7 +130,7 @@ export default function Search() {
         </button>
         {showFilters && <Filters />}
       </div>
-      <Menu show={showMenu} onClose={() => setShowMenu(false)} />
+      <Menu />
     </>
   );
 }

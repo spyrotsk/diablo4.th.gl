@@ -60,6 +60,8 @@ export const useSettingsStore = create(
     iconSize: number;
     setIconSize: (iconSize: number) => void;
     // App only
+    showSidebar: boolean;
+    toggleShowSidebar: () => void;
     overlayMode: boolean | null;
     setOverlayMode: (overlayMode: boolean) => void;
     windowOpacity: number;
@@ -74,6 +76,14 @@ export const useSettingsStore = create(
       toggleShowTerritoryNames: () =>
         set((state) => ({
           showTerritoryNames: !state.showTerritoryNames,
+        })),
+      showSidebar:
+        typeof document !== "undefined"
+          ? document.body.clientWidth >= 768
+          : false,
+      toggleShowSidebar: () =>
+        set((state) => ({
+          showSidebar: !state.showSidebar,
         })),
       overlayMode: null,
       setOverlayMode: (overlayMode) =>

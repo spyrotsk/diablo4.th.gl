@@ -5,9 +5,9 @@ import Territories from "@/app/components/(map)/territories";
 import Tiles from "@/app/components/(map)/tiles";
 import Search from "@/app/components/search";
 import { useEffect, useState } from "react";
+import Ads from "../components/ads";
 import Header from "../components/header";
 import ResizeBorders from "../components/resize-borders";
-import Sidebar from "../components/sidebar";
 import { waitForOverwolf } from "../lib/overwolf";
 
 export default function App() {
@@ -30,10 +30,9 @@ export default function App() {
         <Territories />
         <Nodes />
       </Map>
-      <Sidebar />
-      <div className="absolute top-[30px] left-0 right-0">
-        <Search />
-      </div>
+      {/* <Sidebar /> */}
+      <Ads />
+      <Search />
     </>
   );
 }

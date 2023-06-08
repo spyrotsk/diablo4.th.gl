@@ -32,7 +32,7 @@ function Ads() {
 
       <div
         ref={containerRef}
-        className="w-[400px] h-[300px] bg-[url('/ads-background.webp')]"
+        className="fixed left-0 bottom-0 z-[9999] w-[400px] h-[300px] bg-neutral-900 bg-[url('/ads-background.webp')]"
       />
     </>
   );
