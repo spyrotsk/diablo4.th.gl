@@ -77,7 +77,10 @@ export const useSettingsStore = create(
         set((state) => ({
           showTerritoryNames: !state.showTerritoryNames,
         })),
-      showSidebar: true,
+      showSidebar:
+        typeof document !== "undefined"
+          ? document.body.clientWidth >= 768
+          : false,
       toggleShowSidebar: () =>
         set((state) => ({
           showSidebar: !state.showSidebar,

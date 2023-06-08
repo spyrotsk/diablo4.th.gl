@@ -10,12 +10,15 @@ import Nodes from "../components/(map)/nodes";
 import Territories from "../components/(map)/territories";
 import Tiles from "../components/(map)/tiles";
 import PlausibleTracker from "../components/plausible-tracker";
-import Search from "../components/search";
 import { isLang, loadDictionary } from "../lib/i18n";
 
 export { generateMetadata } from "@/app/lib/meta";
 
 const Map = dynamic(() => import("../components/(map)/map"), {
+  ssr: false,
+});
+
+const Search = dynamic(() => import("../components/search"), {
   ssr: false,
 });
 
