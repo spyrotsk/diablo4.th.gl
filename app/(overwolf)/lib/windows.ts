@@ -68,14 +68,16 @@ export async function toggleWindow(windowName: string): Promise<void> {
 }
 
 export async function getPreferedWindowName(): Promise<string> {
-  const overlayMode = useSettingsStore.getState().overlayMode;
+  const { overlayMode, setOverlayMode } = useSettingsStore.getState();
   if (overlayMode !== null) {
     return overlayMode ? WINDOWS.OVERLAY : WINDOWS.DESKTOP;
   }
 
   const monitors = await getMonitorsList();
   const hasSecondScreen = monitors.length > 1;
-  return hasSecondScreen ? WINDOWS.DESKTOP : WINDOWS.OVERLAY;
+  const newOverlayMode = hasSecondScreen ? WINDOWS.DESKTOP : WINDOWS.OVERLAY;
+  setOverlayMode(newOverlayMode === WINDOWS.OVERLAY);
+  return newOverlayMode;
 }
 
 export function getMonitorsList(): Promise<overwolf.utils.Display[]> {
