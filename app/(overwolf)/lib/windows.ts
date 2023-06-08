@@ -55,11 +55,15 @@ export async function restoreWindow(windowName: string): Promise<string> {
 }
 
 export async function toggleWindow(windowName: string): Promise<void> {
-  const window = await obtainDeclaredWindow(windowName);
-  if (["normal", "maximized"].includes(window.stateEx)) {
-    overwolf.windows.hide(window.id);
+  const declaredWindow = await obtainDeclaredWindow(windowName);
+  if (
+    ["normal", "maximized"].includes(declaredWindow.stateEx) &&
+    declaredWindow.isVisible
+  ) {
+    console.log(`Hiding window ${windowName}`);
+    overwolf.windows.hide(declaredWindow.id);
   } else {
-    restoreWindow(window.name);
+    restoreWindow(declaredWindow.name);
   }
 }
 

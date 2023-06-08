@@ -45,7 +45,8 @@
         },
         "allow_local_file_access": true,
         "popup_blocker": true,
-        "mute": true
+        "mute": true,
+        "keep_window_location": true
       },
       "overlay": {
         "file": "app.html",
