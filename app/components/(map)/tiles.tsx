@@ -16,7 +16,7 @@ export default function Tiles() {
   const map = useMap();
 
   useEffect(() => {
-    const canvasLayer = createCanvasLayer("/map_tiles/{z}/{y}/{x}.jpg", {
+    const canvasLayer = createCanvasLayer("/map_tiles/{z}/{y}/{x}.webp", {
       minNativeZoom: MIN_NATIVE_ZOOM,
       maxNativeZoom: MAX_NATIVE_ZOOM,
       minZoom: map.getMinZoom(),
