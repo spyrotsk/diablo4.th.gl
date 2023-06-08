@@ -1,5 +1,28 @@
-import { create } from "zustand";
+import { Mutate, StoreApi, create } from "zustand";
 import { persist } from "zustand/middleware";
+
+type StoreWithPersist<State = any> = Mutate<
+  StoreApi<State>,
+  [["zustand/persist", State]]
+>;
+
+export const withStorageDOMEvents = (store: StoreWithPersist) => {
+  const storageEventCallback = (e: StorageEvent) => {
+    try {
+      if (e.key && e.key === store.persist.getOptions().name && e.newValue) {
+        store.persist.rehydrate();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  window.addEventListener("storage", storageEventCallback);
+
+  return () => {
+    window.removeEventListener("storage", storageEventCallback);
+  };
+};
 
 export const useDiscoveredNodesStore = create(
   persist<{
@@ -23,6 +46,8 @@ export const useDiscoveredNodesStore = create(
     }
   )
 );
+
+withStorageDOMEvents(useDiscoveredNodesStore);
 
 export const useSettingsStore = create(
   persist<{
@@ -54,3 +79,5 @@ export const useSettingsStore = create(
     }
   )
 );
+
+withStorageDOMEvents(useSettingsStore);

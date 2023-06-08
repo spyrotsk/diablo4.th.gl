@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { GAME_CLASS_ID, HOTKEYS, WINDOWS } from "../lib/config";
 import { getRunningGameInfo } from "../lib/games";
 import { waitForOverwolf } from "../lib/overwolf";
@@ -12,15 +12,15 @@ import {
   toggleWindow,
 } from "../lib/windows";
 
-let initialized = false;
 export default function Init() {
+  const initialized = useRef(false);
   useEffect(() => {
-    if (initialized) {
+    if (initialized.current) {
       return;
     }
     waitForOverwolf()
       .then(() => {
-        initialized = true;
+        initialized.current = true;
         initController();
       })
       .catch((error) => console.warn(error));
