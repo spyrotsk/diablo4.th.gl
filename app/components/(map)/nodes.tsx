@@ -81,6 +81,7 @@ export default function Nodes() {
           isTrivial,
           isHighlighted,
           isDiscovered,
+          interactive: !isTrivial,
         });
 
         marker.on("click", () => {
