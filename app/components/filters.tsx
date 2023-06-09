@@ -1,7 +1,8 @@
 "use client";
 import { ICONS } from "../lib/icons";
+import { ALL_FILTERS } from "../lib/storage";
 import { useDict } from "./(i18n)/i18n-provider";
-import useFilters, { ALL_FILTERS } from "./use-filters";
+import useFilters from "./use-filters";
 
 export default function Filters() {
   const dict = useDict();

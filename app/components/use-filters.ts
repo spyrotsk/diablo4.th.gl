@@ -1,7 +1,6 @@
 import { ICONS } from "../lib/icons";
 import { useSettingsStore } from "../lib/storage";
 
-export const ALL_FILTERS = Object.keys(ICONS);
 export default function useFilters() {
   const settingsStore = useSettingsStore();
 

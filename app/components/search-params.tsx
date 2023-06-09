@@ -4,7 +4,8 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useOverwolfRouter } from "../(overwolf)/components/overwolf-router";
 import { useUpdateSearchParams } from "../lib/search-params";
-import useFilters, { ALL_FILTERS } from "./use-filters";
+import { ALL_FILTERS } from "../lib/storage";
+import useFilters from "./use-filters";
 
 export default function SearchParams() {
   const searchParams = useSearchParams();

@@ -1,6 +1,8 @@
 import { Mutate, StoreApi, create } from "zustand";
 import { persist } from "zustand/middleware";
-import { ALL_FILTERS } from "../components/use-filters";
+import { ICONS } from "./icons";
+
+export const ALL_FILTERS = Object.keys(ICONS);
 
 type StoreWithPersist<State = any> = Mutate<
   StoreApi<State>,
@@ -73,10 +75,15 @@ export const useSettingsStore = create(
     setLockedWindow: (lockedWindow: boolean) => void;
   }>(
     (set) => {
-      const filtersString = new URLSearchParams(window.location.search).get(
-        "filters"
-      );
-      const filters = filtersString?.split(",") ?? ALL_FILTERS;
+      let filters = ALL_FILTERS;
+      if (typeof window !== "undefined") {
+        const filtersString = new URLSearchParams(window.location.search).get(
+          "filters"
+        );
+        if (filtersString) {
+          filters = filtersString.split(",");
+        }
+      }
 
       return {
         showTerritoryNames: true,
