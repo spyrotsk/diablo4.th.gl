@@ -7,7 +7,7 @@ export function useUpdateSearchParams() {
   const router = useRouter();
 
   const updateSearchParams = useCallback(
-    (name: string, value: string) => {
+    (name: string, value: string, replace = false) => {
       const params = new URLSearchParams(searchParams.toString());
       if (value.length === 0) {
         params.delete(name);
@@ -17,7 +17,12 @@ export function useUpdateSearchParams() {
       if (searchParams.toString() === params.toString()) {
         return;
       }
-      router.push(pathname + "?" + params.toString());
+      const url = pathname + "?" + params.toString();
+      if (replace) {
+        router.replace(url);
+      } else {
+        router.push(url);
+      }
     },
     [searchParams, pathname]
   );

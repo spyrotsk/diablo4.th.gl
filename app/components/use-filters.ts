@@ -1,32 +1,19 @@
-import { useSearchParams } from "next/navigation";
-import { useOverwolfRouter } from "../(overwolf)/components/overwolf-router";
 import { ICONS } from "../lib/icons";
-import { useUpdateSearchParams } from "../lib/search-params";
+import { useSettingsStore } from "../lib/storage";
 
 export default function useFilters() {
-  const searchParams = useSearchParams();
-  const router = useOverwolfRouter();
-  const updateSearchParams = useUpdateSearchParams();
+  const settingsStore = useSettingsStore();
 
-  const isOverwolf = "value" in router;
-  const filters =
-    (isOverwolf ? router.value.filters : searchParams.get("filters"))?.split(
-      ","
-    ) ?? Object.keys(ICONS);
+  const setFilters = (newFilters: string[]) => {
+    newFilters = newFilters.filter((f) => f in ICONS);
+    settingsStore.setFilters(newFilters);
+  };
 
   const toggleFilter = (key: string) => {
-    let newFilters = filters.includes(key)
-      ? filters.filter((f) => f !== key)
-      : [...filters, key];
-    if (newFilters.length === Object.keys(ICONS).length) {
-      newFilters = [];
-    }
-    const newFiltersString = newFilters.join(",");
-    if ("update" in router) {
-      router.update({ filters: newFiltersString });
-    } else {
-      updateSearchParams("filters", newFiltersString);
-    }
+    const newFilters = settingsStore.filters.includes(key)
+      ? settingsStore.filters.filter((f) => f !== key)
+      : [...settingsStore.filters, key];
+    setFilters(newFilters);
   };
-  return [filters, toggleFilter] as const;
+  return [settingsStore.filters, toggleFilter, setFilters] as const;
 }
