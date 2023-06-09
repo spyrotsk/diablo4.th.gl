@@ -10,6 +10,7 @@ import Nodes from "../components/(map)/nodes";
 import Territories from "../components/(map)/territories";
 import Tiles from "../components/(map)/tiles";
 import PlausibleTracker from "../components/plausible-tracker";
+import SearchParams from "../components/search-params";
 import { isLang, loadDictionary } from "../lib/i18n";
 
 export { generateMetadata } from "@/app/lib/meta";
@@ -49,6 +50,7 @@ function Layout({
           <Search />
           {/* <Drawer>{children}</Drawer> */}
         </I18NProvider>
+        <SearchParams />
         <PlausibleTracker
           domain={process.env.NEXT_PUBLIC_PLAUSIBLE_WEB_DOMAIN}
           apiHost={process.env.NEXT_PUBLIC_PLAUSIBLE_API_HOST}

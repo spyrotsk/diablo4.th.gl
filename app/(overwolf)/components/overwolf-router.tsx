@@ -7,7 +7,6 @@ type Value = {
   name: string | null;
   search: string | null;
   coordinates: string | null;
-  filters: string | null;
 };
 
 const Context = createContext<{
@@ -25,7 +24,6 @@ export const OverwolfRouterProvider = ({
     name: null,
     search: null,
     coordinates: null,
-    filters: null,
   });
 
   const update = (newValue: Partial<Value>) => {

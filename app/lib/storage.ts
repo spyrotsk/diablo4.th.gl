@@ -1,5 +1,6 @@
 import { Mutate, StoreApi, create } from "zustand";
 import { persist } from "zustand/middleware";
+import { ALL_FILTERS } from "../components/use-filters";
 
 type StoreWithPersist<State = any> = Mutate<
   StoreApi<State>,
@@ -59,6 +60,8 @@ export const useSettingsStore = create(
     toggleShowTerritoryNames: () => void;
     iconSize: number;
     setIconSize: (iconSize: number) => void;
+    filters: string[];
+    setFilters: (filters: string[]) => void;
     // App only
     showSidebar: boolean;
     toggleShowSidebar: () => void;
@@ -69,36 +72,49 @@ export const useSettingsStore = create(
     lockedWindow: boolean;
     setLockedWindow: (lockedWindow: boolean) => void;
   }>(
-    (set) => ({
-      showTerritoryNames: true,
-      iconSize: 1,
-      setIconSize: (iconSize) => set({ iconSize }),
-      toggleShowTerritoryNames: () =>
-        set((state) => ({
-          showTerritoryNames: !state.showTerritoryNames,
-        })),
-      showSidebar:
-        typeof document !== "undefined"
-          ? document.body.clientWidth >= 768
-          : false,
-      toggleShowSidebar: () =>
-        set((state) => ({
-          showSidebar: !state.showSidebar,
-        })),
-      overlayMode: null,
-      setOverlayMode: (overlayMode) =>
-        set({
-          overlayMode,
-        }),
-      windowOpacity: 1,
-      setWindowOpacity: (windowOpacity) => set({ windowOpacity }),
-      lockedWindow: false,
-      setLockedWindow: (lockedWindow) => set({ lockedWindow }),
-    }),
+    (set) => {
+      const filtersString = new URLSearchParams(window.location.search).get(
+        "filters"
+      );
+      const filters = filtersString?.split(",") ?? ALL_FILTERS;
+
+      return {
+        showTerritoryNames: true,
+        toggleShowTerritoryNames: () =>
+          set((state) => ({
+            showTerritoryNames: !state.showTerritoryNames,
+          })),
+        iconSize: 1,
+        setIconSize: (iconSize) => set({ iconSize }),
+        filters,
+        setFilters: (filters) => set({ filters }),
+        showSidebar:
+          typeof document !== "undefined"
+            ? document.body.clientWidth >= 768
+            : false,
+        toggleShowSidebar: () =>
+          set((state) => ({
+            showSidebar: !state.showSidebar,
+          })),
+        overlayMode: null,
+        setOverlayMode: (overlayMode) =>
+          set({
+            overlayMode,
+          }),
+        windowOpacity: 1,
+        setWindowOpacity: (windowOpacity) => set({ windowOpacity }),
+        lockedWindow: false,
+        setLockedWindow: (lockedWindow) => set({ lockedWindow }),
+      };
+    },
     {
       name: "settings-storage",
+      merge: (persistentState: any, currentState) => {
+        if (currentState.filters.length !== ALL_FILTERS.length) {
+          persistentState.filters = currentState.filters;
+        }
+        return { ...currentState, ...persistentState };
+      },
     }
   )
 );
-
-withStorageDOMEvents(useSettingsStore);
