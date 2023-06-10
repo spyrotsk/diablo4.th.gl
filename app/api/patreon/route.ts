@@ -85,6 +85,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(currentUserResult, {
       status: currentUserResponse.status,
       headers: {
+        "Access-Control-Allow-Origin": "*",
         "Set-Cookie": toCookieStringEmpty(),
       },
     });
@@ -96,6 +97,7 @@ export async function POST(request: NextRequest) {
       {
         status: 403,
         headers: {
+          "Access-Control-Allow-Origin": "*",
           "Set-Cookie": toCookieStringEmpty(),
         },
       }
@@ -107,6 +109,7 @@ export async function POST(request: NextRequest) {
     {
       status: currentUserResponse.status,
       headers: {
+        "Access-Control-Allow-Origin": "*",
         "Set-Cookie": toCookieString(token),
       },
     }
@@ -121,6 +124,7 @@ export async function GET(request: NextRequest) {
       {
         status: 498,
         headers: {
+          "Access-Control-Allow-Origin": "*",
           "Set-Cookie": toCookieStringEmpty(),
         },
       }
@@ -135,6 +139,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(refreshTokenResult, {
         status: refreshTokenResponse.status,
         headers: {
+          "Access-Control-Allow-Origin": "*",
           "Set-Cookie": toCookieStringEmpty(),
         },
       });
@@ -155,6 +160,7 @@ export async function GET(request: NextRequest) {
         {
           status: 403,
           headers: {
+            "Access-Control-Allow-Origin": "*",
             "Set-Cookie": toCookieStringEmpty(),
           },
         }
@@ -166,6 +172,7 @@ export async function GET(request: NextRequest) {
       {
         status: currentUserResponse.status,
         headers: {
+          "Access-Control-Allow-Origin": "*",
           "Set-Cookie": toCookieString(token),
         },
       }
@@ -176,6 +183,7 @@ export async function GET(request: NextRequest) {
       {
         status: 400,
         headers: {
+          "Access-Control-Allow-Origin": "*",
           "Set-Cookie": toCookieStringEmpty(),
         },
       }

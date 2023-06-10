@@ -7,12 +7,22 @@ export function useUpdateSearchParams() {
   const router = useRouter();
 
   const updateSearchParams = useCallback(
-    (name: string, value: string, replace = false) => {
+    (name: string | string[], value: string | string[], replace = false) => {
       const params = new URLSearchParams(searchParams.toString());
-      if (value.length === 0) {
-        params.delete(name);
-      } else {
-        params.set(name, value);
+      if (typeof name === "string" && typeof value === "string") {
+        if (value.length === 0) {
+          params.delete(name);
+        } else {
+          params.set(name, value);
+        }
+      } else if (Array.isArray(name) && Array.isArray(value)) {
+        name.forEach((n, i) => {
+          if (value[i].length === 0) {
+            params.delete(n);
+          } else {
+            params.set(n, value[i]);
+          }
+        });
       }
       if (searchParams.toString() === params.toString()) {
         return;
