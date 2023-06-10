@@ -281,7 +281,14 @@ export default function Nodes() {
         maxZoom: 5,
       });
     }
-  }, [groups, search, filters, discoveredNodes, iconSize]);
+  }, [
+    groups,
+    search,
+    filters,
+    discoveredNodes,
+    iconSize,
+    selectedName && coordinates,
+  ]);
 
   return <></>;
 }
