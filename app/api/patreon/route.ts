@@ -74,7 +74,10 @@ const CORS_HEADERS = {
 export async function POST(request: NextRequest) {
   const requestBody = await request.json();
   if (!requestBody.code || !requestBody.redirectURI) {
-    return NextResponse.json({ error: "No code provided " }, { status: 400 });
+    return NextResponse.json(
+      { error: "No code provided " },
+      { status: 400, headers: CORS_HEADERS }
+    );
   }
   const tokenResponse = await postToken(
     requestBody.code,
@@ -82,7 +85,10 @@ export async function POST(request: NextRequest) {
   );
   const tokenResult = await tokenResponse.json();
   if (!tokenResponse.ok) {
-    return NextResponse.json(tokenResult, { status: tokenResponse.status });
+    return NextResponse.json(tokenResult, {
+      status: tokenResponse.status,
+      headers: CORS_HEADERS,
+    });
   }
   const token = tokenResult as PatreonToken;
   const currentUserResponse = await getCurrentUser(token);
@@ -158,6 +164,7 @@ export async function GET(request: NextRequest) {
     if (!currentUserResponse.ok) {
       return NextResponse.json(currentUserResult, {
         status: currentUserResponse.status,
+        headers: CORS_HEADERS,
       });
     }
 
