@@ -129,3 +129,5 @@ export const useSettingsStore = create(
     }
   )
 );
+
+withStorageDOMEvents(useSettingsStore);

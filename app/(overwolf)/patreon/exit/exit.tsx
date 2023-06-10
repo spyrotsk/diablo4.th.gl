@@ -16,9 +16,10 @@ export default function Exit() {
     <div className="h-screen text-center pt-4 bg-black">
       {code ? (
         <>
-          <p className="my-2">
+          <p className="m-2 max-w-xl text-center">
             Thank you for your support 🤘. Please click the following button to
-            sync your subscription status with the Overwolf app.
+            sync your subscription status with the Overwolf app. Make sure the
+            app is running!
           </p>
           <a
             href={`overwolf-extension://olbbpfjombddiijdbjeeegeclifleaifdeonllfd/patreon.html#code=${code}`}
