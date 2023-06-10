@@ -54,6 +54,7 @@ function isSupporter(result: any) {
     (pledge: any) => pledge.type === "pledge" && pledge.id === PATREON_TIER_ID
   );
 }
+
 function toCookieString(token: PatreonToken) {
   return `patreon_token=${JSON.stringify(
     token
@@ -63,6 +64,12 @@ function toCookieString(token: PatreonToken) {
 function toCookieStringEmpty() {
   return `patreon_token=; Max-Age=0; path=/; HttpOnly; SameSite=Strict;`;
 }
+
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
 
 export async function POST(request: NextRequest) {
   const requestBody = await request.json();
@@ -85,7 +92,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(currentUserResult, {
       status: currentUserResponse.status,
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        ...CORS_HEADERS,
         "Set-Cookie": toCookieStringEmpty(),
       },
     });
@@ -97,7 +104,7 @@ export async function POST(request: NextRequest) {
       {
         status: 403,
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          ...CORS_HEADERS,
           "Set-Cookie": toCookieStringEmpty(),
         },
       }
@@ -109,7 +116,7 @@ export async function POST(request: NextRequest) {
     {
       status: currentUserResponse.status,
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        ...CORS_HEADERS,
         "Set-Cookie": toCookieString(token),
       },
     }
@@ -124,7 +131,7 @@ export async function GET(request: NextRequest) {
       {
         status: 498,
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          ...CORS_HEADERS,
           "Set-Cookie": toCookieStringEmpty(),
         },
       }
@@ -139,7 +146,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(refreshTokenResult, {
         status: refreshTokenResponse.status,
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          ...CORS_HEADERS,
           "Set-Cookie": toCookieStringEmpty(),
         },
       });
@@ -160,7 +167,7 @@ export async function GET(request: NextRequest) {
         {
           status: 403,
           headers: {
-            "Access-Control-Allow-Origin": "*",
+            ...CORS_HEADERS,
             "Set-Cookie": toCookieStringEmpty(),
           },
         }
@@ -172,7 +179,7 @@ export async function GET(request: NextRequest) {
       {
         status: currentUserResponse.status,
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          ...CORS_HEADERS,
           "Set-Cookie": toCookieString(token),
         },
       }
@@ -183,7 +190,7 @@ export async function GET(request: NextRequest) {
       {
         status: 400,
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          ...CORS_HEADERS,
           "Set-Cookie": toCookieStringEmpty(),
         },
       }
