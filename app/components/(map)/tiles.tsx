@@ -15,12 +15,10 @@ export const TILE_SIZE = 512;
 
 export default function Tiles() {
   const map = useMap();
-  const overlayTransparentMode = useSettingsStore(
-    (state) => state.overlayTransparentMode
-  );
+  const settingsStore = useSettingsStore();
 
   useEffect(() => {
-    if (overlayTransparentMode) {
+    if (settingsStore.overlayMode && settingsStore.overlayTransparentMode) {
       return;
     }
     const canvasLayer = createCanvasLayer("/map_tiles/{z}/{y}/{x}.webp", {
@@ -37,7 +35,7 @@ export default function Tiles() {
     return () => {
       canvasLayer.remove();
     };
-  }, [overlayTransparentMode]);
+  }, [settingsStore.overlayTransparentMode]);
 
   return <></>;
 }

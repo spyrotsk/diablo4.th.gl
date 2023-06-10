@@ -13,9 +13,7 @@ declare global {
 function Ads() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isPatron = useAccountStore((state) => state.isPatron);
-  const overlayTransparentMode = useSettingsStore(
-    (state) => state.overlayTransparentMode
-  );
+  const settingsStore = useSettingsStore();
 
   if (isPatron) {
     return <></>;
@@ -42,7 +40,9 @@ function Ads() {
       <div
         ref={containerRef}
         className={`fixed left-0 bottom-0 z-[9999] w-[400px] h-[300px] ${
-          overlayTransparentMode ? "" : "bg-neutral-900"
+          settingsStore.overlayMode && settingsStore.overlayTransparentMode
+            ? ""
+            : "bg-neutral-900"
         } bg-[url('/ads-background.webp')]`}
       />
     </>

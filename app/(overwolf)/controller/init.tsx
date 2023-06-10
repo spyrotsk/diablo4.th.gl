@@ -36,7 +36,6 @@ async function initController() {
   const openApp = async (
     event?: overwolf.extensions.AppLaunchTriggeredEvent
   ) => {
-    console.log(event);
     if (event?.origin === "urlscheme") {
       const matched = decodeURIComponent(event.parameter).match("code=([^&]*)");
       const code = matched ? matched[1] : null;

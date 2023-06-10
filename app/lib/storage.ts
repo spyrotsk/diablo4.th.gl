@@ -95,7 +95,7 @@ export const useSettingsStore = create(
   }>(
     (set) => {
       let filters = ALL_FILTERS;
-      if (typeof window !== "undefined") {
+      if (typeof window !== "undefined" && typeof overwolf === "undefined") {
         const filtersString = new URLSearchParams(window.location.search).get(
           "filters"
         );
@@ -139,7 +139,10 @@ export const useSettingsStore = create(
     {
       name: "settings-storage",
       merge: (persistentState: any, currentState) => {
-        if (currentState.filters.length !== ALL_FILTERS.length) {
+        if (
+          typeof overwolf === "undefined" &&
+          currentState.filters.length !== ALL_FILTERS.length
+        ) {
           persistentState.filters = currentState.filters;
         }
         return { ...currentState, ...persistentState };
@@ -147,3 +150,5 @@ export const useSettingsStore = create(
     }
   )
 );
+
+withStorageDOMEvents(useSettingsStore);

@@ -26,9 +26,10 @@ export default function Header() {
       return;
     }
     document.body.style.opacity = settingsStore.windowOpacity.toFixed(2);
-    document.body.style.background = settingsStore.overlayTransparentMode
-      ? "transparent"
-      : "black";
+    document.body.style.background =
+      settingsStore.overlayMode && settingsStore.overlayTransparentMode
+        ? "transparent"
+        : "black";
   }, [
     settingsStore.windowOpacity,
     settingsStore.overlayTransparentMode,
@@ -68,13 +69,14 @@ export default function Header() {
       </>
     );
   }
-
   return (
     <>
       <SVGIcons />
       <header
         className={`flex items-center h-[30px] relative bg-neutral-800 ${
-          settingsStore.overlayTransparentMode ? "bg-opacity-5" : ""
+          settingsStore.overlayMode && settingsStore.overlayTransparentMode
+            ? "bg-opacity-5"
+            : ""
         }`}
         onMouseDown={() =>
           isMaximized ? null : overwolf.windows.dragMove(currentWindow!.id)
