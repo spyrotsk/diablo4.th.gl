@@ -86,6 +86,8 @@ export const useSettingsStore = create(
     toggleShowSidebar: () => void;
     overlayMode: boolean | null;
     setOverlayMode: (overlayMode: boolean) => void;
+    overlayTransparentMode: boolean;
+    setOverlayTransparentMode: (overlayTransparentMode: boolean) => void;
     windowOpacity: number;
     setWindowOpacity: (windowOpacity: number) => void;
     lockedWindow: boolean;
@@ -125,6 +127,9 @@ export const useSettingsStore = create(
           set({
             overlayMode,
           }),
+        overlayTransparentMode: false,
+        setOverlayTransparentMode: (overlayTransparentMode) =>
+          set({ overlayTransparentMode }),
         windowOpacity: 1,
         setWindowOpacity: (windowOpacity) => set({ windowOpacity }),
         lockedWindow: false,

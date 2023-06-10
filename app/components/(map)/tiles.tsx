@@ -1,4 +1,5 @@
 "use client";
+import { useSettingsStore } from "@/app/lib/storage";
 import { LatLngBoundsExpression } from "leaflet";
 import { useEffect } from "react";
 import { createCanvasLayer } from "./canvas-layer";
@@ -14,8 +15,14 @@ export const TILE_SIZE = 512;
 
 export default function Tiles() {
   const map = useMap();
+  const overlayTransparentMode = useSettingsStore(
+    (state) => state.overlayTransparentMode
+  );
 
   useEffect(() => {
+    if (overlayTransparentMode) {
+      return;
+    }
     const canvasLayer = createCanvasLayer("/map_tiles/{z}/{y}/{x}.webp", {
       minNativeZoom: MIN_NATIVE_ZOOM,
       maxNativeZoom: MAX_NATIVE_ZOOM,
@@ -30,7 +37,7 @@ export default function Tiles() {
     return () => {
       canvasLayer.remove();
     };
-  }, []);
+  }, [overlayTransparentMode]);
 
   return <></>;
 }

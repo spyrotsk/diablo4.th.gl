@@ -22,10 +22,18 @@ export default function Header() {
   useEffect(() => {
     if (!isOverlay) {
       document.body.style.opacity = "initial";
+      document.body.style.background = "black";
       return;
     }
     document.body.style.opacity = settingsStore.windowOpacity.toFixed(2);
-  }, [settingsStore.windowOpacity, isOverlay]);
+    document.body.style.background = settingsStore.overlayTransparentMode
+      ? "transparent"
+      : "black";
+  }, [
+    settingsStore.windowOpacity,
+    settingsStore.overlayTransparentMode,
+    isOverlay,
+  ]);
 
   useEffect(() => {
     if (!isOverlay) {
@@ -45,7 +53,7 @@ export default function Header() {
       <>
         <SVGIcons />
         <button
-          className="lock h-[30px] w-[30px] p-1 flex items-center hover:bg-neutral-700 fixed z-10 left-1/2 -translate-x-1/2 text-red-500 rounded-t-lg bg-neutral-800"
+          className="lock h-[30px] w-[30px] p-1 flex items-center hover:bg-neutral-700 fixed z-10 left-1/2 -translate-x-1/2 text-red-500 rounded-t-lg bg-opacity-5 bg-neutral-800"
           onClick={() =>
             settingsStore.setLockedWindow(!settingsStore.lockedWindow)
           }
@@ -65,7 +73,9 @@ export default function Header() {
     <>
       <SVGIcons />
       <header
-        className="flex items-center h-[30px] relative bg-neutral-800"
+        className={`flex items-center h-[30px] relative bg-neutral-800 ${
+          settingsStore.overlayTransparentMode ? "bg-opacity-5" : ""
+        }`}
         onMouseDown={() =>
           isMaximized ? null : overwolf.windows.dragMove(currentWindow!.id)
         }
@@ -93,21 +103,46 @@ export default function Header() {
 
         <div className="flex ml-auto">
           {isOverlay && (
-            <label className="flex items-center">
-              <span className="text-xs font-mono">Opacity</span>
-              <input
-                className="ml-2 w-20"
-                onMouseDown={(event) => event.stopPropagation()}
-                type="range"
-                step={0.05}
-                min={0.45}
-                max={1}
-                value={settingsStore.windowOpacity}
-                onChange={(event) =>
-                  settingsStore.setWindowOpacity(+event.target.value)
-                }
-              />
-            </label>
+            <>
+              <div className="flex items-center">
+                <span className="text-xs font-mono">Transparent</span>
+                <label
+                  className={`ml-2 relative w-8 block overflow-hidden h-5 rounded-full  cursor-pointer ${
+                    settingsStore.overlayTransparentMode
+                      ? "bg-green-400"
+                      : "bg-neutral-500"
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    className={`absolute block w-5 h-5 rounded-full appearance-none cursor-pointer bg-white ${
+                      settingsStore.overlayTransparentMode ? "right-0" : ""
+                    }`}
+                    checked={settingsStore.overlayTransparentMode}
+                    onChange={(event) =>
+                      settingsStore.setOverlayTransparentMode(
+                        event.target.checked
+                      )
+                    }
+                  />
+                </label>
+              </div>
+              <label className="flex items-center ml-2">
+                <span className="text-xs font-mono">Opacity</span>
+                <input
+                  className="ml-2 w-16"
+                  onMouseDown={(event) => event.stopPropagation()}
+                  type="range"
+                  step={0.05}
+                  min={0.45}
+                  max={1}
+                  value={settingsStore.windowOpacity}
+                  onChange={(event) =>
+                    settingsStore.setWindowOpacity(+event.target.value)
+                  }
+                />
+              </label>
+            </>
           )}
           <a
             href="https://discord.com/invite/NTZu8Px"

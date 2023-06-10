@@ -1,5 +1,5 @@
 "use client";
-import { useAccountStore } from "@/app/lib/storage";
+import { useAccountStore, useSettingsStore } from "@/app/lib/storage";
 import type { OwAd } from "@overwolf/types/owads";
 import Script from "next/script";
 import { useRef } from "react";
@@ -13,6 +13,9 @@ declare global {
 function Ads() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isPatron = useAccountStore((state) => state.isPatron);
+  const overlayTransparentMode = useSettingsStore(
+    (state) => state.overlayTransparentMode
+  );
 
   if (isPatron) {
     return <></>;
@@ -38,7 +41,9 @@ function Ads() {
 
       <div
         ref={containerRef}
-        className="fixed left-0 bottom-0 z-[9999] w-[400px] h-[300px] bg-neutral-900 bg-[url('/ads-background.webp')]"
+        className={`fixed left-0 bottom-0 z-[9999] w-[400px] h-[300px] ${
+          overlayTransparentMode ? "" : "bg-neutral-900"
+        } bg-[url('/ads-background.webp')]`}
       />
     </>
   );

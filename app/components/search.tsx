@@ -34,102 +34,104 @@ export default function Search() {
 
   return (
     <>
-      <div
-        className={`absolute top-0 z-[400] flex w-full md:w-auto transition-all duration-500 ${
-          settingsStore.showSidebar ? "md:left-[412px]" : "md:left-3"
-        } ${"value" in router ? "md:top-[42px]" : "md:top-3"}`}
-      >
-        <button
-          className="menu flex absolute inset-y-0 left-0 items-center pl-2 text-gray-400 hover:text-gray-200"
-          onClick={settingsStore.toggleShowSidebar}
+      {!settingsStore.lockedWindow && (
+        <div
+          className={`absolute top-0 z-[400] flex w-full md:w-auto transition-all duration-500 ${
+            settingsStore.showSidebar ? "md:left-[412px]" : "md:left-3"
+          } ${"value" in router ? "md:top-[42px]" : "md:top-3"}`}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="block w-5"
-          >
-            <path d="M4 6l16 0" />
-            <path d="M4 12l16 0" />
-            <path d="M4 18l16 0" />
-          </svg>
-          <div className="h-3/6 w-px bg-gray-600 mx-1.5" />
-        </button>
-        <input
-          className="bg-neutral-900 text-gray-200 text-sm pl-11 pr-16 py-2.5 w-full md:border md:border-gray-600 md:rounded-lg outline-none search"
-          type="text"
-          placeholder={dict.search.placeholder}
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-        />
-        {search ? (
           <button
-            className="flex absolute inset-y-0 right-6 items-center pr-2 text-gray-400 hover:text-gray-200"
-            onClick={() => setSearch("")}
+            className="menu flex absolute inset-y-0 left-0 items-center pl-2 text-gray-400 hover:text-gray-200"
+            onClick={settingsStore.toggleShowSidebar}
           >
             <svg
-              className="block w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="block w-5"
             >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path d="M18 6l-12 12"></path>
-              <path d="M6 6l12 12"></path>
+              <path d="M4 6l16 0" />
+              <path d="M4 12l16 0" />
+              <path d="M4 18l16 0" />
             </svg>
             <div className="h-3/6 w-px bg-gray-600 mx-1.5" />
           </button>
-        ) : (
-          <div className="flex absolute inset-y-0 right-6 items-center pr-2 text-gray-400">
+          <input
+            className="bg-neutral-900 text-gray-200 text-sm pl-11 pr-16 py-2.5 w-full md:border md:border-gray-600 md:rounded-lg outline-none search"
+            type="text"
+            placeholder={dict.search.placeholder}
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
+          {search ? (
+            <button
+              className="flex absolute inset-y-0 right-6 items-center pr-2 text-gray-400 hover:text-gray-200"
+              onClick={() => setSearch("")}
+            >
+              <svg
+                className="block w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M18 6l-12 12"></path>
+                <path d="M6 6l12 12"></path>
+              </svg>
+              <div className="h-3/6 w-px bg-gray-600 mx-1.5" />
+            </button>
+          ) : (
+            <div className="flex absolute inset-y-0 right-6 items-center pr-2 text-gray-400">
+              <svg
+                className="block w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              <div className="h-3/6 w-px bg-gray-600 mx-1.5" />
+            </div>
+          )}
+          <button
+            className={`flex absolute inset-y-0 right-0 items-center pr-2 text-gray-400 hover:text-gray-200 ${
+              showFilters ? "text-white" : ""
+            }`}
+            onClick={() => setShowFilters(!showFilters)}
+          >
             <svg
               className="block w-5"
-              fill="none"
-              stroke="currentColor"
               viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+              strokeWidth="2"
+              stroke="currentColor"
+              fill={
+                filters.length !== Object.keys(ICONS).length
+                  ? "currentColor"
+                  : "none"
+              }
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" />
             </svg>
-            <div className="h-3/6 w-px bg-gray-600 mx-1.5" />
-          </div>
-        )}
-        <button
-          className={`flex absolute inset-y-0 right-0 items-center pr-2 text-gray-400 hover:text-gray-200 ${
-            showFilters ? "text-white" : ""
-          }`}
-          onClick={() => setShowFilters(!showFilters)}
-        >
-          <svg
-            className="block w-5"
-            viewBox="0 0 24 24"
-            strokeWidth="2"
-            stroke="currentColor"
-            fill={
-              filters.length !== Object.keys(ICONS).length
-                ? "currentColor"
-                : "none"
-            }
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" />
-          </svg>
-        </button>
-        {showFilters && <Filters />}
-      </div>
+          </button>
+          {showFilters && <Filters />}
+        </div>
+      )}
       <Menu />
     </>
   );

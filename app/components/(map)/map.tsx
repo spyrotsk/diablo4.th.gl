@@ -88,7 +88,10 @@ export default function Map({ children }: { children?: React.ReactNode }) {
 
   return (
     <>
-      <div ref={mapRef} className="map h-full !bg-black relative outline-none">
+      <div
+        ref={mapRef}
+        className={`map h-full !bg-inherit relative outline-none`}
+      >
         {map && children}
       </div>
     </>
