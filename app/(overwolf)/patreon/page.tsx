@@ -8,6 +8,6 @@ export const metadata = {
   title: "Patreon - Diablo 4 Map",
 };
 
-export default async function Patreon() {
+export default function Patreon() {
   return <Redirect />;
 }
