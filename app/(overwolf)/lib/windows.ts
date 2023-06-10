@@ -148,11 +148,9 @@ export function useCurrentWindow() {
     useState<overwolf.windows.WindowInfo | null>(null);
 
   useEffect(() => {
-    if (!currentWindow) {
-      return;
-    }
+    let currentWindowName = "";
     overwolf.windows.onStateChanged.addListener((event) => {
-      if (event.window_name === currentWindow?.name) {
+      if (event.window_name === currentWindowName) {
         getCurrentWindow().then((currentWindow) => {
           setCurrentWindow(currentWindow);
         });
@@ -160,9 +158,10 @@ export function useCurrentWindow() {
     });
 
     getCurrentWindow().then((currentWindow) => {
+      currentWindowName = currentWindow.name;
       setCurrentWindow(currentWindow);
     });
-  }, [currentWindow?.name]);
+  }, []);
 
   return currentWindow;
 }
