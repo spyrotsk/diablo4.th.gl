@@ -3,8 +3,9 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useOverwolfRouter } from "../(overwolf)/components/overwolf-router";
+import { API_BASE_URI } from "../lib/env";
 import { useUpdateSearchParams } from "../lib/search-params";
-import { ALL_FILTERS, useSettingsStore } from "../lib/storage";
+import { ALL_FILTERS, useAccountStore } from "../lib/storage";
 import useFilters from "./use-filters";
 
 export default function SearchParams() {
@@ -14,44 +15,43 @@ export default function SearchParams() {
   const [filters] = useFilters();
   const code = searchParams.get("code");
   const filtersParam = searchParams.get("filters");
-  const settings = useSettingsStore();
+  const accountStore = useAccountStore();
 
+  const isOverwolf = "update" in router;
   useEffect(() => {
-    if (filters.join(",") === filtersParam) {
+    if (isOverwolf || filters.join(",") === filtersParam) {
       return;
     }
 
-    if (!("update" in router)) {
-      let filtersString = "";
-      if (filters.length === 0) {
-        filtersString = "none";
-      } else if (filters.length !== ALL_FILTERS.length) {
-        filtersString = filters.join(",");
-      }
-      updateSearchParams("filters", filtersString);
+    let filtersString = "";
+    if (filters.length === 0) {
+      filtersString = "none";
+    } else if (filters.length !== ALL_FILTERS.length) {
+      filtersString = filters.join(",");
     }
+    updateSearchParams("filters", filtersString);
   }, [filters, filtersParam]);
 
   useEffect(() => {
-    if (!code) {
+    if (isOverwolf || !code) {
       return;
     }
     updateSearchParams(["code", "state"], ["", ""]);
-    fetch("https://diablo4.th.gl/api/patreon", {
+    fetch(`${API_BASE_URI}/api/patreon`, {
       method: "POST",
-      body: JSON.stringify({ code, redirectURI: "https://diablo4.th.gl" }),
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ code, redirectURI: API_BASE_URI }),
     })
       .then((res) => res.json())
       .then((res) => {
         if (res.success) {
-          settings.setIsPatron(true);
+          accountStore.setIsPatron(true);
         } else {
           console.log(res);
           alert(res.error ?? "Something went wrong, please try again.");
-          settings.setIsPatron(false);
+          accountStore.setIsPatron(false);
         }
       })
       .catch((err) => {
@@ -61,17 +61,17 @@ export default function SearchParams() {
   }, [code]);
 
   useEffect(() => {
-    if (settings.isPatron) {
-      fetch("https://diablo4.th.gl/api/patreon", {
+    if (accountStore.isPatron) {
+      fetch(`${API_BASE_URI}/api/patreon`, {
         method: "GET",
       })
         .then((res) => res.json())
         .then((res) => {
           if (res.success) {
-            settings.setIsPatron(true);
+            accountStore.setIsPatron(true);
           } else {
             console.log(res);
-            settings.setIsPatron(false);
+            accountStore.setIsPatron(false);
           }
         })
         .catch((err) => {

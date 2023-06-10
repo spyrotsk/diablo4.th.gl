@@ -4,6 +4,7 @@ import Nodes from "@/app/components/(map)/nodes";
 import Territories from "@/app/components/(map)/territories";
 import Tiles from "@/app/components/(map)/tiles";
 import Search from "@/app/components/search";
+import SearchParams from "@/app/components/search-params";
 import { useEffect, useState } from "react";
 import Ads from "../components/ads";
 import Header from "../components/header";
@@ -30,7 +31,7 @@ export default function App() {
         <Territories />
         <Nodes />
       </Map>
-      {/* <Sidebar /> */}
+      <SearchParams />
       <Ads />
       <Search />
     </>

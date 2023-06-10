@@ -1,4 +1,5 @@
 "use client";
+import { useAccountStore } from "@/app/lib/storage";
 import type { OwAd } from "@overwolf/types/owads";
 import Script from "next/script";
 import { useRef } from "react";
@@ -11,6 +12,11 @@ declare global {
 
 function Ads() {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const isPatron = useAccountStore((state) => state.isPatron);
+
+  if (isPatron) {
+    return <></>;
+  }
 
   function onOwAdReady() {
     if (typeof window.OwAd === "undefined" || containerRef.current === null) {

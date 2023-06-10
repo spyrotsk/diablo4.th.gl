@@ -1,4 +1,6 @@
 "use client";
+import { API_BASE_URI } from "@/app/lib/env";
+import { useAccountStore } from "@/app/lib/storage";
 import { useEffect, useRef } from "react";
 import { GAME_CLASS_ID, HOTKEYS, WINDOWS } from "../lib/config";
 import { getRunningGameInfo } from "../lib/games";
@@ -31,7 +33,32 @@ export default function Init() {
 
 async function initController() {
   console.log("Init controller");
-  const openApp = async () => {
+  const openApp = async (
+    event?: overwolf.extensions.AppLaunchTriggeredEvent
+  ) => {
+    console.log(event);
+    if (event?.origin === "urlscheme") {
+      const matched = decodeURIComponent(event.parameter).match("code=([^&]*)");
+      const code = matched ? matched[1] : null;
+      if (code) {
+        fetch(`${API_BASE_URI}/api/patreon`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            code,
+            redirectURI: `${API_BASE_URI}/patreon/exit`,
+          }),
+        })
+          .then((resolve) => resolve.json())
+          .then(() => {
+            const accountStore = useAccountStore.getState();
+            accountStore.setIsPatron(true);
+          });
+      }
+    }
+
     const runningGameInfo = await getRunningGameInfo(GAME_CLASS_ID);
     if (runningGameInfo) {
       const preferedWindowName = await getPreferedWindowName();

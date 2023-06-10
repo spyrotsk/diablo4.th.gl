@@ -2,7 +2,8 @@
 import dynamic from "next/dynamic";
 import AppSettings from "../(overwolf)/components/app-settings";
 import { useOverwolfRouter } from "../(overwolf)/components/overwolf-router";
-import { useSettingsStore } from "../lib/storage";
+import { API_BASE_URI, PATREON_CLIENT_ID } from "../lib/env";
+import { useAccountStore, useSettingsStore } from "../lib/storage";
 import Drawer from "./drawer";
 import ExternalLink from "./external-link";
 import Settings from "./settings";
@@ -30,6 +31,7 @@ export default function Menu() {
   const router = useOverwolfRouter();
   const isOverwolf = "value" in router;
   const settingsStore = useSettingsStore();
+  const accountStore = useAccountStore();
 
   return (
     <Drawer show={settingsStore.showSidebar}>
@@ -56,9 +58,41 @@ export default function Menu() {
         {!isOverwolf && <NitroPay />}
         <div
           className={`p-2 overflow-auto grow flex flex-col gap-2 ${
-            isOverwolf ? "mb-[330px]" : ""
+            isOverwolf
+              ? !accountStore.isPatron
+                ? "mb-[330px]"
+                : "mb-[30px]"
+              : ""
           }`}
         >
+          {!accountStore.isPatron && (
+            <>
+              <p className="italic text-md text-center">
+                Get rid of ads and support me on Patreon
+              </p>
+              <a
+                href="https://www.patreon.com/join/devleon/checkout?rid=2304899"
+                target="_blank"
+                className="mt-1 p-2 uppercase text-center bg-white text-[#ff424d] hover:bg-gray-100"
+              >
+                Become a Patron
+              </a>
+              <button
+                onClick={() => {
+                  if (isOverwolf) {
+                    overwolf.utils.openUrlInDefaultBrowser(
+                      `${API_BASE_URI}/patreon`
+                    );
+                  } else {
+                    location.href = `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${PATREON_CLIENT_ID}&redirect_uri=${API_BASE_URI}`;
+                  }
+                }}
+                className="my-1 p-2 uppercase text-white bg-[#ff424d] hover:bg-[#ca0f25]"
+              >
+                Link your Patreon account
+              </button>
+            </>
+          )}
           <h2 className="category-title">Discovered Nodes</h2>
           <DiscoveredNodes />
           <h2 className="category-title">Settings</h2>
@@ -76,6 +110,16 @@ export default function Menu() {
             href="https://discord.com/invite/NTZu8Px"
             text="Discord"
           />
+          {accountStore.isPatron && (
+            <button
+              onClick={() => {
+                accountStore.setIsPatron(false);
+              }}
+              className="my-1 p-2 uppercase text-white bg-[#ff424d] hover:bg-[#ca0f25]"
+            >
+              Disconnect your Patreon account
+            </button>
+          )}
           <h2 className="category-title">Discover</h2>
           {DISCOVER_LINKS.map(({ href, text }) => (
             <ExternalLink key={href} href={href} text={text} />

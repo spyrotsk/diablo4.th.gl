@@ -1,5 +1,6 @@
 import Script from "next/script";
 import { useEffect, useState } from "react";
+import { useAccountStore } from "../lib/storage";
 
 type NitroAds = {
   // eslint-disable-next-line no-unused-vars
@@ -28,17 +29,11 @@ window.nitroAds = window.nitroAds || {
 };
 
 export default function NitroPay() {
+  const isPatron = useAccountStore((state) => state.isPatron);
   const [showFallback, setShowFallback] = useState<boolean | null>(null);
 
-  const handleLoad = () => {
-    setShowFallback(false);
-    window["nitroAds"].createAd("diablo4-video", {
-      format: "video-nc",
-    });
-  };
-
   useEffect(() => {
-    if (showFallback === false) {
+    if (showFallback === false || isPatron) {
       return;
     }
     const timeoutId = setTimeout(() => {
@@ -49,6 +44,17 @@ export default function NitroPay() {
       clearTimeout(timeoutId);
     };
   }, [showFallback]);
+
+  if (isPatron) {
+    return <></>;
+  }
+
+  const handleLoad = () => {
+    setShowFallback(false);
+    window["nitroAds"].createAd("diablo4-video", {
+      format: "video-nc",
+    });
+  };
 
   return (
     <>

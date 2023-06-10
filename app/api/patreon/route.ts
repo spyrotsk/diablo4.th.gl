@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const PATREON_TIER_ID = 9268700;
+const ADMIN_USER_IDS = JSON.parse(process.env.PATREON_ADMIN_IDS!) as string[];
+const PATREON_TIER_IDS = JSON.parse(process.env.PATREON_TIER_IDS!) as number[];
 
 type PatreonToken = {
   access_token: string;
@@ -19,8 +20,8 @@ function postToken(code: string, redirectURI: string) {
     body: new URLSearchParams({
       code,
       grant_type: "authorization_code",
-      client_id: process.env.DISCORD_CLIENT_ID!,
-      client_secret: process.env.DISCORD_CLIENT_SECRET!,
+      client_id: process.env.NEXT_PUBLIC_PATREON_CLIENT_ID!,
+      client_secret: process.env.PATREON_CLIENT_SECRET!,
       redirect_uri: redirectURI,
     }),
   });
@@ -35,8 +36,8 @@ function postRefreshToken(refreshToken: string) {
     body: new URLSearchParams({
       grant_type: "refresh_token",
       refresh_token: refreshToken,
-      client_id: process.env.DISCORD_CLIENT_ID!,
-      client_secret: process.env.DISCORD_CLIENT_SECRET!,
+      client_id: process.env.NEXT_PUBLIC_PATREON_CLIENT_ID!,
+      client_secret: process.env.PATREON_CLIENT_SECRET!,
     }),
   });
 }
@@ -50,8 +51,12 @@ function getCurrentUser(token: PatreonToken) {
 }
 
 function isSupporter(result: any) {
-  return !result.data.relationships.pledges.data.some(
-    (pledge: any) => pledge.type === "pledge" && pledge.id === PATREON_TIER_ID
+  return (
+    ADMIN_USER_IDS.includes(result.data.id) ||
+    result.data.relationships.pledges.data.some(
+      (pledge: any) =>
+        pledge.type === "pledge" && PATREON_TIER_IDS.includes(pledge.id)
+    )
   );
 }
 
@@ -75,7 +80,7 @@ export async function POST(request: NextRequest) {
   const requestBody = await request.json();
   if (!requestBody.code || !requestBody.redirectURI) {
     return NextResponse.json(
-      { error: "No code provided " },
+      { error: "No code provided" },
       { status: 400, headers: CORS_HEADERS }
     );
   }
@@ -93,7 +98,6 @@ export async function POST(request: NextRequest) {
   const token = tokenResult as PatreonToken;
   const currentUserResponse = await getCurrentUser(token);
   const currentUserResult = await currentUserResponse.json();
-  console.log({ currentUserResult });
   if (!currentUserResponse.ok) {
     return NextResponse.json(currentUserResult, {
       status: currentUserResponse.status,

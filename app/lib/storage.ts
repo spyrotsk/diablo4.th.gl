@@ -55,11 +55,26 @@ export const useDiscoveredNodesStore = create(
 
 withStorageDOMEvents(useDiscoveredNodesStore);
 
+export const useAccountStore = create(
+  persist<{
+    isPatron: boolean;
+    setIsPatron: (isPatron: boolean) => void;
+  }>(
+    (set) => ({
+      isPatron: false,
+      setIsPatron: (isPatron) => set({ isPatron }),
+    }),
+    {
+      name: "account-storage",
+    }
+  )
+);
+
+withStorageDOMEvents(useAccountStore);
+
 export const useSettingsStore = create(
   persist<{
     // App and Website
-    isPatron: boolean;
-    setIsPatron: (isPatron: boolean) => void;
     showTerritoryNames: boolean;
     toggleShowTerritoryNames: () => void;
     iconSize: number;
@@ -88,8 +103,6 @@ export const useSettingsStore = create(
       }
 
       return {
-        isPatron: false,
-        setIsPatron: (isPatron) => set({ isPatron }),
         showTerritoryNames: true,
         toggleShowTerritoryNames: () =>
           set((state) => ({
@@ -129,5 +142,3 @@ export const useSettingsStore = create(
     }
   )
 );
-
-withStorageDOMEvents(useSettingsStore);
